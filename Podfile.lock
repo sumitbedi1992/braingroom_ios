@@ -1,0 +1,37 @@
+PODS:
+  - Alamofire (4.4.0)
+  - Cosmos (9.0.0)
+  - GoogleMaps (2.2.0):
+    - GoogleMaps/Maps (= 2.2.0)
+  - GoogleMaps/Base (2.2.0)
+  - GoogleMaps/Maps (2.2.0):
+    - GoogleMaps/Base
+  - IQKeyboardManagerSwift (4.0.6)
+  - LCBannerView (2.1.1):
+    - SDWebImage (~> 3.7.6)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
+  - SVProgressHUD (2.1.2)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.0)
+  - Cosmos
+  - GoogleMaps
+  - IQKeyboardManagerSwift (= 4.0.6)
+  - LCBannerView
+  - SDWebImage
+  - SVProgressHUD
+
+SPEC CHECKSUMS:
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  Cosmos: 33eee62b2a0418452aef470f711f83c3ea061b7b
+  GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
+  IQKeyboardManagerSwift: b3015e819559ca76381f87a0833f44d178564603
+  LCBannerView: 072c732ad7a2136e96c893e24cb650295c6c2635
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+
+PODFILE CHECKSUM: 89b27c929e893ee12e813e348b933a9cb1af9476
+
+COCOAPODS: 1.3.1
