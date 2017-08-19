@@ -10,6 +10,9 @@ pod 'Alamofire', '~> 4.0'
 pod 'SDWebImage'
 pod "LCBannerView"
 pod 'Cosmos'
-pod 'ACFloatingTextfield-Swift', '~> 1.3'
+pod 'FacebookCore'
+pod 'FacebookLogin'
+pod 'FacebookShare'
+pod 'Google/SignIn'
 
 end

@@ -19,6 +19,11 @@
 		3D1BEAB51F3F311F00A28BA9 /* UITextFieldX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1BEAB01F3F311F00A28BA9 /* UITextFieldX.swift */; };
 		3D1BEAB61F3F311F00A28BA9 /* UIViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1BEAB11F3F311F00A28BA9 /* UIViewX.swift */; };
 		3D4A1DC41F48235700885106 /* ACFloatingTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC31F48235700885106 /* ACFloatingTextfield.swift */; };
+		3D4A1DC61F48559800885106 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC51F48559800885106 /* MyProfileViewController.swift */; };
+		3D4A1DC81F4855B400885106 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC71F4855B400885106 /* RegisterViewController.swift */; };
+		3D4A1DCA1F4855F300885106 /* RegisterViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */; };
+		3D4A1DCC1F4863FB00885106 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D4A1DCB1F4863FB00885106 /* GoogleService-Info.plist */; };
+		3D4A1DCE1F4869ED00885106 /* AFWrapperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */; };
 		3DF50A091F3DDCD1007D288B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF50A081F3DDCD1007D288B /* AppDelegate.swift */; };
 		3DF50A0E1F3DDCD2007D288B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A0C1F3DDCD2007D288B /* Main.storyboard */; };
 		3DF50A101F3DDCD2007D288B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A0F1F3DDCD2007D288B /* Assets.xcassets */; };
@@ -39,6 +44,11 @@
 		3D1BEAB01F3F311F00A28BA9 /* UITextFieldX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldX.swift; sourceTree = "<group>"; };
 		3D1BEAB11F3F311F00A28BA9 /* UIViewX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewX.swift; sourceTree = "<group>"; };
 		3D4A1DC31F48235700885106 /* ACFloatingTextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACFloatingTextfield.swift; sourceTree = "<group>"; };
+		3D4A1DC51F48559800885106 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		3D4A1DC71F4855B400885106 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController2.swift; sourceTree = "<group>"; };
+		3D4A1DCB1F4863FB00885106 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFWrapperClass.swift; sourceTree = "<group>"; };
 		3DF50A051F3DDCD1007D288B /* brainGroom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = brainGroom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DF50A081F3DDCD1007D288B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DF50A0D1F3DDCD2007D288B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -73,6 +83,7 @@
 		3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */,
 				3D4A1DC31F48235700885106 /* ACFloatingTextfield.swift */,
 				3D1BEAAD1F3F311F00A28BA9 /* UIButtonX.swift */,
 				3D1BEAAE1F3F311F00A28BA9 /* UIImageViewX.swift */,
@@ -109,12 +120,16 @@
 				3D1BEAA31F3EC26C00A28BA9 /* TermsVC.swift */,
 				3D1BEAA51F3EC28400A28BA9 /* ContactUsVC.swift */,
 				3D1BEAA71F3EC29300A28BA9 /* MapVC.swift */,
-				3D1BEAA91F3EC2A600A28BA9 /* HomeVC.swift */,
 				3D1BEAAB1F3EC55D00A28BA9 /* Constants.swift */,
+				3D1BEAA91F3EC2A600A28BA9 /* HomeVC.swift */,
+				3D4A1DC51F48559800885106 /* MyProfileViewController.swift */,
+				3D4A1DC71F4855B400885106 /* RegisterViewController.swift */,
+				3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */,
 				3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */,
 				3DF50A0C1F3DDCD2007D288B /* Main.storyboard */,
 				3DF50A0F1F3DDCD2007D288B /* Assets.xcassets */,
 				3DF50A111F3DDCD2007D288B /* LaunchScreen.storyboard */,
+				3D4A1DCB1F4863FB00885106 /* GoogleService-Info.plist */,
 				3DF50A141F3DDCD2007D288B /* Info.plist */,
 			);
 			path = brainGroom;
@@ -194,6 +209,7 @@
 				3DF50A131F3DDCD2007D288B /* LaunchScreen.storyboard in Resources */,
 				3DF50A101F3DDCD2007D288B /* Assets.xcassets in Resources */,
 				3DF50A0E1F3DDCD2007D288B /* Main.storyboard in Resources */,
+				3D4A1DCC1F4863FB00885106 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,7 +224,17 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookShare/FacebookShare.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/LCBannerView/LCBannerView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -217,7 +243,17 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookShare.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LCBannerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -236,6 +272,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom-resources.sh",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -273,9 +310,11 @@
 			files = (
 				3D1BEAA81F3EC29300A28BA9 /* MapVC.swift in Sources */,
 				3D1BEAA21F3EC25200A28BA9 /* LoginVC.swift in Sources */,
+				3D4A1DC61F48559800885106 /* MyProfileViewController.swift in Sources */,
 				3D1BEAA61F3EC28400A28BA9 /* ContactUsVC.swift in Sources */,
 				3D1BEAAA1F3EC2A600A28BA9 /* HomeVC.swift in Sources */,
 				3D1BEAB21F3F311F00A28BA9 /* UIButtonX.swift in Sources */,
+				3D4A1DC81F4855B400885106 /* RegisterViewController.swift in Sources */,
 				3D1BEAB61F3F311F00A28BA9 /* UIViewX.swift in Sources */,
 				3D1BEAAC1F3EC55D00A28BA9 /* Constants.swift in Sources */,
 				3D4A1DC41F48235700885106 /* ACFloatingTextfield.swift in Sources */,
@@ -283,6 +322,8 @@
 				3D1BEAB41F3F311F00A28BA9 /* UILabelX.swift in Sources */,
 				3D1BEAB51F3F311F00A28BA9 /* UITextFieldX.swift in Sources */,
 				3DF50A091F3DDCD1007D288B /* AppDelegate.swift in Sources */,
+				3D4A1DCE1F4869ED00885106 /* AFWrapperClass.swift in Sources */,
+				3D4A1DCA1F4855F300885106 /* RegisterViewController2.swift in Sources */,
 				3D1BEAA41F3EC26C00A28BA9 /* TermsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,7 +453,7 @@
 				INFOPLIST_FILE = brainGroom/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Seraphic.brainGroom;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appKnit.brainGroom;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -426,7 +467,7 @@
 				INFOPLIST_FILE = brainGroom/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Seraphic.brainGroom;
+				PRODUCT_BUNDLE_IDENTIFIER = com.appKnit.brainGroom;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

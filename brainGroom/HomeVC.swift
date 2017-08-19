@@ -48,19 +48,31 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
     @IBAction func menuBtnAction(_ sender: Any)
     {
-        self.menuViewWidthConstraint.constant = 240
-        self.menuCloseBtn.isHidden = false
+        
+        UIView.animate(withDuration: 1, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
+            //Set x position what ever you want
+            self.menuViewWidthConstraint.constant = 240
+            self.menuCloseBtn.isHidden = false
+            
+        }, completion: nil)
+        
     }
     @IBAction func closeMenuBtnAction(_ sender: Any)
     {
-        self.menuViewWidthConstraint.constant = 0
-        self.menuCloseBtn.isHidden = true
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
+            //Set x position what ever you want
+            self.menuViewWidthConstraint.constant = 0
+            self.menuCloseBtn.isHidden = true
+            
+        }, completion: nil)
+        
     }
 //MARK: ----------------- TV Delegates & Datasource ---------------------
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return 6
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTVCell", for: indexPath as IndexPath) as! MenuTVCell
