@@ -10,5 +10,6 @@ pod 'Alamofire', '~> 4.0'
 pod 'SDWebImage'
 pod "LCBannerView"
 pod 'Cosmos'
+pod 'ACFloatingTextfield-Swift', '~> 1.3'
 
 end

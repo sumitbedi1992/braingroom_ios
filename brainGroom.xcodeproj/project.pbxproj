@@ -18,6 +18,7 @@
 		3D1BEAB41F3F311F00A28BA9 /* UILabelX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1BEAAF1F3F311F00A28BA9 /* UILabelX.swift */; };
 		3D1BEAB51F3F311F00A28BA9 /* UITextFieldX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1BEAB01F3F311F00A28BA9 /* UITextFieldX.swift */; };
 		3D1BEAB61F3F311F00A28BA9 /* UIViewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D1BEAB11F3F311F00A28BA9 /* UIViewX.swift */; };
+		3D4A1DC41F48235700885106 /* ACFloatingTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC31F48235700885106 /* ACFloatingTextfield.swift */; };
 		3DF50A091F3DDCD1007D288B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF50A081F3DDCD1007D288B /* AppDelegate.swift */; };
 		3DF50A0E1F3DDCD2007D288B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A0C1F3DDCD2007D288B /* Main.storyboard */; };
 		3DF50A101F3DDCD2007D288B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A0F1F3DDCD2007D288B /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 		3D1BEAAF1F3F311F00A28BA9 /* UILabelX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelX.swift; sourceTree = "<group>"; };
 		3D1BEAB01F3F311F00A28BA9 /* UITextFieldX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldX.swift; sourceTree = "<group>"; };
 		3D1BEAB11F3F311F00A28BA9 /* UIViewX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewX.swift; sourceTree = "<group>"; };
+		3D4A1DC31F48235700885106 /* ACFloatingTextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACFloatingTextfield.swift; sourceTree = "<group>"; };
 		3DF50A051F3DDCD1007D288B /* brainGroom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = brainGroom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DF50A081F3DDCD1007D288B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3DF50A0D1F3DDCD2007D288B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 		3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				3D4A1DC31F48235700885106 /* ACFloatingTextfield.swift */,
 				3D1BEAAD1F3F311F00A28BA9 /* UIButtonX.swift */,
 				3D1BEAAE1F3F311F00A28BA9 /* UIImageViewX.swift */,
 				3D1BEAAF1F3F311F00A28BA9 /* UILabelX.swift */,
@@ -275,6 +278,7 @@
 				3D1BEAB21F3F311F00A28BA9 /* UIButtonX.swift in Sources */,
 				3D1BEAB61F3F311F00A28BA9 /* UIViewX.swift in Sources */,
 				3D1BEAAC1F3EC55D00A28BA9 /* Constants.swift in Sources */,
+				3D4A1DC41F48235700885106 /* ACFloatingTextfield.swift in Sources */,
 				3D1BEAB31F3F311F00A28BA9 /* UIImageViewX.swift in Sources */,
 				3D1BEAB41F3F311F00A28BA9 /* UILabelX.swift in Sources */,
 				3D1BEAB51F3F311F00A28BA9 /* UITextFieldX.swift in Sources */,
