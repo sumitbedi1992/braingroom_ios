@@ -53,6 +53,8 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 
     }
     
+ 
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return 5
@@ -71,6 +73,10 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
         return CGSize(width: CV.bounds.size.width/2, height: CV.bounds.size.height/1.1);
+    }
+    
+    @IBAction func backBtn(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
 
 }

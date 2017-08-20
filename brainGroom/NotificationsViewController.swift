@@ -1,14 +1,14 @@
 //
-//  ContactUsVC.swift
+//  NotificationsViewController.swift
 //  brainGroom
 //
-//  Created by Satya Mahesh on 12/08/17.
+//  Created by Satya Mahesh on 20/08/17.
 //  Copyright © 2017 Mahesh. All rights reserved.
 //
 
 import UIKit
 
-class ContactUsVC: UIViewController {
+class NotificationsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,11 +21,7 @@ class ContactUsVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func backBtn(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-
-    }
-
+  
 
     /*
     // MARK: - Navigation
@@ -36,5 +32,8 @@ class ContactUsVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    @IBAction func backBtn(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 
 }

@@ -42,8 +42,10 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
+    }
+    override func viewDidDisappear(_ animated: Bool) {
         
+        self.closeMenuBtnAction(self)
     }
     
     @IBAction func menuBtnAction(_ sender: Any)
@@ -70,7 +72,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
 //MARK: ----------------- TV Delegates & Datasource ---------------------
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 6
+        return 12
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -79,7 +81,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     
         if indexPath.item == 0
         {
-            cell.menuTitleLbl.text = "Home"
+            cell.menuTitleLbl.text = "My Profile"
             cell.arrowImage.isHidden = false
         }
         else if indexPath.item == 1
@@ -94,21 +96,108 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         }
         else if indexPath.item == 3
         {
-            cell.menuTitleLbl.text = "Catalogue"
+            cell.menuTitleLbl.text = "Wishlist"
             cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 4
         {
-            cell.menuTitleLbl.text = "Competitions"
+            cell.menuTitleLbl.text = "Catalogue"
             cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 5
         {
+            cell.menuTitleLbl.text = "Competitions"
+            cell.arrowImage.isHidden = true
+        }
+        else if indexPath.item == 6
+        {
             cell.menuTitleLbl.text = "Links"
+            cell.arrowImage.isHidden = true
+        }
+        else if indexPath.item == 7
+        {
+            cell.menuTitleLbl.text = "Change Password"
+            cell.arrowImage.isHidden = true
+        }
+        else if indexPath.item == 8
+        {
+            cell.menuTitleLbl.text = "Logout"
+            cell.arrowImage.isHidden = true
+        }
+        else if indexPath.item == 9
+        {
+            cell.menuTitleLbl.text = "FAQ"
+            cell.arrowImage.isHidden = true
+        }
+        else if indexPath.item == 10
+        {
+            cell.menuTitleLbl.text = "Terms and Conditions"
+            cell.arrowImage.isHidden = true
+        }
+        else if indexPath.item == 11
+        {
+            cell.menuTitleLbl.text = "Contact Us"
             cell.arrowImage.isHidden = true
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        var vc =  UIViewController()
+        if indexPath.item == 0
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+        }
+        else if indexPath.item == 1
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "MapVC") as! MapVC
+        }
+        else if indexPath.item == 2
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+        }
+        else if indexPath.item == 3
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "WishListVC") as! WishListVC
+        }
+        else if indexPath.item == 4
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "CategoryVC") as! CategoryVC
+        }
+        else if indexPath.item == 5
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+        }
+        else if indexPath.item == 6
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+        }
+        else if indexPath.item == 7
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
+        }
+        else if indexPath.item == 8
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+        }
+        else if indexPath.item == 9
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+        }
+        else if indexPath.item == 10
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+        }
+        else if indexPath.item == 11
+        {
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
+        }
+        
+        self.present(vc, animated: true, completion: nil)
+
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat

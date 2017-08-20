@@ -50,6 +50,8 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate
     }
     @IBAction func normalLogin(_ sender: Any)
     {
+        let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+        self.present(VC, animated: true, completion: nil)
         
     }
     @IBAction func fbLogin(_ sender: Any)
