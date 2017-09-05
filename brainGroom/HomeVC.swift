@@ -33,6 +33,9 @@ class MenuTVCell: UITableViewCell
 class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
 
+    @IBOutlet weak var userImageLbl: UIImageViewX!
+    @IBOutlet weak var userNameLbl: UILabel!
+    @IBOutlet weak var userEmailLbl: UILabel!
     @IBOutlet weak var TV: UITableView!
     @IBOutlet weak var menuViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var menuCloseBtn: UIButton!
@@ -42,6 +45,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     {
         super.viewDidLoad()
         
+        self.userImageLbl.layer.cornerRadius = self.userImageLbl.frame.width/2
         self.menuViewWidthConstraint.constant = 0
         self.menuCloseBtn.isHidden = true
     }
@@ -49,6 +53,29 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     {
         
         self.closeMenuBtnAction(self)
+    }
+    
+    @IBAction func findClassesBtn(_ sender: Any)
+    {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "CateloguesViewController") as! CateloguesViewController
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    @IBAction func commingSoonBtnAction(_ sender: Any)
+    {
+        AFWrapperClass.alert("Bridegroom", message: "Comming Soon...", view: self)
+
+    }
+    
+    @IBAction func socialLearning(_ sender: Any)
+    {
+        AFWrapperClass.alert("Bridegroom", message: "Comming Soon...", view: self)
+    }
+    
+    @IBAction func exploreBtnAction(_ sender: Any)
+    {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MapVC") as! MapVC
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func menuBtnAction(_ sender: Any)

@@ -7,6 +7,8 @@
 //
 
 import UIKit
+
+
 class itemCell : UICollectionViewCell
 {
     
@@ -20,15 +22,42 @@ class itemCell : UICollectionViewCell
     }
     @IBOutlet weak var sessionsLbl: UILabel!
 }
+
+class subCell : UICollectionViewCell
+{
+    @IBOutlet weak var subLbl: UILabelX!
+}
+
 class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 {
-    @IBOutlet weak var itemCollectionView: UICollectionView!
+    @IBAction func backBtnAction(_ sender: Any)
+    {
+        self.dismiss(animated: true, completion: nil)
+    }
     
+    var subArray = NSMutableArray()
+    var itemsArray = NSMutableArray()
+    
+    @IBOutlet weak var itemCollectionView: UICollectionView!
+    @IBOutlet weak var subCollectionView: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+//        subArray = ["","","","",""]
+        
+        itemsArray = ["+Robotics","+Maths","+Physics","+Psycology","+Chemistry","+Economics"];
+        
+        itemCollectionView.delegate = self
+        itemCollectionView.dataSource = self
+        itemCollectionView.reloadData()
+        
+        subCollectionView.delegate = self
+        subCollectionView.dataSource = self
+        subCollectionView.reloadData()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,30 +67,36 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return 5
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
-        
-              
-        return cell
+        if collectionView == itemCollectionView
+        {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
+            
+            return cell
+        }
+        else
+        {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "subCell", for: indexPath as IndexPath) as! subCell
+            cell.subLbl.text = itemsArray[indexPath.row] as? String
+            return cell
+        }
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
-        return CGSize(width: itemCollectionView.bounds.size.width/2, height: itemCollectionView.bounds.size.height/1.1);
+        if collectionView == itemCollectionView
+        {
+        return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: itemCollectionView.bounds.size.height/1.7);
+        }
+        else
+        {
+            return CGSize(width: subCollectionView.bounds.size.width/3-10, height: subCollectionView.bounds.size.height-20);
+        }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
