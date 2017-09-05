@@ -24,6 +24,7 @@
 		3D4A1DCA1F4855F300885106 /* RegisterViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */; };
 		3D4A1DCC1F4863FB00885106 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D4A1DCB1F4863FB00885106 /* GoogleService-Info.plist */; };
 		3D4A1DCE1F4869ED00885106 /* AFWrapperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */; };
+		3D4EA7591F4B5C7A005D3A49 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */; };
 		3DCB87AA1F49CE7C0041C122 /* HeadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87A91F49CE7C0041C122 /* HeadingViewController.swift */; };
 		3DCB87AC1F49CF430041C122 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87AB1F49CF430041C122 /* NotificationsViewController.swift */; };
 		3DCB87AE1F49CF5C0041C122 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87AD1F49CF5C0041C122 /* FilterViewController.swift */; };
@@ -55,6 +56,7 @@
 		3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController2.swift; sourceTree = "<group>"; };
 		3D4A1DCB1F4863FB00885106 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFWrapperClass.swift; sourceTree = "<group>"; };
+		3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		3DCB87A91F49CE7C0041C122 /* HeadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadingViewController.swift; sourceTree = "<group>"; };
 		3DCB87AB1F49CF430041C122 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		3DCB87AD1F49CF5C0041C122 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				3DCB87AF1F49F98E0041C122 /* ChangePasswordVC.swift */,
 				3DCB87B11F49FA260041C122 /* WishListVC.swift */,
 				3DCB87B31F49FAE00041C122 /* CategoryVC.swift */,
+				3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */,
 				3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */,
 				3DF50A0C1F3DDCD2007D288B /* Main.storyboard */,
 				3DF50A0F1F3DDCD2007D288B /* Assets.xcassets */,
@@ -343,6 +346,7 @@
 				3DCB87B21F49FA260041C122 /* WishListVC.swift in Sources */,
 				3D1BEAB41F3F311F00A28BA9 /* UILabelX.swift in Sources */,
 				3DCB87B01F49F98F0041C122 /* ChangePasswordVC.swift in Sources */,
+				3D4EA7591F4B5C7A005D3A49 /* ItemViewController.swift in Sources */,
 				3DCB87AE1F49CF5C0041C122 /* FilterViewController.swift in Sources */,
 				3D1BEAB51F3F311F00A28BA9 /* UITextFieldX.swift in Sources */,
 				3DF50A091F3DDCD1007D288B /* AppDelegate.swift in Sources */,

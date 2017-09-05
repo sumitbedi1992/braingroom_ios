@@ -30,11 +30,10 @@ class MenuTVCell: UITableViewCell
     }
 }
 
-class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource
+class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
 
     @IBOutlet weak var TV: UITableView!
-    @IBOutlet weak var CV: UICollectionView!
     @IBOutlet weak var menuViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var menuCloseBtn: UIButton!
     
@@ -42,8 +41,12 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        self.menuViewWidthConstraint.constant = 0
+        self.menuCloseBtn.isHidden = true
     }
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool)
+    {
         
         self.closeMenuBtnAction(self)
     }
@@ -82,62 +85,50 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
         if indexPath.item == 0
         {
             cell.menuTitleLbl.text = "My Profile"
-            cell.arrowImage.isHidden = false
         }
         else if indexPath.item == 1
         {
             cell.menuTitleLbl.text = "Map View"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 2
         {
             cell.menuTitleLbl.text = "Booking History"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 3
         {
             cell.menuTitleLbl.text = "Wishlist"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 4
         {
             cell.menuTitleLbl.text = "Catalogue"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 5
         {
             cell.menuTitleLbl.text = "Competitions"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 6
         {
             cell.menuTitleLbl.text = "Links"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 7
         {
             cell.menuTitleLbl.text = "Change Password"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 8
         {
             cell.menuTitleLbl.text = "Logout"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 9
         {
             cell.menuTitleLbl.text = "FAQ"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 10
         {
             cell.menuTitleLbl.text = "Terms and Conditions"
-            cell.arrowImage.isHidden = true
         }
         else if indexPath.item == 11
         {
             cell.menuTitleLbl.text = "Contact Us"
-            cell.arrowImage.isHidden = true
         }
         
         return cell
@@ -203,35 +194,6 @@ class HomeVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSo
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         return 60
-    }
-//MARK: ----------------- CV Delegates & Datasource ---------------------
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    {
-        return 4
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeatureCVCell", for: indexPath as IndexPath) as! FeatureCVCell
-        
-        cell.backView.layer.cornerRadius = 10
-        
-        if indexPath.item == 0
-        {
-            cell.thumbImage.image = UIImage.init(named: "cookingclass172Ef0672")
-        }
-        else
-        {
-            cell.thumbImage.image = UIImage.init(named: "chocolate1Dca410A2")
-            cell.titleView.isHidden = true
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
-    {
-        return CGSize(width: CV.bounds.size.width/2, height: CV.bounds.size.height);
     }
 
 

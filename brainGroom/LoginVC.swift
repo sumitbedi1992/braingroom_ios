@@ -50,8 +50,31 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate
     }
     @IBAction func normalLogin(_ sender: Any)
     {
-        let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-        self.present(VC, animated: true, completion: nil)
+        let baseURL: String  = String(format:"%@userLogin",Constants.mainURL)
+        
+        let innerParams : [String: String] = [
+            "email":userNameTF.text!,
+            "latitude": "",
+            "longitude": "",
+            "password": passwordTF.text!,
+            "reg_id": "ccJZO6rC2wQ:APA91bHW_RF2wtxxNPEERK6ym-H7cUwJzbDhHMEllYJc-S-gZZbcZ_qY44fOMw4uTW7B4I7rXmrGYBmNdGNUgOYr4rFsPMUq28YxC71N-c9iiSv2wmRp0v-fjOU2wgYj9nR4Y_d59DZL",
+            "social_network_id": ""
+        ]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        
+        AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            
+        }) { (error) in
+            print("DDD: \(error.localizedDescription)")
+
+        }
+//        let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+//        self.present(VC, animated: true, completion: nil)
         
     }
     @IBAction func fbLogin(_ sender: Any)

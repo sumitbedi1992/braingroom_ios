@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+class Constants {
+    static let mainURL = "https://dev.braingroom.com/apis/"
+}
+
 @IBDesignable class GradientView: UIView
 {
     @IBInspectable var topColor: UIColor = UIColor.white
