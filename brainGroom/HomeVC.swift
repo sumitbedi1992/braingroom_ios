@@ -40,11 +40,14 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var menuViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var menuCloseBtn: UIButton!
     
+    var menuArray = NSMutableArray()
+
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
+        menuArray = ["My Profile","Wishlist","Booking History","Change Password","Catalogue","Logout","FAQ","Terms and Conditions","Contact Us","Competitions"]
+
         self.userImageLbl.layer.cornerRadius = self.userImageLbl.frame.width/2
         self.menuViewWidthConstraint.constant = 0
         self.menuCloseBtn.isHidden = true
@@ -102,61 +105,16 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
 //MARK: ----------------- TV Delegates & Datasource ---------------------
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 12
+        return menuArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTVCell", for: indexPath as IndexPath) as! MenuTVCell
     
-        if indexPath.item == 0
-        {
-            cell.menuTitleLbl.text = "My Profile"
-        }
-        else if indexPath.item == 1
-        {
-            cell.menuTitleLbl.text = "Map View"
-        }
-        else if indexPath.item == 2
-        {
-            cell.menuTitleLbl.text = "Booking History"
-        }
-        else if indexPath.item == 3
-        {
-            cell.menuTitleLbl.text = "Wishlist"
-        }
-        else if indexPath.item == 4
-        {
-            cell.menuTitleLbl.text = "Catalogue"
-        }
-        else if indexPath.item == 5
-        {
-            cell.menuTitleLbl.text = "Competitions"
-        }
-        else if indexPath.item == 6
-        {
-            cell.menuTitleLbl.text = "Links"
-        }
-        else if indexPath.item == 7
-        {
-            cell.menuTitleLbl.text = "Change Password"
-        }
-        else if indexPath.item == 8
-        {
-            cell.menuTitleLbl.text = "Logout"
-        }
-        else if indexPath.item == 9
-        {
-            cell.menuTitleLbl.text = "FAQ"
-        }
-        else if indexPath.item == 10
-        {
-            cell.menuTitleLbl.text = "Terms and Conditions"
-        }
-        else if indexPath.item == 11
-        {
-            cell.menuTitleLbl.text = "Contact Us"
-        }
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        
+       cell.menuTitleLbl.text = menuArray[indexPath.row] as? String
         
         return cell
     }
@@ -166,61 +124,66 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         var vc =  UIViewController()
         if indexPath.item == 0
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+            self.present(vc, animated: true, completion: nil)
+
         }
+        
         else if indexPath.item == 1
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "MapVC") as! MapVC
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "WishListViewController") as! WishListViewController
+            self.present(vc, animated: true, completion: nil)
+
         }
         else if indexPath.item == 2
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "BookmarksViewController") as! BookmarksViewController
+            self.present(vc, animated: true, completion: nil)
+
         }
         else if indexPath.item == 3
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "WishListVC") as! WishListVC
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
+            self.present(vc, animated: true, completion: nil)
         }
         else if indexPath.item == 4
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "CategoryVC") as! CategoryVC
+            AFWrapperClass.alert("Bridegroom", message: "Comming Soon...", view: self)
+
         }
         else if indexPath.item == 5
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+            self.present(vc, animated: true, completion: nil)
+
         }
         else if indexPath.item == 6
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+            UIApplication.shared.openURL(URL(string: "https://www.braingroom.com/Faq")!)
         }
+        
         else if indexPath.item == 7
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+            self.present(vc, animated: true, completion: nil)
+
         }
         else if indexPath.item == 8
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
+            self.present(vc, animated: true, completion: nil)
+
         }
         else if indexPath.item == 9
         {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+            UIApplication.shared.openURL(URL(string: "https://www.braingroom.com/")!)
         }
-        else if indexPath.item == 10
-        {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
-        }
-        else if indexPath.item == 11
-        {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
-        }
-        
-        self.present(vc, animated: true, completion: nil)
-
-        
+    
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 60
+        return 45
     }
 
 

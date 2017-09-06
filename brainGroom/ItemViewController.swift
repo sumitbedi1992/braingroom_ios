@@ -18,8 +18,7 @@ class itemCell : UICollectionViewCell
     @IBOutlet weak var onlineLbl: UILabel!
     
     @IBOutlet weak var amountLbl: UILabel!
-    @IBAction func flexibleBtnAction(_ sender: Any) {
-    }
+ 
     @IBOutlet weak var sessionsLbl: UILabel!
 }
 

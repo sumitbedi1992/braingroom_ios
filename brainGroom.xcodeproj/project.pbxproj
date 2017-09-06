@@ -29,13 +29,15 @@
 		3DCB87AC1F49CF430041C122 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87AB1F49CF430041C122 /* NotificationsViewController.swift */; };
 		3DCB87AE1F49CF5C0041C122 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87AD1F49CF5C0041C122 /* FilterViewController.swift */; };
 		3DCB87B01F49F98F0041C122 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87AF1F49F98E0041C122 /* ChangePasswordVC.swift */; };
-		3DCB87B21F49FA260041C122 /* WishListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87B11F49FA260041C122 /* WishListVC.swift */; };
 		3DCB87B41F49FAE00041C122 /* CategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87B31F49FAE00041C122 /* CategoryVC.swift */; };
 		3DF50A091F3DDCD1007D288B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DF50A081F3DDCD1007D288B /* AppDelegate.swift */; };
 		3DF50A0E1F3DDCD2007D288B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A0C1F3DDCD2007D288B /* Main.storyboard */; };
 		3DF50A101F3DDCD2007D288B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A0F1F3DDCD2007D288B /* Assets.xcassets */; };
 		3DF50A131F3DDCD2007D288B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A111F3DDCD2007D288B /* LaunchScreen.storyboard */; };
+		55059FF11F603BAE009D5CE1 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55059FF01F603BAE009D5CE1 /* WishListViewController.swift */; };
+		55059FF31F60400F009D5CE1 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */; };
 		5557104C1F5EEF2300A8A8A9 /* CateloguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */; };
+		5570548F1F606F440008E377 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5570548E1F606F440008E377 /* ProfileViewController.swift */; };
 		747D226B4804CDBDB9ACB8D7 /* Pods_brainGroom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,7 +64,6 @@
 		3DCB87AB1F49CF430041C122 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		3DCB87AD1F49CF5C0041C122 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		3DCB87AF1F49F98E0041C122 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
-		3DCB87B11F49FA260041C122 /* WishListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListVC.swift; sourceTree = "<group>"; };
 		3DCB87B31F49FAE00041C122 /* CategoryVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryVC.swift; sourceTree = "<group>"; };
 		3DF50A051F3DDCD1007D288B /* brainGroom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = brainGroom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DF50A081F3DDCD1007D288B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,7 +72,10 @@
 		3DF50A121F3DDCD2007D288B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DF50A141F3DDCD2007D288B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4E92EE515693C508160853CE /* Pods-brainGroom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.release.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.release.xcconfig"; sourceTree = "<group>"; };
+		55059FF01F603BAE009D5CE1 /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
+		55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CateloguesViewController.swift; sourceTree = "<group>"; };
+		5570548E1F606F440008E377 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_brainGroom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF1792C24A73FF573580254 /* Pods-brainGroom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,13 +145,15 @@
 				3DCB87AB1F49CF430041C122 /* NotificationsViewController.swift */,
 				3DCB87AD1F49CF5C0041C122 /* FilterViewController.swift */,
 				3D1BEAA91F3EC2A600A28BA9 /* HomeVC.swift */,
+				5570548E1F606F440008E377 /* ProfileViewController.swift */,
 				3D4A1DC51F48559800885106 /* MyProfileViewController.swift */,
 				3D4A1DC71F4855B400885106 /* RegisterViewController.swift */,
 				3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */,
 				3DCB87AF1F49F98E0041C122 /* ChangePasswordVC.swift */,
-				3DCB87B11F49FA260041C122 /* WishListVC.swift */,
 				3DCB87B31F49FAE00041C122 /* CategoryVC.swift */,
 				3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */,
+				55059FF01F603BAE009D5CE1 /* WishListViewController.swift */,
+				55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */,
 				5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */,
 				3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */,
 				3DF50A0C1F3DDCD2007D288B /* Main.storyboard */,
@@ -338,15 +344,17 @@
 				3D4A1DC61F48559800885106 /* MyProfileViewController.swift in Sources */,
 				3D1BEAA61F3EC28400A28BA9 /* ContactUsVC.swift in Sources */,
 				3D1BEAAA1F3EC2A600A28BA9 /* HomeVC.swift in Sources */,
+				5570548F1F606F440008E377 /* ProfileViewController.swift in Sources */,
+				55059FF31F60400F009D5CE1 /* BookmarksViewController.swift in Sources */,
 				3D1BEAB21F3F311F00A28BA9 /* UIButtonX.swift in Sources */,
 				3D4A1DC81F4855B400885106 /* RegisterViewController.swift in Sources */,
 				3D1BEAB61F3F311F00A28BA9 /* UIViewX.swift in Sources */,
 				3D1BEAAC1F3EC55D00A28BA9 /* Constants.swift in Sources */,
 				3D4A1DC41F48235700885106 /* ACFloatingTextfield.swift in Sources */,
+				55059FF11F603BAE009D5CE1 /* WishListViewController.swift in Sources */,
 				3D1BEAB31F3F311F00A28BA9 /* UIImageViewX.swift in Sources */,
 				3DCB87AA1F49CE7C0041C122 /* HeadingViewController.swift in Sources */,
 				3DCB87B41F49FAE00041C122 /* CategoryVC.swift in Sources */,
-				3DCB87B21F49FA260041C122 /* WishListVC.swift in Sources */,
 				3D1BEAB41F3F311F00A28BA9 /* UILabelX.swift in Sources */,
 				3DCB87B01F49F98F0041C122 /* ChangePasswordVC.swift in Sources */,
 				3D4EA7591F4B5C7A005D3A49 /* ItemViewController.swift in Sources */,
