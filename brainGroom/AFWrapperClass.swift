@@ -32,7 +32,7 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
     
     class func requestPOSTURL(_ strURL : String, params : [String : AnyObject]?, success:@escaping (NSDictionary) -> Void, failure:@escaping (NSError) -> Void){
         let urlwithPercentEscapes = strURL.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)
-        Alamofire.request(urlwithPercentEscapes!, method: .post, parameters: params, encoding: JSONEncoding.default)
+        Alamofire.request(urlwithPercentEscapes!, method: .post, parameters: params, encoding: JSONEncoding.default, headers: ["Content-Type":"application/json","Accept":"application/json","X-App-Type":"BGUSR01"])
             .responseJSON { response in
                 print(response)
                 //to get status code
@@ -209,7 +209,7 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
     
     class func forwardView(view:UIView) -> Void {
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            view.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+            view.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
             view.layoutSubviews()
         }) { (succeed) -> Void in
             
@@ -217,7 +217,7 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
     }
     class func reverseView(view:UIView) -> Void {
         UIView.animate(withDuration: 0.5, animations: { () -> Void in
-            view.transform = CGAffineTransform(rotationAngle: CGFloat(-180 * M_PI))
+            view.transform = CGAffineTransform(rotationAngle: CGFloat(-180 * Double.pi))
             view.layoutSubviews()
         }) { (succeed) -> Void in
             
@@ -335,7 +335,7 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
     {
         let rotationAnimation=CABasicAnimation();
         rotationAnimation.keyPath="transform.rotation.z"
-        let toValue = M_PI * 2.0 * rotations ;
+        let toValue = .pi * 2.0 * rotations ;
         let someInterval = CFTimeInterval(duration)
         
         rotationAnimation.toValue=toValue;
@@ -368,7 +368,7 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
     class func viewSlideInFromRightToLeft(view:UIView) -> Void
     {
         let transition:CATransition = CATransition()
-        transition.duration = 1.0
+        transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition.type = kCATransitionPush
         transition.subtype = kCATransitionFromLeft
@@ -377,7 +377,7 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
     class func viewSlideInFromLeftToRight(view:UIView) -> Void
     {
         let transition:CATransition = CATransition()
-        transition.duration = 1.0
+        transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition.type = kCATransitionPush
         transition.subtype = kCATransitionFromRight

@@ -36,7 +36,7 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
     
     @IBAction func backBtnAction(_ sender: Any)
     {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -51,7 +51,7 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as! ItemViewController
-        self.present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {

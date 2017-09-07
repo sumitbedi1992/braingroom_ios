@@ -37,31 +37,30 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var userEmailLbl: UILabel!
     @IBOutlet weak var TV: UITableView!
-    @IBOutlet weak var menuViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var menuCloseBtn: UIButton!
     
+    @IBOutlet weak var sideMenuView: UIView!
     var menuArray = NSMutableArray()
 
     
+    
     override func viewDidLoad()
     {
+        menuCloseBtn.isHidden = false
         super.viewDidLoad()
         menuArray = ["My Profile","Wishlist","Booking History","Change Password","Catalogue","Logout","FAQ","Terms and Conditions","Contact Us","Competitions"]
 
         self.userImageLbl.layer.cornerRadius = self.userImageLbl.frame.width/2
-        self.menuViewWidthConstraint.constant = 0
-        self.menuCloseBtn.isHidden = true
     }
     override func viewDidDisappear(_ animated: Bool)
     {
-        
         self.closeMenuBtnAction(self)
     }
     
     @IBAction func findClassesBtn(_ sender: Any)
     {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "CateloguesViewController") as! CateloguesViewController
-        self.present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func commingSoonBtnAction(_ sender: Any)
@@ -78,29 +77,18 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBAction func exploreBtnAction(_ sender: Any)
     {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "MapVC") as! MapVC
-        self.present(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func menuBtnAction(_ sender: Any)
     {
-        
-        UIView.animate(withDuration: 1, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
-            //Set x position what ever you want
-            self.menuViewWidthConstraint.constant = 240
-            self.menuCloseBtn.isHidden = false
-            
-        }, completion: nil)
-        
+        AFWrapperClass.viewSlideInFromRightToLeft(view: sideMenuView)
+        sideMenuView.isHidden = false;
     }
     @IBAction func closeMenuBtnAction(_ sender: Any)
     {
-        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
-            //Set x position what ever you want
-            self.menuViewWidthConstraint.constant = 0
-            self.menuCloseBtn.isHidden = true
-            
-        }, completion: nil)
-        
+        AFWrapperClass.viewSlideInFromLeftToRight(view: sideMenuView)
+        sideMenuView.isHidden = true
     }
 //MARK: ----------------- TV Delegates & Datasource ---------------------
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -122,63 +110,42 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         var vc =  UIViewController()
-        if indexPath.item == 0
-        {
-            vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-            self.present(vc, animated: true, completion: nil)
-
-        }
         
-        else if indexPath.item == 1
+        switch indexPath.row
         {
+        case 0:
+            vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 1:
             vc = self.storyboard?.instantiateViewController(withIdentifier: "WishListViewController") as! WishListViewController
-            self.present(vc, animated: true, completion: nil)
-
-        }
-        else if indexPath.item == 2
-        {
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 2:
             vc = self.storyboard?.instantiateViewController(withIdentifier: "BookmarksViewController") as! BookmarksViewController
-            self.present(vc, animated: true, completion: nil)
-
-        }
-        else if indexPath.item == 3
-        {
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 3:
             vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
-            self.present(vc, animated: true, completion: nil)
-        }
-        else if indexPath.item == 4
-        {
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 4:
             AFWrapperClass.alert("Bridegroom", message: "Comming Soon...", view: self)
 
-        }
-        else if indexPath.item == 5
-        {
+        case 5:
             vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
-            self.present(vc, animated: true, completion: nil)
-
-        }
-        else if indexPath.item == 6
-        {
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 6:
             UIApplication.shared.openURL(URL(string: "https://www.braingroom.com/Faq")!)
-        }
-        
-        else if indexPath.item == 7
-        {
+
+        case 7:
             vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
-            self.present(vc, animated: true, completion: nil)
-
-        }
-        else if indexPath.item == 8
-        {
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 8:
             vc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
-            self.present(vc, animated: true, completion: nil)
-
-        }
-        else if indexPath.item == 9
-        {
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 9:
             UIApplication.shared.openURL(URL(string: "https://www.braingroom.com/")!)
-        }
-    
+
+        default:
+            break
+        }    
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat

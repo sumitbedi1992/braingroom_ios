@@ -10,6 +10,23 @@ import UIKit
 
 class RegisterViewController2: UIViewController {
 
+    @IBOutlet weak var dobPicker: UIDatePicker!
+    
+    @IBOutlet weak var dobLBL: UILabel!
+    
+    @IBOutlet weak var genderLBL: UILabel!
+    
+    @IBOutlet weak var interestLBL: UILabel!
+    
+    @IBOutlet weak var countryLBL: UILabel!
+    
+    @IBOutlet weak var stateLBL: UILabel!
+    
+    @IBOutlet weak var cityLBL: UILabel!
+    
+    @IBOutlet weak var locationLBL: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,15 +38,14 @@ class RegisterViewController2: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func backBTNTap(_ sender: UIButton) {
     }
-    */
 
+    @IBAction func selectTypesBTNTap(_ sender: UIButton) {
+    }
+
+    @IBAction func doneBTNTap(_ sender: Any) {
+    }
+    @IBAction func signUpBTNTap(_ sender: Any) {
+    }
 }

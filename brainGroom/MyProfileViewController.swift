@@ -23,7 +23,7 @@ class MyProfileViewController: UIViewController {
     
     @IBAction func backBtn(_ sender: Any)
     {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
    
     /*

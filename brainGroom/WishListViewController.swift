@@ -69,7 +69,7 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
 
     @IBAction func backBtnAction(_ sender: Any)
     {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 
 }

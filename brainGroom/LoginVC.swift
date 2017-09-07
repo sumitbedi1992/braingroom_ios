@@ -74,7 +74,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate
 
         }
 //        let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-//        self.present(VC, animated: true, completion: nil)
+//        self.navigationController?.pushViewController(vc, animated: true)
         
     }
     @IBAction func fbLogin(_ sender: Any)
@@ -183,7 +183,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate
     }
     
     func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -194,7 +194,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate
 //        AFWrapperClass.svprogressHudShow(title: "Getting Details...", view: self)
         
         emailStringSocial = user.profile.email
-        AFWrapperClass.alert("BrainGroom", message:"FB Login Success \n Name:- \(user.profile.givenName as! String)", view: self)
+        AFWrapperClass.alert("BrainGroom", message:"FB Login Success \n Name:- \(user.profile.givenName!)", view: self)
 //        self.socialLoginMethod()
     }
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
