@@ -14,5 +14,7 @@ pod 'FacebookCore'
 pod 'FacebookLogin'
 pod 'FacebookShare'
 pod 'Google/SignIn'
+pod 'FCAlertView'
+
 
 end

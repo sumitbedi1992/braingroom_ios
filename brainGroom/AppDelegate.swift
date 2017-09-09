@@ -21,15 +21,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
 
     var window: UIWindow?
     var deviceToken = NSString()
+    
+    var signUpFullName = NSString()
+    var signUpEmail = NSString()
+    var signUpMobileNumber = NSString()
+    var signUpPassword = NSString()
+    var signUpReferralCode = NSString()
+    var signUpUGCollege = NSString()
+    var signUpPassout = NSString()
+    var tempUser = NSString()
+
+    
+    
+    var userId = NSString()
+    var userUUID = NSString()
+    var userData = NSDictionary()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
         IQKeyboardManager.sharedManager().enable = true
         IQKeyboardManager.sharedManager().enableAutoToolbar = true
-        
         GMSServices.provideAPIKey("AIzaSyALR0632alLB7CfRKlG6GEqz8HlVGhZTGA")
-        
         GIDSignIn.sharedInstance().delegate = self
+        
+         signUpFullName = ""
+         signUpEmail = ""
+         signUpMobileNumber = ""
+         signUpPassword = ""
+         signUpReferralCode = ""
+         signUpUGCollege = ""
+         signUpPassout = ""
+        
+        let str = UserDefaults.standard.string(forKey: "user_id")
+        if (str == nil || (str?.characters.count)! <= 0)
+        {
+            userId = ""
+        }
+        else
+        {
+            userData = UserDefaults.standard.object(forKey: "userData") as! NSDictionary
+            userId = str! as NSString
+        }
 
         if #available(iOS 10, *) {
             UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]){ (granted, error) in }
@@ -108,10 +140,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
     
-    
     //MARK: Get Device Token
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken1: Data) {
-        
         let deviceTokenString = deviceToken1.reduce("", {$0 + String(format: "%02X", $1)})
         UserDefaults.standard.set(deviceTokenString, forKey: "DeviceToken")
         UserDefaults.standard.synchronize()

@@ -9,14 +9,15 @@
 import UIKit
 import FBSDKLoginKit
 import GoogleSignIn
+import FCAlertView
 
-class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate
+class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertViewDelegate
 {
     @IBOutlet weak var userNameTF: UITextField!
     
     @IBOutlet weak var passwordTF: UITextField!
     
-    var appDelegate = AppDelegate()
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var DeviceToken = String()
     var faceBookDic = NSDictionary()
     var emailStringSocial = String()
@@ -44,38 +45,124 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate
         }
     }
     
+    
+    @IBAction func skipBtnTap(_ sender: Any)
+    {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
     @IBAction func registenAction(_ sender: Any)
     {
-        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+                self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func normalLogin(_ sender: Any)
     {
-        let baseURL: String  = String(format:"%@userLogin",Constants.mainURL)
-        
-        let innerParams : [String: String] = [
-            "email":userNameTF.text!,
-            "latitude": "",
-            "longitude": "",
-            "password": passwordTF.text!,
-            "reg_id": "ccJZO6rC2wQ:APA91bHW_RF2wtxxNPEERK6ym-H7cUwJzbDhHMEllYJc-S-gZZbcZ_qY44fOMw4uTW7B4I7rXmrGYBmNdGNUgOYr4rFsPMUq28YxC71N-c9iiSv2wmRp0v-fjOU2wgYj9nR4Y_d59DZL",
-            "social_network_id": ""
-        ]
-        let params : [String: AnyObject] = [
-            "braingroom": innerParams as AnyObject
-        ]
-        print(params)
-        
-        AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
-            
-            print("DDD: \(responseDict)")
-            
-        }) { (error) in
-            print("DDD: \(error.localizedDescription)")
-
+        if (userNameTF.text?.characters.count)! > 5
+        {
+            if (passwordTF.text?.characters.count)! > 5
+            {
+                let baseURL: String  = String(format:"%@userLogin",Constants.mainURL)
+                
+                let innerParams : [String: String] = [
+                    "email":userNameTF.text!,
+                    "latitude": "",
+                    "longitude": "",
+                    "password": passwordTF.text!,
+                    "reg_id": "",
+                    "social_network_id": ""
+                ]
+                let params : [String: AnyObject] = [
+                    "braingroom": innerParams as AnyObject
+                ]
+                print(params)
+                
+                AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
+                    
+                    print("DDD: \(responseDict)")
+                    AFWrapperClass.svprogressHudDismiss(view: self)
+                    let dic:NSDictionary = responseDict as NSDictionary
+                    if (dic.object(forKey: "res_code")) as! String == "1"
+                    {
+                        if ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "is_mobile_verified") as! String == "1"
+                        {
+                            let alert = FCAlertView()
+                            alert.blurBackground = false
+                            alert.cornerRadius = 15
+                            alert.bounceAnimations = true
+                            alert.dismissOnOutsideTouch = false
+                            alert.delegate = self
+                            alert.makeAlertTypeSuccess()
+                            alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                            alert.hideDoneButton = true;
+                            alert.addButton("OK", withActionBlock: {
+                                
+                                let userId = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "id") as! String
+                                UserDefaults.standard.set(userId , forKey: "user_id")
+                                self.appDelegate.userId = userId as NSString
+                                self.appDelegate.userData = ((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary
+                                UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
+                                let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                                self.navigationController?.pushViewController(viewController, animated: true)
+                            })
+                        }
+                        else
+                        {
+                            self.appDelegate.tempUser = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "id") as! String as NSString
+                            self.appDelegate.signUpEmail = self.userNameTF.text! as NSString
+                            self.appDelegate.signUpPassword = self.passwordTF.text! as NSString
+                            self.appDelegate.signUpMobileNumber = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "mobile") as! String as NSString
+                            let viewController = self.storyboard?.instantiateViewController(withIdentifier: "OTPViewController") as! OTPViewController
+                            self.navigationController?.pushViewController(viewController, animated: true)
+                        }
+                    }
+                    else
+                    {
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
+                        alert.makeAlertTypeWarning()
+                        alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                    }
+                }) { (error) in
+                    AFWrapperClass.svprogressHudDismiss(view: self)
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                }
+            }
+            else
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Password must contain minimum 6 characters", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            }
         }
-//        let VC = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-//        self.navigationController?.pushViewController(vc, animated: true)
-        
+        else
+        {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter registered emailID", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+        }
     }
     @IBAction func fbLogin(_ sender: Any)
     {
