@@ -25,19 +25,13 @@ class itemCell2 : UICollectionViewCell
 
 class WishListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    var itemsArray = NSMutableArray()
+    var itemsArray = NSArray()
 
     @IBOutlet weak var itemCollectionView: UICollectionView!
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
-        itemCollectionView.delegate = self
-        itemCollectionView.dataSource = self
-        itemCollectionView.reloadData()
-
         // Do any additional setup after loading the view.
     }
 

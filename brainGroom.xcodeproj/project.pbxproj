@@ -103,8 +103,6 @@
 		3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */,
-				3D4A1DC31F48235700885106 /* ACFloatingTextfield.swift */,
 				3D1BEAAD1F3F311F00A28BA9 /* UIButtonX.swift */,
 				3D1BEAAE1F3F311F00A28BA9 /* UIImageViewX.swift */,
 				3D1BEAAF1F3F311F00A28BA9 /* UILabelX.swift */,
@@ -135,26 +133,17 @@
 		3DF50A071F3DDCD1007D288B /* brainGroom */ = {
 			isa = PBXGroup;
 			children = (
-				3DF50A081F3DDCD1007D288B /* AppDelegate.swift */,
-				3D1BEAAB1F3EC55D00A28BA9 /* Constants.swift */,
-				3D1BEAA31F3EC26C00A28BA9 /* TermsVC.swift */,
-				3D1BEAA51F3EC28400A28BA9 /* ContactUsVC.swift */,
-				3D1BEAA71F3EC29300A28BA9 /* MapVC.swift */,
+				5555EA0C1F651E45005E54F1 /* AppDelegate */,
+				5555EA011F651D8E005E54F1 /* SideMenuViewControllers */,
+				5555EA121F651EAE005E54F1 /* ExploreVC */,
 				3DCB87A91F49CE7C0041C122 /* HeadingViewController.swift */,
-				3DCB87AB1F49CF430041C122 /* NotificationsViewController.swift */,
-				3DCB87AD1F49CF5C0041C122 /* FilterViewController.swift */,
-				3D1BEAA91F3EC2A600A28BA9 /* HomeVC.swift */,
-				5570548E1F606F440008E377 /* ProfileViewController.swift */,
 				3D4A1DC51F48559800885106 /* MyProfileViewController.swift */,
-				3D1BEAA11F3EC25200A28BA9 /* LoginVC.swift */,
-				3D4A1DC71F4855B400885106 /* RegisterViewController.swift */,
-				3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */,
-				BF0400E31F64017600C52118 /* OTPViewController.swift */,
-				3DCB87AF1F49F98E0041C122 /* ChangePasswordVC.swift */,
-				3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */,
-				55059FF01F603BAE009D5CE1 /* WishListViewController.swift */,
-				55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */,
-				5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */,
+				5555EA111F651EA4005E54F1 /* NotificationsVC */,
+				5555EA101F651E9D005E54F1 /* FilterVC */,
+				5555EA0F1F651E96005E54F1 /* HomeVC */,
+				5555EA131F651EB8005E54F1 /* ShowListVC */,
+				5555EA0E1F651E7D005E54F1 /* CategoriesVC */,
+				5555EA0D1F651E6B005E54F1 /* SupportFiles */,
 				3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */,
 				3DF50A0C1F3DDCD2007D288B /* Main.storyboard */,
 				3DF50A0F1F3DDCD2007D288B /* Assets.xcassets */,
@@ -163,6 +152,169 @@
 				3DF50A141F3DDCD2007D288B /* Info.plist */,
 			);
 			path = brainGroom;
+			sourceTree = "<group>";
+		};
+		5555EA011F651D8E005E54F1 /* SideMenuViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5555EA071F651DEF005E54F1 /* TermsVC */,
+				5555EA081F651DFC005E54F1 /* COntactUsVC */,
+				5555EA091F651E03005E54F1 /* ProfileVC */,
+				5555EA061F651DE3005E54F1 /* Login-SignUp */,
+				5555EA0A1F651E21005E54F1 /* WishListVC */,
+				5555EA0B1F651E2B005E54F1 /* BookMarksVC */,
+			);
+			name = SideMenuViewControllers;
+			sourceTree = "<group>";
+		};
+		5555EA021F651DB0005E54F1 /* LoginVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D1BEAA11F3EC25200A28BA9 /* LoginVC.swift */,
+			);
+			name = LoginVC;
+			sourceTree = "<group>";
+		};
+		5555EA031F651DC2005E54F1 /* RegisterVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D4A1DC71F4855B400885106 /* RegisterViewController.swift */,
+				3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */,
+			);
+			name = RegisterVC;
+			sourceTree = "<group>";
+		};
+		5555EA041F651DCB005E54F1 /* OTPVC */ = {
+			isa = PBXGroup;
+			children = (
+				BF0400E31F64017600C52118 /* OTPViewController.swift */,
+			);
+			name = OTPVC;
+			sourceTree = "<group>";
+		};
+		5555EA051F651DD2005E54F1 /* ChangePasswordVC */ = {
+			isa = PBXGroup;
+			children = (
+				3DCB87AF1F49F98E0041C122 /* ChangePasswordVC.swift */,
+			);
+			name = ChangePasswordVC;
+			sourceTree = "<group>";
+		};
+		5555EA061F651DE3005E54F1 /* Login-SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				5555EA021F651DB0005E54F1 /* LoginVC */,
+				5555EA031F651DC2005E54F1 /* RegisterVC */,
+				5555EA041F651DCB005E54F1 /* OTPVC */,
+				5555EA051F651DD2005E54F1 /* ChangePasswordVC */,
+			);
+			name = "Login-SignUp";
+			sourceTree = "<group>";
+		};
+		5555EA071F651DEF005E54F1 /* TermsVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D1BEAA31F3EC26C00A28BA9 /* TermsVC.swift */,
+			);
+			name = TermsVC;
+			sourceTree = "<group>";
+		};
+		5555EA081F651DFC005E54F1 /* COntactUsVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D1BEAA51F3EC28400A28BA9 /* ContactUsVC.swift */,
+			);
+			name = COntactUsVC;
+			sourceTree = "<group>";
+		};
+		5555EA091F651E03005E54F1 /* ProfileVC */ = {
+			isa = PBXGroup;
+			children = (
+				5570548E1F606F440008E377 /* ProfileViewController.swift */,
+			);
+			name = ProfileVC;
+			sourceTree = "<group>";
+		};
+		5555EA0A1F651E21005E54F1 /* WishListVC */ = {
+			isa = PBXGroup;
+			children = (
+				55059FF01F603BAE009D5CE1 /* WishListViewController.swift */,
+			);
+			name = WishListVC;
+			sourceTree = "<group>";
+		};
+		5555EA0B1F651E2B005E54F1 /* BookMarksVC */ = {
+			isa = PBXGroup;
+			children = (
+				55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */,
+			);
+			name = BookMarksVC;
+			sourceTree = "<group>";
+		};
+		5555EA0C1F651E45005E54F1 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				3DF50A081F3DDCD1007D288B /* AppDelegate.swift */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		5555EA0D1F651E6B005E54F1 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				3D1BEAAB1F3EC55D00A28BA9 /* Constants.swift */,
+				3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */,
+				3D4A1DC31F48235700885106 /* ACFloatingTextfield.swift */,
+			);
+			name = SupportFiles;
+			sourceTree = "<group>";
+		};
+		5555EA0E1F651E7D005E54F1 /* CategoriesVC */ = {
+			isa = PBXGroup;
+			children = (
+				5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */,
+			);
+			name = CategoriesVC;
+			sourceTree = "<group>";
+		};
+		5555EA0F1F651E96005E54F1 /* HomeVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D1BEAA91F3EC2A600A28BA9 /* HomeVC.swift */,
+			);
+			name = HomeVC;
+			sourceTree = "<group>";
+		};
+		5555EA101F651E9D005E54F1 /* FilterVC */ = {
+			isa = PBXGroup;
+			children = (
+				3DCB87AD1F49CF5C0041C122 /* FilterViewController.swift */,
+			);
+			name = FilterVC;
+			sourceTree = "<group>";
+		};
+		5555EA111F651EA4005E54F1 /* NotificationsVC */ = {
+			isa = PBXGroup;
+			children = (
+				3DCB87AB1F49CF430041C122 /* NotificationsViewController.swift */,
+			);
+			name = NotificationsVC;
+			sourceTree = "<group>";
+		};
+		5555EA121F651EAE005E54F1 /* ExploreVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D1BEAA71F3EC29300A28BA9 /* MapVC.swift */,
+			);
+			name = ExploreVC;
+			sourceTree = "<group>";
+		};
+		5555EA131F651EB8005E54F1 /* ShowListVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */,
+			);
+			name = ShowListVC;
 			sourceTree = "<group>";
 		};
 		B58F7CA5B31DC94FDD4A9CF5 /* Pods */ = {

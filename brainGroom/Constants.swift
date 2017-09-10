@@ -11,6 +11,7 @@ import UIKit
 
 class Constants {
     static let mainURL = "https://dev.braingroom.com/apis/"
+    static let mainURLProd = "https://www.braingroom.com/apis/"
 }
 
 @IBDesignable class GradientView: UIView

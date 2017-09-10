@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hxh-dW-Zhh">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="hxh-dW-Zhh">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1124,7 +1124,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C7a-8o-b41">
                                         <rect key="frame" x="0.0" y="10" width="320" height="30"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learn new skills or pick up a new hobby" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Bj3-Yr-OOm">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Learn new skills or pick up a new hobby" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Bj3-Yr-OOm">
                                                 <rect key="frame" x="16.5" y="5.5" width="288" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                                 <nil key="textColor"/>
@@ -1160,7 +1160,12 @@
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chocolate1Dca410A2" translatesAutoresizingMaskIntoConstraints="NO" id="k5A-MY-KbP">
                                                             <rect key="frame" x="0.0" y="0.0" width="152" height="174"/>
+                                                            <color key="backgroundColor" red="0.14117647059999999" green="0.086274509799999996" blue="0.12941176469999999" alpha="0.64000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </imageView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nR2-zU-1Ua">
+                                                            <rect key="frame" x="0.0" y="0.0" width="152" height="174"/>
+                                                            <color key="backgroundColor" red="0.14117647059999999" green="0.086274509799999996" blue="0.12941176469999999" alpha="0.64000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Health and Fitness" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTK-Ol-3x7">
                                                             <rect key="frame" x="8" y="67" width="136" height="41"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -1171,13 +1176,17 @@
                                                 </view>
                                                 <constraints>
                                                     <constraint firstItem="wTK-Ol-3x7" firstAttribute="centerY" secondItem="lzc-Nz-H0y" secondAttribute="centerY" id="G54-JY-YlI"/>
+                                                    <constraint firstItem="nR2-zU-1Ua" firstAttribute="height" secondItem="k5A-MY-KbP" secondAttribute="height" id="Pqs-dg-5ZC"/>
                                                     <constraint firstAttribute="trailing" secondItem="wTK-Ol-3x7" secondAttribute="trailing" constant="8" id="gy1-mJ-1yg"/>
                                                     <constraint firstAttribute="bottom" secondItem="k5A-MY-KbP" secondAttribute="bottom" id="hGq-di-oyt"/>
                                                     <constraint firstItem="wTK-Ol-3x7" firstAttribute="centerX" secondItem="lzc-Nz-H0y" secondAttribute="centerX" id="lKu-CL-rtM"/>
                                                     <constraint firstAttribute="trailing" secondItem="k5A-MY-KbP" secondAttribute="trailing" id="lUp-mJ-ZJW"/>
+                                                    <constraint firstItem="nR2-zU-1Ua" firstAttribute="centerY" secondItem="k5A-MY-KbP" secondAttribute="centerY" id="met-VQ-uei"/>
                                                     <constraint firstItem="k5A-MY-KbP" firstAttribute="leading" secondItem="lzc-Nz-H0y" secondAttribute="leading" id="nCp-XN-Lkn"/>
                                                     <constraint firstItem="k5A-MY-KbP" firstAttribute="top" secondItem="lzc-Nz-H0y" secondAttribute="top" id="q1T-33-b8v"/>
                                                     <constraint firstItem="wTK-Ol-3x7" firstAttribute="leading" secondItem="lzc-Nz-H0y" secondAttribute="leading" constant="8" id="u3q-WD-RFt"/>
+                                                    <constraint firstItem="nR2-zU-1Ua" firstAttribute="width" secondItem="k5A-MY-KbP" secondAttribute="width" id="yoZ-Y8-hNC"/>
+                                                    <constraint firstItem="nR2-zU-1Ua" firstAttribute="centerX" secondItem="k5A-MY-KbP" secondAttribute="centerX" id="zxz-FZ-r9M"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="descripitionLbl" destination="wTK-Ol-3x7" id="3dW-OY-1FB"/>
@@ -1204,7 +1213,7 @@
                                                         </state>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.14001781090000001" green="0.086097649849999999" blue="0.1293706325" alpha="0.64000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" red="0.14117647058823529" green="0.086274509803921567" blue="0.12941176470588234" alpha="0.64000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2735,7 +2744,7 @@ Cg
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+Robotics" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f7l-tI-hl0" customClass="UILabelX" customModule="brainGroom" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="109" height="30"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                             <userDefinedRuntimeAttributes>
@@ -2746,6 +2755,7 @@ Cg
                                                         </label>
                                                     </subviews>
                                                 </view>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="f7l-tI-hl0" secondAttribute="bottom" id="7js-jp-AtP"/>
                                                     <constraint firstItem="f7l-tI-hl0" firstAttribute="leading" secondItem="hyr-ob-Hfx" secondAttribute="leading" id="Fwt-7w-IgJ"/>
@@ -3084,7 +3094,7 @@ Cg
                                                         <constraint firstAttribute="height" constant="25" id="VZz-AL-xtQ"/>
                                                         <constraint firstAttribute="width" constant="25" id="nCf-rd-qWY"/>
                                                     </constraints>
-                                                    <state key="normal" image="pinPlaceholder"/>
+                                                    <state key="normal" image="heart.png"/>
                                                 </button>
                                             </subviews>
                                         </view>
@@ -4789,14 +4799,14 @@ Cg
                         <viewControllerLayoutGuide type="bottom" id="eep-Rn-CcY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7r7-sn-dlw">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="900"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eIe-je-ycR">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W4n-3O-jJP">
-                                        <rect key="frame" x="10" y="17" width="35" height="35"/>
+                                        <rect key="frame" x="10" y="31" width="54" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="W4n-3O-jJP" secondAttribute="height" multiplier="1:1" id="2Sj-DL-cJH"/>
                                         </constraints>
@@ -4806,7 +4816,7 @@ Cg
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJ8-XG-YFG">
-                                        <rect key="frame" x="110" y="17" width="100" height="35"/>
+                                        <rect key="frame" x="110" y="31" width="100" height="54"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -4826,7 +4836,7 @@ Cg
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="scL-Dv-fSH">
-                                <rect key="frame" x="0.0" y="57" width="320" height="511"/>
+                                <rect key="frame" x="0.0" y="90" width="320" height="810"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
@@ -5195,6 +5205,7 @@ Cg
         <image name="flexibleTime" width="73" height="73"/>
         <image name="googleIcon" width="32" height="32"/>
         <image name="group classes" width="870" height="497"/>
+        <image name="heart.png" width="512" height="512"/>
         <image name="imm" width="128" height="128"/>
         <image name="infoWhiteCopy" width="22" height="22"/>
         <image name="layer1Copy2" width="43" height="74"/>
@@ -5220,6 +5231,6 @@ Cg
         <image name="usernameTextbox" width="245" height="37"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ati-a2-IPJ"/>
+        <segue reference="cYB-EJ-QcW"/>
     </inferredMetricsTieBreakers>
 </document>

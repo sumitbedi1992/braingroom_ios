@@ -52,6 +52,8 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
                     {
                         if passwordTF.text == confirmPWTF.text
                         {
+                            AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+
                             let baseURL: String  = String(format:"%@BuyerRegistration",Constants.mainURL)
                             
                             let innerParams : [String: String] = [

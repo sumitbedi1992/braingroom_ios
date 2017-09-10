@@ -72,6 +72,8 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
     {
         let baseURL: String  = String(format:"%@BuyerRegistration",Constants.mainURL)
         
+        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+
         let innerParams : [String: String] = [
             "name": appDelegate.signUpFullName as String,
             "email": appDelegate.signUpEmail as String,

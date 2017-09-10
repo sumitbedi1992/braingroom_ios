@@ -63,6 +63,8 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
         {
             if (passwordTF.text?.characters.count)! > 5
             {
+                
+                AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
                 let baseURL: String  = String(format:"%@userLogin",Constants.mainURL)
                 
                 let innerParams : [String: String] = [
@@ -207,7 +209,9 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
         }
         let baseURL: String  = String(format: "%@login/",Constants.mainURL)
         let params = "mobile=\(self.emailStringSocial)&is_social=\("1")&device_type=ios&device_id=\(DeviceToken)"
-        
+     AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+
+     
         AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
         AFWrapperClass.requestPOSTURLWithUrlsession(baseURL, params: params, success: { (jsonDic) in
             DispatchQueue.main.async {

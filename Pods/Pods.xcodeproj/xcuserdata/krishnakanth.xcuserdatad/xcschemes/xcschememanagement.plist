@@ -34,6 +34,16 @@
 			<key>orderHint</key>
 			<integer>9</integer>
 		</dict>
+		<key>FCAlertView-FCAlertView.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>19</integer>
+		</dict>
+		<key>FCAlertView.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>18</integer>
+		</dict>
 		<key>FacebookCore.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -92,7 +102,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0B66B0EE301F4624268512175040B2D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1613271357771814C71601D90B787D94</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -142,6 +162,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>744A39B79081CA6DC2635C66BA03F11D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
 		<dict>
 			<key>primary</key>
@@ -173,6 +198,11 @@
 			<true/>
 		</dict>
 		<key>DDBCFDE490CDFDABF6F16A26F346932D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EF1ABE20DAA23760FBF0359740C1F0B9</key>
 		<dict>
 			<key>primary</key>
 			<true/>

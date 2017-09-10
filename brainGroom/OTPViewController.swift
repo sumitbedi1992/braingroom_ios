@@ -47,6 +47,9 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
         mobileNumberTF.text = appDelegate.signUpMobileNumber as String
         let baseURL: String  = String(format:"%@sendOTP",Constants.mainURL)
         
+        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+
+        
         let innerParams : [String: String] = [
             "mobile": mobileNumberTF.text!,
             "referal_code": "",
@@ -120,6 +123,8 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
         let params : [String: AnyObject] = [
             "braingroom": innerParams as AnyObject
         ]
+            AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+
         print(params)
         
         AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
@@ -194,6 +199,8 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
     {
         let baseURL: String  = String(format:"%@userLogin",Constants.mainURL)
         
+        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+
         let innerParams : [String: String] = [
             "email": appDelegate.signUpEmail as String,
             "latitude": "",
