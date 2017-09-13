@@ -90,6 +90,8 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
                                 let dic:NSDictionary = responseDict as NSDictionary
                                 if (dic.object(forKey: "res_code")) as! String == "1"
                                 {
+                                    if (dic.object(forKey: "braingroom") as! NSArray).count > 0
+                                    {
                                     let alert = FCAlertView()
                                     alert.blurBackground = false
                                     alert.cornerRadius = 15
@@ -107,6 +109,18 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
                                         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "OTPViewController") as! OTPViewController
                                         self.navigationController?.pushViewController(viewController, animated: true)
                                     })
+                                    }
+                                    else
+                                    {
+                                        let alert = FCAlertView()
+                                        alert.blurBackground = false
+                                        alert.cornerRadius = 15
+                                        alert.bounceAnimations = true
+                                        alert.dismissOnOutsideTouch = false
+                                        alert.delegate = self
+                                        alert.makeAlertTypeWarning()
+                                        alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                                    }
                                 }
                                 else
                                 {

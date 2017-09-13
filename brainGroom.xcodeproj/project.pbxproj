@@ -35,6 +35,7 @@
 		3DF50A131F3DDCD2007D288B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A111F3DDCD2007D288B /* LaunchScreen.storyboard */; };
 		55059FF11F603BAE009D5CE1 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55059FF01F603BAE009D5CE1 /* WishListViewController.swift */; };
 		55059FF31F60400F009D5CE1 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */; };
+		552507231F6848A500C82AD4 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552507221F6848A500C82AD4 /* HomePageViewController.swift */; };
 		5557104C1F5EEF2300A8A8A9 /* CateloguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */; };
 		5570548F1F606F440008E377 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5570548E1F606F440008E377 /* ProfileViewController.swift */; };
 		747D226B4804CDBDB9ACB8D7 /* Pods_brainGroom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */; };
@@ -73,6 +74,7 @@
 		4E92EE515693C508160853CE /* Pods-brainGroom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.release.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.release.xcconfig"; sourceTree = "<group>"; };
 		55059FF01F603BAE009D5CE1 /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
 		55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
+		552507221F6848A500C82AD4 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CateloguesViewController.swift; sourceTree = "<group>"; };
 		5570548E1F606F440008E377 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BF0400E31F64017600C52118 /* OTPViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
@@ -158,7 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				5555EA071F651DEF005E54F1 /* TermsVC */,
-				5555EA081F651DFC005E54F1 /* COntactUsVC */,
+				5555EA081F651DFC005E54F1 /* ContactUsVC */,
 				5555EA091F651E03005E54F1 /* ProfileVC */,
 				5555EA061F651DE3005E54F1 /* Login-SignUp */,
 				5555EA0A1F651E21005E54F1 /* WishListVC */,
@@ -219,12 +221,12 @@
 			name = TermsVC;
 			sourceTree = "<group>";
 		};
-		5555EA081F651DFC005E54F1 /* COntactUsVC */ = {
+		5555EA081F651DFC005E54F1 /* ContactUsVC */ = {
 			isa = PBXGroup;
 			children = (
 				3D1BEAA51F3EC28400A28BA9 /* ContactUsVC.swift */,
 			);
-			name = COntactUsVC;
+			name = ContactUsVC;
 			sourceTree = "<group>";
 		};
 		5555EA091F651E03005E54F1 /* ProfileVC */ = {
@@ -281,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				3D1BEAA91F3EC2A600A28BA9 /* HomeVC.swift */,
+				552507221F6848A500C82AD4 /* HomePageViewController.swift */,
 			);
 			name = HomeVC;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				3D1BEAAA1F3EC2A600A28BA9 /* HomeVC.swift in Sources */,
 				5570548F1F606F440008E377 /* ProfileViewController.swift in Sources */,
 				55059FF31F60400F009D5CE1 /* BookmarksViewController.swift in Sources */,
+				552507231F6848A500C82AD4 /* HomePageViewController.swift in Sources */,
 				3D1BEAB21F3F311F00A28BA9 /* UIButtonX.swift in Sources */,
 				3D4A1DC81F4855B400885106 /* RegisterViewController.swift in Sources */,
 				3D1BEAB61F3F311F00A28BA9 /* UIViewX.swift in Sources */,

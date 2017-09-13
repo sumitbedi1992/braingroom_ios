@@ -14,7 +14,6 @@ import FCAlertView
 class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertViewDelegate
 {
     @IBOutlet weak var userNameTF: UITextField!
-    
     @IBOutlet weak var passwordTF: UITextField!
     
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -22,16 +21,13 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
     var faceBookDic = NSDictionary()
     var emailStringSocial = String()
     
-    
     override func viewDidLoad()
-    
     {
         super.viewDidLoad()
-
-        
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
+
+    override func viewWillAppear(_ animated: Bool)
+    {
         super.viewWillAppear(animated)
         
         let deviceID = UserDefaults.standard.object(forKey: "DeviceToken")
@@ -45,28 +41,25 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
         }
     }
     
-    
     @IBAction func skipBtnTap(_ sender: Any)
     {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
     @IBAction func registenAction(_ sender: Any)
     {
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-                self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
+    
     @IBAction func normalLogin(_ sender: Any)
     {
         if (userNameTF.text?.characters.count)! > 5
         {
             if (passwordTF.text?.characters.count)! > 5
             {
-                
                 AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
                 let baseURL: String  = String(format:"%@userLogin",Constants.mainURL)
-                
                 let innerParams : [String: String] = [
                     "email":userNameTF.text!,
                     "latitude": "",
@@ -166,6 +159,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
             alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter registered emailID", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
         }
     }
+
     @IBAction func fbLogin(_ sender: Any)
     {
         let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
@@ -183,14 +177,15 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
         }
     }
     
-    func getFBUserData(){
+    func getFBUserData()
+    {
         if((FBSDKAccessToken.current()) != nil){
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
                 if (error == nil){
                     self.faceBookDic = result as! [String : AnyObject] as NSDictionary
                     self.emailStringSocial = self.faceBookDic.object(forKey: "email") as! String
                     AFWrapperClass.alert("BrainGroom", message:"FB Login Success \n Name:- \(self.faceBookDic.object(forKey: "first_name") as! String)", view: self)
-//                    self.socialLoginMethod()
+                    //                    self.socialLoginMethod()
                 }
             })
         }
@@ -289,14 +284,18 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
 //        self.socialLoginMethod()
     }
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        if (error != nil) {
+        if (error != nil)
+        {
             
-        }else
+        }
+        else
         {
             
         }
     }
-    func reportAuthStatus() -> Void {
+
+    func reportAuthStatus() -> Void
+    {
         let googleUser:GIDGoogleUser = GIDSignIn.sharedInstance().currentUser
         if (googleUser.authentication != nil)
         {
@@ -305,9 +304,9 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
         {
             // print("Status: Not authenticated")
         }
-        
     }
-    func refreshUserInfo() -> Void {
+    func refreshUserInfo() -> Void
+    {
         if GIDSignIn.sharedInstance().currentUser.authentication == nil {
             return
         }
