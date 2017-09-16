@@ -26,6 +26,8 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        passwordTF.isSecureTextEntry = true
+        confirmPWTF.isSecureTextEntry = true
         // Do any additional setup after loading the view.
     }
 
@@ -103,7 +105,7 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
                                     alert.hideDoneButton = true;
                                     alert.addButton("OK", withActionBlock: {
                                         self.appDelegate.tempUser = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "user_id") as! String as NSString
-                                        self.appDelegate.signUpEmail = self.fullNameTF.text! as NSString
+                                        self.appDelegate.signUpEmail = self.emailTF.text! as NSString
                                         self.appDelegate.signUpPassword = self.passwordTF.text! as NSString
                                         self.appDelegate.signUpMobileNumber = self.mobileNumberTF.text! as NSString
                                         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "OTPViewController") as! OTPViewController

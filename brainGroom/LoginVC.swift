@@ -16,6 +16,8 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
     @IBOutlet weak var userNameTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     
+    @IBOutlet weak var forgotPasswordTF: ACFloatingTextfield!
+    @IBOutlet weak var forgotPasswordAnimationView: UIView!
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var DeviceToken = String()
     var faceBookDic = NSDictionary()
@@ -59,7 +61,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
             if (passwordTF.text?.characters.count)! > 5
             {
                 AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
-                let baseURL: String  = String(format:"%@userLogin",Constants.mainURL)
+                let baseURL: String  = String(format:"%@login",Constants.mainURL)
                 let innerParams : [String: String] = [
                     "email":userNameTF.text!,
                     "latitude": "",
@@ -78,9 +80,11 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                     print("DDD: \(responseDict)")
                     AFWrapperClass.svprogressHudDismiss(view: self)
                     let dic:NSDictionary = responseDict as NSDictionary
-                    if (dic.object(forKey: "res_code")) as! String == "1"
-                    {
-                        if ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "is_mobile_verified") as! String == "1"
+//                    if (dic.object(forKey: "res_code")) as! String == "1"
+//                    {
+                        if (dic.object(forKey: "braingroom") as! NSArray).count > 0
+                        {
+                        if ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "is_mobile_verified") as! Int == 1
                         {
                             let alert = FCAlertView()
                             alert.blurBackground = false
@@ -95,8 +99,20 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                                 
                                 let userId = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "id") as! String
                                 UserDefaults.standard.set(userId , forKey: "user_id")
+                                UserDefaults.standard.set(self.userNameTF.text , forKey: "user_email")
                                 self.appDelegate.userId = userId as NSString
-                                self.appDelegate.userData = ((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary
+                                self.appDelegate.userData = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).mutableCopy() as! NSMutableDictionary
+                                
+                                for key in self.appDelegate.userData.allKeys
+                                {
+                                    if (self.appDelegate.userData[key] is NSNull)
+                                    { // NSNull is a singleton, so this check is sufficient
+                                        self.appDelegate.userData.setValue("", forKey: key as! String)
+                                    }
+                                }
+                                
+                                print(self.appDelegate.userData)
+                                
                                 UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
                                 let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                                 self.navigationController?.pushViewController(viewController, animated: true)
@@ -317,6 +333,80 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
     
     @IBAction func forgotPassword(_ sender: Any)
     {
+        self.forgotPasswordAnimationView.isHidden = false
+        AFWrapperClass.dampingEffect(view: self.forgotPasswordAnimationView)
+    }
+    
+    @IBAction func forgotPasswordOkCancelAction(_ sender: UIButton)
+    {
+        if sender.tag == 1
+        {
+            if AFWrapperClass.isValidEmail(self.forgotPasswordTF.text!)
+            {
+                let baseURL: String  = String(format:"%@forgotPassword",Constants.mainURL)
+                
+                AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+                
+                
+                let innerParams : [String: String] = [
+                    "email": self.forgotPasswordTF.text!
+                    ]
+                let params : [String: AnyObject] = [
+                    "braingroom": innerParams as AnyObject
+                ]
+                print(params)
+                AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
+                    print("DDD: \(responseDict)")
+                    AFWrapperClass.svprogressHudDismiss(view: self)
+                    let dic:NSDictionary = responseDict as NSDictionary
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
+                        alert.makeAlertTypeCaution()
+                        alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                        alert.hideDoneButton = true;
+                        alert.addButton("OK", withActionBlock:
+                            {
+                                self.forgotPasswordAnimationView.isHidden = true
+                        })
+                }) { (error) in
+                    AFWrapperClass.svprogressHudDismiss(view: self)
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
+                    })
+                }
+            }
+            else
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter a valid email ID", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
+                })
+            }
+        }
+        else
+        {
+            self.forgotPasswordAnimationView.isHidden = true
+        }
         
     }
+    
 }

@@ -81,9 +81,10 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         menuArray = ["Home","My Profile","Wishlist","Booking History","Change Password","Catalogue","Logout","FAQ","Terms and Conditions","Contact Us","Competitions"]
         imageArray = ["home","my profile","wishlist","booking history","change password","catalogue-1","login","FAQ","terms and Condition","contact us","competition"]
             
-            userNameLbl.text = "Krishna"
-            userEmailLbl.text = "krishnakanthkesana@gmail.com"
-            userImageLbl.image = UIImage.init(named: "imm")
+            userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
+            userEmailLbl.text = UserDefaults.standard.value(forKey: "user_email") as? String
+//            userImageLbl.image = UIImage.init(named: "imm")
+            userImageLbl.sd_setImage(with: URL(string: appDelegate.userData.value(forKey:"profile_pic") as! String), placeholderImage: UIImage.init(named: "imm"))
 
         }
         

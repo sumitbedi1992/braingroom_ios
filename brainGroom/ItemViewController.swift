@@ -36,7 +36,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     }
     
     var subArray = NSArray()
-    var itemsArray = NSArray()
+    var itemsArray = NSMutableArray()
     var catID = String()
 //    var segID = String()
     var index : Int = 0
@@ -75,7 +75,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
                 self.subArray = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "segment") as! NSArray
-                self.itemsArray = (self.subArray.object(at: self.index) as! NSDictionary).object(forKey: "class") as! NSArray
+                self.itemsArray = ((self.subArray.object(at: self.index) as! NSDictionary).object(forKey: "class") as! NSArray).mutableCopy() as! NSMutableArray
                 
                 if (self.subArray.count > 0)
                 {
@@ -168,7 +168,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             if indexPath.row == index
             {
                 cell.subLbl.textColor = UIColor.white
-                cell.subLbl.backgroundColor = UIColor.lightGray
+                cell.subLbl.backgroundColor = AFWrapperClass.colorWithHexString("037AFF")
             }
             else
             {
@@ -190,9 +190,20 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         else
         {
             self.index = indexPath.row
-            self.itemsArray = (self.subArray.object(at: self.index) as! NSDictionary).object(forKey: "class") as! NSArray
+            if (self.subArray.object(at: self.index) as! NSDictionary).value(forKey: "class") != nil
+            {
+            self.itemsArray = ((self.subArray.object(at: self.index) as! NSDictionary).object(forKey: "class") as! NSArray).mutableCopy() as! NSMutableArray
             if(self.itemsArray.count > 0)
             {
+                self.itemCollectionView.delegate = self
+                self.itemCollectionView.dataSource = self
+                self.itemCollectionView.reloadData()
+            }
+            }
+            else
+            {
+                self.itemsArray.removeAllObjects()
+                
                 self.itemCollectionView.delegate = self
                 self.itemCollectionView.dataSource = self
                 self.itemCollectionView.reloadData()
@@ -215,7 +226,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             let testStr = String.init(format: "+%@",((subArray[indexPath.row] as? NSDictionary)?.object(forKey: "segment_name") as? NSString)!)
             let size: CGSize = testStr.size(attributes: fontAttributes)
             
-            return CGSize(width: size.width+10, height: subCollectionView.bounds.size.height-20);
+            return CGSize(width: size.width+10, height: subCollectionView.bounds.size.height-25);
         }
     }
 }

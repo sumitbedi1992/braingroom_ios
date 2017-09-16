@@ -231,7 +231,8 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         })
     }
     
-    class func dampingEffect(view:UIView) -> Void {
+    class func dampingEffect(view:UIView) -> Void
+    {
         view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         UIView.animate(withDuration: 0.5,
                        delay: 0,

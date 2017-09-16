@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     
     var userId = NSString()
     var userUUID = NSString()
-    var userData = NSDictionary()
+    var userData = NSMutableDictionary()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         }
         else
         {
-            userData = UserDefaults.standard.object(forKey: "userData") as! NSDictionary
+            userData = UserDefaults.standard.object(forKey: "userData") as! NSMutableDictionary
             userId = str! as NSString
         }
 
