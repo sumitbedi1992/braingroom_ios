@@ -48,7 +48,7 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
         }
         else
         {
-            let searchPredicate = NSPredicate(format: "SELF.name contains[cd] %@", searchText)
+            let searchPredicate = NSPredicate(format: "name contains[cd] %@", searchText)
             
             filteredArray = (self.resulrArray as NSArray).filtered(using: searchPredicate) as NSArray
             if searchText.characters.count == 0
@@ -62,37 +62,56 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
     func serverHittingMethod(string : String)
     {
         var strr = String()
+        var innerParams = [String: String]()
+
         
         if keyForApi == "college"
         {
             strr = "getInstitions"
+            innerParams = [
+                "search_key": string
+            ]
         }
         else if keyForApi == "country"
         {
             strr = "getCountry"
+            innerParams = [
+                "search_key": string
+            ]
         }
         else if keyForApi == "state"
         {
             strr = "getState"
+            innerParams = [
+                "country_id": appDelegate.signUpCountryID as String
+            ]
         }
         else if keyForApi == "city"
         {
             strr = "getCity"
+            innerParams = [
+                "state_id": appDelegate.signUpStateID as String
+            ]
         }
         else if keyForApi == "location"
         {
             strr = "getLocality"
+            innerParams = [
+                "city_id": appDelegate.signUpCityID as String
+            ]
         }
         
-        
-        let baseURL: String  = String(format:"%@%@",Constants.mainURL,strr)
 //        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
-        let innerParams : [String: String] = [
-            "search_key": string
-            ]
+        
+        
+        
+        
         let params : [String: AnyObject] = [
             "braingroom": innerParams as AnyObject
         ]
+        
+        let baseURL: String  = String(format:"%@%@",Constants.mainURL,strr)
+
         print(params)
         
         AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
@@ -201,7 +220,6 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
     @IBAction func clearBtn(_ sender: Any)
     {
         selectedItemsLbl.text = "Selected Item"
-        
         
         if keyForApi == "college"
         {

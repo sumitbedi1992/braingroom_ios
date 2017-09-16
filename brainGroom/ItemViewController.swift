@@ -19,6 +19,7 @@ class itemCell : UICollectionViewCell
     @IBOutlet weak var onlineLbl: UILabel!
     
     @IBOutlet weak var amountLbl: UILabel!
+    @IBOutlet weak var flexBtn: UIButton!
  
     @IBOutlet weak var sessionsLbl: UILabel!
 }
@@ -147,17 +148,18 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
             cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
             cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: nil)
-            cell.descripitionLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
+            cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_summary") as! String)
             if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
             {
-                cell.onlineLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
+                cell.onlineLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
             }
             else
             {
                 cell.onlineLbl.text = "Online"
             }
          
-            cell.sessionsLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
+            cell.sessionsLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
+            cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
             
             cell.layer.masksToBounds = false;
             cell.layer.shadowOpacity = 0.75;
@@ -166,10 +168,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             cell.layer.shadowColor = UIColor.lightGray.cgColor
             cell.layer.shadowPath = UIBezierPath.init(rect: cell.bounds).cgPath
 
-            
             cell.contentView.backgroundColor = UIColor.white
-            
-            
             return cell
         }
         else

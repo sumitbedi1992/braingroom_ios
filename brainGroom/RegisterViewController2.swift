@@ -26,14 +26,29 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
     @IBOutlet weak var femaleIMG: UIImageView!
     @IBOutlet var maleIMG: UIImageViewX!
     @IBOutlet weak var animateView: UIView!
+    @IBOutlet weak var viewPicker: UIView!
+    
+    @IBOutlet weak var doneView: UIView!
+    var gender  = String()
+    var dob  = String()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-
-
         // Do any additional setup after loading the view.
+        gender = ""
+        
+        dobPicker.datePickerMode = UIDatePickerMode.date
+        dobPicker.maximumDate = Date()
+        dobPicker.addTarget(self, action: #selector(handleDatePicker(_:)), for: UIControlEvents.valueChanged)
+    }
+    
+    func handleDatePicker(_ sender: UIDatePicker)
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dobLBL.text = dateFormatter.string(from: sender.date)
+        dob = dateFormatter.string(from: sender.date)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +100,23 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
     {
         switch sender.tag
         {
+        case 1:
+            genderView.isHidden = true
+            animateView.isHidden = false
+            AFWrapperClass.dampingEffect(view: animateView)
+            doneView.isHidden = false
+            dobPicker.isHidden = false
+            viewPicker.isHidden = false
+            
+        case 2:
+            doneView.isHidden = true
+            dobPicker.isHidden = true
+            viewPicker.isHidden = true
+            animateView.isHidden = false
+            AFWrapperClass.dampingEffect(view: animateView)
+            genderView.isHidden = false
+        case 3:
+            break
         case 4:
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
                 vc.keyForApi = "country"
@@ -151,7 +183,7 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
 
     @IBAction func doneBTNTap(_ sender: Any)
     {
-        
+        self.animateView.isHidden = true
     }
     @IBAction func signUpBTNTap(_ sender: Any)
     {
@@ -169,8 +201,8 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
             "city" : appDelegate.signUpCity as String,
             "locality" : appDelegate.SignUpLocation as String,
             "category_id" : appDelegate.SignUpInterests as String,
-            "d_o_b" : appDelegate.signUpDOB as String,
-            "gender" : appDelegate.signUpGender as String,
+            "d_o_b" : dob as String,
+            "gender" : gender as String,
             "profile_image" : "",
             "community_id" : "",
             "school_id" : "",
@@ -248,11 +280,39 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
     }
     @IBAction func maleFemaleBTNTap(_ sender: UIButton)
     {
+        if sender.tag == 0
+        {
+            femaleIMG.image = UIImage.init(named: "radio-off")
+            maleIMG.image = UIImage.init(named: "radio-on-button")
+            gender = "Male"
+        }
+        else
+        {
+            maleIMG.image = UIImage.init(named: "radio-off")
+            femaleIMG.image = UIImage.init(named: "radio-on-button")
+            gender = "Female"
+        }
         
     }
     @IBAction func genderOkCancelBTNTap(_ sender: UIButton)
     {
-        
+//        if sender.tag == 0
+//        {
+//            self.genderLBL.text = gender
+//        }
+//        else
+//        {
+            if gender.characters.count > 0
+            {
+                self.genderLBL.text = gender
+            }
+            else
+            {
+                self.genderLBL.text = "Select Item"
+
+            }
+        self.animateView.isHidden = true
+//        }
     }
     
 }
