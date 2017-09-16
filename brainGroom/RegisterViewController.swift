@@ -35,7 +35,16 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        if appDelegate.signUpUGCollege == ""
+        {
+            collegeNameLBL.text = "Select Item"
+        }
+        else
+        {
+            collegeNameLBL.text = appDelegate.signUpUGCollege as String
+        }
+    }
     
     @IBAction func backBTNTap(_ sender: UIButton)
     {
@@ -296,6 +305,9 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
     
     @IBAction func selectColegeBTNTap(_ sender: UIButton)
     {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+        vc.keyForApi = "college"
+        self.navigationController?.pushViewController(vc, animated: true)
         
     }
     

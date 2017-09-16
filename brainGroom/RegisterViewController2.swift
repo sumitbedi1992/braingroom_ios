@@ -27,28 +27,48 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
     @IBOutlet var maleIMG: UIImageViewX!
     @IBOutlet weak var animateView: UIView!
     
-    
-    var signUpDOB = NSString()
-    var signUpGender = NSString()
-    var signUpCountry = NSString()
-    var signUpState = NSString()
-    var signUpCity = NSString()
-    var SignUpLocation = NSString()
-    var SignUpInterests = NSString()
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        signUpDOB = ""
-        signUpGender = ""
-        signUpCountry = ""
-        signUpState = ""
-        signUpCity = ""
-        SignUpLocation = ""
+        
 
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if appDelegate.signUpCountry == ""
+        {
+            countryLBL.text = "Select Item"
+        }
+        else
+        {
+            countryLBL.text = appDelegate.signUpCountry as String
+        }
+        if appDelegate.signUpCity == ""
+        {
+            cityLBL.text = "Select Item"
+        }
+        else
+        {
+            cityLBL.text = appDelegate.signUpCity as String
+        }
+        if appDelegate.signUpState == ""
+        {
+            stateLBL.text = "Select Item"
+        }
+        else
+        {
+            stateLBL.text = appDelegate.signUpState as String
+        }
+        if appDelegate.SignUpLocation == ""
+        {
+            locationLBL.text = "Select Item"
+        }
+        else
+        {
+            locationLBL.text = appDelegate.SignUpLocation as String
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,7 +81,72 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
         self.navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func selectTypesBTNTap(_ sender: UIButton) {
+    @IBAction func selectTypesBTNTap(_ sender: UIButton)
+    {
+        switch sender.tag
+        {
+        case 4:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+                vc.keyForApi = "country"
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 5:
+            if appDelegate.signUpCountryID == ""
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select Country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            }
+            else
+            {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+                vc.keyForApi = "state"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+        case 6:
+            if appDelegate.signUpStateID == ""
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select State", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            }
+            else
+            {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+            vc.keyForApi = "city"
+            self.navigationController?.pushViewController(vc, animated: true)
+            }
+        case 7:
+            if appDelegate.signUpCityID == ""
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            }
+            else
+            {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+            vc.keyForApi = "location"
+            self.navigationController?.pushViewController(vc, animated: true)
+            }
+        default:
+            break
+        }
     }
 
     @IBAction func doneBTNTap(_ sender: Any)
@@ -79,13 +164,13 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
             "email": appDelegate.signUpEmail as String,
             "password": appDelegate.signUpPassword as String,
             "mobile_no": appDelegate.signUpMobileNumber as String,
-            "country" : signUpCountry as String,
-            "state" : signUpState as String,
-            "city" : signUpCity as String,
-            "locality" : SignUpLocation as String,
-            "category_id" : SignUpInterests as String,
-            "d_o_b" : signUpDOB as String,
-            "gender" : signUpGender as String,
+            "country" : appDelegate.signUpCountry as String,
+            "state" : appDelegate.signUpState as String,
+            "city" : appDelegate.signUpCity as String,
+            "locality" : appDelegate.SignUpLocation as String,
+            "category_id" : appDelegate.SignUpInterests as String,
+            "d_o_b" : appDelegate.signUpDOB as String,
+            "gender" : appDelegate.signUpGender as String,
             "profile_image" : "",
             "community_id" : "",
             "school_id" : "",

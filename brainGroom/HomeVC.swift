@@ -54,6 +54,8 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
     override func viewDidLoad()
     {
         
+
+        
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
         
         self.addChildViewController(vc)
@@ -78,8 +80,13 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         }
         else
         {
-        menuArray = ["Home","My Profile","Wishlist","Booking History","Change Password","Catalogue","Logout","FAQ","Terms and Conditions","Contact Us","Competitions"]
-        imageArray = ["home","my profile","wishlist","booking history","change password","catalogue-1","login","FAQ","terms and Condition","contact us","competition"]
+            
+                menuArray = ["Home","My Profile","Wishlist","Booking History","Change Password","Catalogue","Logout","FAQ","Terms and Conditions","Contact Us","Competitions"]
+                imageArray = ["home","my profile","wishlist","booking history","change password","catalogue-1","login","FAQ","terms and Condition","contact us","competition"]
+        
+            
+            print(appDelegate.userData)
+
             
             userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
             userEmailLbl.text = UserDefaults.standard.value(forKey: "user_email") as? String
@@ -265,9 +272,11 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
 //            vc = self.storyboard?.instantiateViewController(withIdentifier: "BookmarksViewController") as! BookmarksViewController
 //            self.navigationController?.pushViewController(vc, animated: true)
         case 4:
+            
+            if (appDelegate.userData.value(forKey: "login_type") as! String == "direct")
+            {
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
-            
             let view = self.childViewControllers.last
             view?.removeFromParentViewController()
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
@@ -275,7 +284,18 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
             self.container.addSubview((vc.view)!)
             vc.didMove(toParentViewController: self)
-            
+            }
+            else
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeCaution()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
+            }
 //            vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
 //            self.navigationController?.pushViewController(vc, animated: true)
 //            
@@ -305,6 +325,17 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 UserDefaults.standard.set("", forKey: "user_id")
                 self.appDelegate.userId = ""
                 self.viewWillAppear(false)
+                
+                self.searchBtn.isHidden = false
+                self.notificationBtn.isHidden = false
+                let view = self.childViewControllers.last
+                view?.removeFromParentViewController()
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
+                self.addChildViewController(vc)
+                vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
+                self.container.addSubview((vc.view)!)
+                vc.didMove(toParentViewController: self)
+                
             })
             alert.addButton("No, Thanks", withActionBlock: {
             })

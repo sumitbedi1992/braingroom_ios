@@ -159,6 +159,16 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
          
             cell.sessionsLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
             
+            cell.layer.masksToBounds = false;
+            cell.layer.shadowOpacity = 0.75;
+            cell.layer.shadowRadius = 5.0;
+            cell.layer.shadowOffset = CGSize.zero;
+            cell.layer.shadowColor = UIColor.lightGray.cgColor
+            cell.layer.shadowPath = UIBezierPath.init(rect: cell.bounds).cgPath
+
+            
+            cell.contentView.backgroundColor = UIColor.white
+            
             
             return cell
         }
