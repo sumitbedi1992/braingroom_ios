@@ -22,7 +22,6 @@
 		3D4A1DC61F48559800885106 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC51F48559800885106 /* MyProfileViewController.swift */; };
 		3D4A1DC81F4855B400885106 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC71F4855B400885106 /* RegisterViewController.swift */; };
 		3D4A1DCA1F4855F300885106 /* RegisterViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */; };
-		3D4A1DCC1F4863FB00885106 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D4A1DCB1F4863FB00885106 /* GoogleService-Info.plist */; };
 		3D4A1DCE1F4869ED00885106 /* AFWrapperClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */; };
 		3D4EA7591F4B5C7A005D3A49 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */; };
 		3DCB87AA1F49CE7C0041C122 /* HeadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCB87A91F49CE7C0041C122 /* HeadingViewController.swift */; };
@@ -38,6 +37,8 @@
 		552507231F6848A500C82AD4 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552507221F6848A500C82AD4 /* HomePageViewController.swift */; };
 		5557104C1F5EEF2300A8A8A9 /* CateloguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */; };
 		5570548F1F606F440008E377 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5570548E1F606F440008E377 /* ProfileViewController.swift */; };
+		55D6AAC71F6D1ADC00692B23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55D6AAC61F6D1ADC00692B23 /* GoogleService-Info.plist */; };
+		55D6AAC91F6D3D8C00692B23 /* SearchItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D6AAC81F6D3D8C00692B23 /* SearchItemsViewController.swift */; };
 		747D226B4804CDBDB9ACB8D7 /* Pods_brainGroom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */; };
 		BF0400E41F64017600C52118 /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0400E31F64017600C52118 /* OTPViewController.swift */; };
 /* End PBXBuildFile section */
@@ -58,7 +59,6 @@
 		3D4A1DC51F48559800885106 /* MyProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		3D4A1DC71F4855B400885106 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		3D4A1DC91F4855F300885106 /* RegisterViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController2.swift; sourceTree = "<group>"; };
-		3D4A1DCB1F4863FB00885106 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFWrapperClass.swift; sourceTree = "<group>"; };
 		3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		3DCB87A91F49CE7C0041C122 /* HeadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadingViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +77,8 @@
 		552507221F6848A500C82AD4 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CateloguesViewController.swift; sourceTree = "<group>"; };
 		5570548E1F606F440008E377 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		55D6AAC61F6D1ADC00692B23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		55D6AAC81F6D3D8C00692B23 /* SearchItemsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchItemsViewController.swift; sourceTree = "<group>"; };
 		BF0400E31F64017600C52118 /* OTPViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_brainGroom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF1792C24A73FF573580254 /* Pods-brainGroom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.debug.xcconfig"; sourceTree = "<group>"; };
@@ -150,7 +152,7 @@
 				3DF50A0C1F3DDCD2007D288B /* Main.storyboard */,
 				3DF50A0F1F3DDCD2007D288B /* Assets.xcassets */,
 				3DF50A111F3DDCD2007D288B /* LaunchScreen.storyboard */,
-				3D4A1DCB1F4863FB00885106 /* GoogleService-Info.plist */,
+				55D6AAC61F6D1ADC00692B23 /* GoogleService-Info.plist */,
 				3DF50A141F3DDCD2007D288B /* Info.plist */,
 			);
 			path = brainGroom;
@@ -209,6 +211,7 @@
 				5555EA031F651DC2005E54F1 /* RegisterVC */,
 				5555EA041F651DCB005E54F1 /* OTPVC */,
 				5555EA051F651DD2005E54F1 /* ChangePasswordVC */,
+				55D6AAC81F6D3D8C00692B23 /* SearchItemsViewController.swift */,
 			);
 			name = "Login-SignUp";
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				TargetAttributes = {
 					3DF50A041F3DDCD1007D288B = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = CE86X5LG58;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -392,9 +396,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DF50A131F3DDCD2007D288B /* LaunchScreen.storyboard in Resources */,
+				55D6AAC71F6D1ADC00692B23 /* GoogleService-Info.plist in Resources */,
 				3DF50A101F3DDCD2007D288B /* Assets.xcassets in Resources */,
 				3DF50A0E1F3DDCD2007D288B /* Main.storyboard in Resources */,
-				3D4A1DCC1F4863FB00885106 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +503,7 @@
 				3D4A1DC61F48559800885106 /* MyProfileViewController.swift in Sources */,
 				3D1BEAA61F3EC28400A28BA9 /* ContactUsVC.swift in Sources */,
 				3D1BEAAA1F3EC2A600A28BA9 /* HomeVC.swift in Sources */,
+				55D6AAC91F6D3D8C00692B23 /* SearchItemsViewController.swift in Sources */,
 				5570548F1F606F440008E377 /* ProfileViewController.swift in Sources */,
 				55059FF31F60400F009D5CE1 /* BookmarksViewController.swift in Sources */,
 				552507231F6848A500C82AD4 /* HomePageViewController.swift in Sources */,
@@ -646,6 +651,7 @@
 			baseConfigurationReference = DDF1792C24A73FF573580254 /* Pods-brainGroom.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = CE86X5LG58;
 				INFOPLIST_FILE = brainGroom/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -660,6 +666,7 @@
 			baseConfigurationReference = 4E92EE515693C508160853CE /* Pods-brainGroom.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = CE86X5LG58;
 				INFOPLIST_FILE = brainGroom/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

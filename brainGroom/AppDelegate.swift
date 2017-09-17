@@ -28,8 +28,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     var signUpPassword = NSString()
     var signUpReferralCode = NSString()
     var signUpUGCollege = NSString()
+    var signUpUGCollegeID = NSString()
     var signUpPassout = NSString()
+    var signUpDOB = NSString()
+    var signUpGender = NSString()
+    var signUpCountry = NSString()
+    var signUpCountryID = NSString()
+    var signUpState = NSString()
+    var signUpStateID = NSString()
+    var signUpCity = NSString()
+    var signUpCityID = NSString()
+    var SignUpLocation = NSString()
+    var SignUpLocationID = NSString()
+    var SignUpInterests = NSString()
     var tempUser = NSString()
+    
 
     
     
@@ -51,6 +64,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
          signUpReferralCode = ""
          signUpUGCollege = ""
          signUpPassout = ""
+        signUpDOB = ""
+        signUpGender = ""
+        signUpCountry = ""
+        signUpState = ""
+        signUpCity = ""
+        SignUpLocation = ""
         
         let str = UserDefaults.standard.string(forKey: "user_id")
         if (str == nil || (str?.characters.count)! <= 0)
