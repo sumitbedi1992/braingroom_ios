@@ -66,9 +66,16 @@ PODS:
   - GTMSessionFetcher/Core (1.1.9)
   - GTMSessionFetcher/Full (1.1.9):
     - GTMSessionFetcher/Core (= 1.1.9)
+  - HMSegmentedControl (1.5.3)
   - IQKeyboardManagerSwift (4.0.6)
   - LCBannerView (2.1.1):
     - SDWebImage (~> 3.7.6)
+  - MXPagerView (0.2.1)
+  - MXParallaxHeader (0.6.1)
+  - MXSegmentedPager (3.3.0):
+    - HMSegmentedControl (= 1.5.3)
+    - MXPagerView (= 0.2.1)
+    - MXParallaxHeader (= 0.6.1)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
@@ -85,6 +92,7 @@ DEPENDENCIES:
   - GoogleMaps
   - IQKeyboardManagerSwift (= 4.0.6)
   - LCBannerView
+  - MXSegmentedPager
   - SDWebImage
   - SVProgressHUD
 
@@ -108,11 +116,15 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMOAuth2: 7fc9c10f5c745f4d9850419ea88889fe3baa6b7d
   GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
+  HMSegmentedControl: 7c6145afb50f26cec5f3243082f6f12b9f41318f
   IQKeyboardManagerSwift: b3015e819559ca76381f87a0833f44d178564603
   LCBannerView: 072c732ad7a2136e96c893e24cb650295c6c2635
+  MXPagerView: ede184b5191b2ed689ccf05a750a9978cce42414
+  MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
+  MXSegmentedPager: a35ebaf939e1629f24db3bb26653c1c557362f59
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
 
-PODFILE CHECKSUM: 739906b4cc929944f373e08b2a2e158bd0425fc9
+PODFILE CHECKSUM: c473552b588053a52babe3fce9c5691ff2b78437
 
 COCOAPODS: 1.2.1

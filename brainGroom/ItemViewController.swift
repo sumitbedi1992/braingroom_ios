@@ -24,6 +24,21 @@ class itemCell : UICollectionViewCell
     @IBOutlet weak var sessionsLbl: UILabel!
 }
 
+class itemCellTable : UICollectionViewCell
+{
+    
+    @IBOutlet weak var imgView: UIImageView!
+    
+    @IBOutlet weak var descripitionLbl: UILabel!
+    @IBOutlet weak var onlineLbl: UILabel!
+    
+    @IBOutlet weak var amountLbl: UILabel!
+    @IBOutlet weak var flexBtn: UIButton!
+    
+    @IBOutlet weak var sessionsLbl: UILabel!
+}
+
+
 class subCell : UICollectionViewCell
 {
     @IBOutlet weak var subLbl: UILabelX!
@@ -42,6 +57,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
 //    var segID = String()
     var index : Int = 0
     
+    var isTable = Bool()
+    
     
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var subCollectionView: UICollectionView!
@@ -49,6 +66,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        isTable = false
         // Do any additional setup after loading the view.
         self.dataFromServer()
         
@@ -145,6 +163,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     {
         if collectionView == itemCollectionView
         {
+<<<<<<< HEAD
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
             cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
             cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: nil)
@@ -152,11 +171,67 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
             {
                 cell.onlineLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
+=======
+            if isTable == false
+            {
+                
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
+                cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
+                cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: nil)
+                cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_summary") as! String)
+                if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
+                {
+                    cell.onlineLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
+                }
+                else
+                {
+                    cell.onlineLbl.text = "Online"
+                }
+                
+                cell.sessionsLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
+                cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
+                
+                cell.layer.masksToBounds = false;
+                cell.layer.shadowOpacity = 0.75;
+                cell.layer.shadowRadius = 5.0;
+                cell.layer.shadowOffset = CGSize.zero;
+                cell.layer.shadowColor = UIColor.lightGray.cgColor
+                cell.layer.shadowPath = UIBezierPath.init(rect: cell.bounds).cgPath
+                
+                cell.contentView.backgroundColor = UIColor.white
+                return cell
+>>>>>>> V2-17Sep2017
             }
             else
             {
-                cell.onlineLbl.text = "Online"
+                
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell1", for: indexPath as IndexPath) as! itemCellTable
+                cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
+                cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: nil)
+                cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_summary") as! String)
+                if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
+                {
+                    cell.onlineLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
+                }
+                else
+                {
+                    cell.onlineLbl.text = "Online"
+                }
+                
+                cell.sessionsLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
+                cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
+                
+                cell.layer.masksToBounds = false;
+                cell.layer.shadowOpacity = 0.75;
+                cell.layer.shadowRadius = 5.0;
+                cell.layer.shadowOffset = CGSize.zero;
+                cell.layer.shadowColor = UIColor.lightGray.cgColor
+                cell.layer.shadowPath = UIBezierPath.init(rect: cell.bounds).cgPath
+                
+                cell.contentView.backgroundColor = UIColor.white
+                return cell
             }
+<<<<<<< HEAD
          
             cell.sessionsLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
             cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
@@ -170,6 +245,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
 
             cell.contentView.backgroundColor = UIColor.white
             return cell
+=======
+>>>>>>> V2-17Sep2017
         }
         else
         {
@@ -194,7 +271,9 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     {
         if collectionView == itemCollectionView
         {
-            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
+//            vc.catID = ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "id") as? String)!
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         else
         {
@@ -226,7 +305,14 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     {
         if collectionView == itemCollectionView
         {
-        return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: itemCollectionView.bounds.size.height/1.7);
+            if isTable == false
+            {
+                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: itemCollectionView.bounds.size.height/1.7);
+            }
+            else
+            {
+                return CGSize(width: itemCollectionView.bounds.size.width-10, height: itemCollectionView.bounds.size.height/3);
+            }
         }
         else
         {
@@ -238,4 +324,26 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             return CGSize(width: size.width+10, height: subCollectionView.bounds.size.height-25);
         }
     }
+    @IBAction func collectionStyleBtn(_ sender: Any)
+    {
+        if isTable == false
+        {
+            isTable = true
+        }
+        else
+        {
+            isTable = false
+        }
+        itemCollectionView.reloadData()
+    }
+    @IBAction func sortBtnAction(_ sender: Any)
+    {
+        
+    }
+    
+    @IBAction func filterBtnAction(_ sender: Any)
+    {
+        
+    }
+    
 }

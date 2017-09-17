@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0830"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B446FBD2F70FA9F177B9DEAE70A2F2E5"
+               BlueprintIdentifier = "62F0D0EE2BE1239AC2E62698B243A8A8"
                BuildableName = "Pods_brainGroom.framework"
                BlueprintName = "Pods-brainGroom"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B446FBD2F70FA9F177B9DEAE70A2F2E5"
+            BlueprintIdentifier = "62F0D0EE2BE1239AC2E62698B243A8A8"
             BuildableName = "Pods_brainGroom.framework"
             BlueprintName = "Pods-brainGroom"
             ReferencedContainer = "container:Pods.xcodeproj">
@@ -60,15 +60,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B446FBD2F70FA9F177B9DEAE70A2F2E5"
-            BuildableName = "Pods_brainGroom.framework"
-            BlueprintName = "Pods-brainGroom"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
