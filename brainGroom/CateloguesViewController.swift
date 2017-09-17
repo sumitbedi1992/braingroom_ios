@@ -20,6 +20,9 @@ class itemCell1 : UICollectionViewCell
 
 class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate {
 
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+    
     var itemsArray = NSArray()
     
     @IBOutlet weak var itemCollectionView: UICollectionView!
@@ -128,6 +131,32 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
             return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: itemCollectionView.bounds.size.height/3-5);
+    }
+    
+    @IBAction func notificationBtnAction(_ sender: Any)
+    {
+        if appDelegate.userId == ""
+        {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeCaution()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please login to see your Notifications", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
+        }
+        else
+        {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "NotificationsViewController") as! NotificationsViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+
+    }
+    
+    @IBAction func searchBtnAction(_ sender: Any)
+    {
+        
     }
 
 }

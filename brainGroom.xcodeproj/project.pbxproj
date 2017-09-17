@@ -34,6 +34,7 @@
 		3DF50A131F3DDCD2007D288B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A111F3DDCD2007D288B /* LaunchScreen.storyboard */; };
 		55059FF11F603BAE009D5CE1 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55059FF01F603BAE009D5CE1 /* WishListViewController.swift */; };
 		55059FF31F60400F009D5CE1 /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */; };
+		550AD2871F6F0D0B00FDBF0E /* DetailItemViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 550AD2861F6F0D0B00FDBF0E /* DetailItemViewController2.swift */; };
 		552507231F6848A500C82AD4 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 552507221F6848A500C82AD4 /* HomePageViewController.swift */; };
 		5557104C1F5EEF2300A8A8A9 /* CateloguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */; };
 		5570548F1F606F440008E377 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5570548E1F606F440008E377 /* ProfileViewController.swift */; };
@@ -74,6 +75,7 @@
 		4E92EE515693C508160853CE /* Pods-brainGroom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.release.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.release.xcconfig"; sourceTree = "<group>"; };
 		55059FF01F603BAE009D5CE1 /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
 		55059FF21F60400F009D5CE1 /* BookmarksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
+		550AD2861F6F0D0B00FDBF0E /* DetailItemViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailItemViewController2.swift; sourceTree = "<group>"; };
 		552507221F6848A500C82AD4 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		5557104B1F5EEF2300A8A8A9 /* CateloguesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CateloguesViewController.swift; sourceTree = "<group>"; };
 		5570548E1F606F440008E377 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -145,8 +147,8 @@
 				5555EA111F651EA4005E54F1 /* NotificationsVC */,
 				5555EA101F651E9D005E54F1 /* FilterVC */,
 				5555EA0F1F651E96005E54F1 /* HomeVC */,
-				5555EA131F651EB8005E54F1 /* ShowListVC */,
 				5555EA0E1F651E7D005E54F1 /* CategoriesVC */,
+				5555EA131F651EB8005E54F1 /* ShowListVC */,
 				5555EA0D1F651E6B005E54F1 /* SupportFiles */,
 				3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */,
 				3DF50A0C1F3DDCD2007D288B /* Main.storyboard */,
@@ -319,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */,
+				550AD2861F6F0D0B00FDBF0E /* DetailItemViewController2.swift */,
 			);
 			name = ShowListVC;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				3D4A1DC81F4855B400885106 /* RegisterViewController.swift in Sources */,
 				3D1BEAB61F3F311F00A28BA9 /* UIViewX.swift in Sources */,
 				3D1BEAAC1F3EC55D00A28BA9 /* Constants.swift in Sources */,
+				550AD2871F6F0D0B00FDBF0E /* DetailItemViewController2.swift in Sources */,
 				BF0400E41F64017600C52118 /* OTPViewController.swift in Sources */,
 				3D4A1DC41F48235700885106 /* ACFloatingTextfield.swift in Sources */,
 				55059FF11F603BAE009D5CE1 /* WishListViewController.swift in Sources */,

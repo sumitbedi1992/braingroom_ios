@@ -6,113 +6,133 @@
 	<dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Bolts.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Cosmos.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FBSDKCoreKit.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>7</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FBSDKLoginKit.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>8</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FBSDKShareKit.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>9</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FCAlertView-FCAlertView.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>19</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FCAlertView.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>18</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FacebookCore.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FacebookLogin.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FacebookShare.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>GTMOAuth2.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>11</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>GTMSessionFetcher.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>12</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>GoogleToolboxForMac.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>10</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>HMSegmentedControl.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>IQKeyboardManagerSwift.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>13</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>LCBannerView.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>14</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MXPagerView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MXParallaxHeader.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MXSegmentedPager.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-brainGroom.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>15</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>16</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>SVProgressHUD.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>17</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0B66B0EE301F4624268512175040B2D7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>1613271357771814C71601D90B787D94</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>28546100F97BDD9F1D3D863522625D5B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -142,12 +162,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>50691135CA71E50470A1B0B8984189EC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>593E9479C06FB200807D11AB29EB50BD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>5B5AC3C06B783F8674FDB4C0F900B56A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>62F0D0EE2BE1239AC2E62698B243A8A8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -162,7 +192,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>744A39B79081CA6DC2635C66BA03F11D</key>
+		<key>7891E2B724C54EF58FB1692B34F1455C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -177,17 +207,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B13B2518ED904FCF07334F0A211FDD0E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>B1C4AAFAF49036C7007633DAA3C806AD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B446FBD2F70FA9F177B9DEAE70A2F2E5</key>
+		<key>D41F2F37088EE2B724A283C89AC6B567</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -198,6 +223,11 @@
 			<true/>
 		</dict>
 		<key>DDBCFDE490CDFDABF6F16A26F346932D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E75E5BAC0FE6E4C6A5E5F95EA6807F8A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
