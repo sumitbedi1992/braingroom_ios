@@ -26,29 +26,64 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
     @IBOutlet weak var femaleIMG: UIImageView!
     @IBOutlet var maleIMG: UIImageViewX!
     @IBOutlet weak var animateView: UIView!
+    @IBOutlet weak var viewPicker: UIView!
     
+    @IBOutlet weak var doneView: UIView!
+    var gender  = String()
+    var dob  = String()
     
-    var signUpDOB = NSString()
-    var signUpGender = NSString()
-    var signUpCountry = NSString()
-    var signUpState = NSString()
-    var signUpCity = NSString()
-    var SignUpLocation = NSString()
-    var SignUpInterests = NSString()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        signUpDOB = ""
-        signUpGender = ""
-        signUpCountry = ""
-        signUpState = ""
-        signUpCity = ""
-        SignUpLocation = ""
-
-
         // Do any additional setup after loading the view.
+        gender = ""
+        
+        dobPicker.datePickerMode = UIDatePickerMode.date
+        dobPicker.maximumDate = Date()
+        dobPicker.addTarget(self, action: #selector(handleDatePicker(_:)), for: UIControlEvents.valueChanged)
+    }
+    
+    func handleDatePicker(_ sender: UIDatePicker)
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dobLBL.text = dateFormatter.string(from: sender.date)
+        dob = dateFormatter.string(from: sender.date)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if appDelegate.signUpCountry == ""
+        {
+            countryLBL.text = "Select Item"
+        }
+        else
+        {
+            countryLBL.text = appDelegate.signUpCountry as String
+        }
+        if appDelegate.signUpCity == ""
+        {
+            cityLBL.text = "Select Item"
+        }
+        else
+        {
+            cityLBL.text = appDelegate.signUpCity as String
+        }
+        if appDelegate.signUpState == ""
+        {
+            stateLBL.text = "Select Item"
+        }
+        else
+        {
+            stateLBL.text = appDelegate.signUpState as String
+        }
+        if appDelegate.SignUpLocation == ""
+        {
+            locationLBL.text = "Select Item"
+        }
+        else
+        {
+            locationLBL.text = appDelegate.SignUpLocation as String
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -61,12 +96,94 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
         self.navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func selectTypesBTNTap(_ sender: UIButton) {
+    @IBAction func selectTypesBTNTap(_ sender: UIButton)
+    {
+        switch sender.tag
+        {
+        case 1:
+            genderView.isHidden = true
+            animateView.isHidden = false
+            AFWrapperClass.dampingEffect(view: animateView)
+            doneView.isHidden = false
+            dobPicker.isHidden = false
+            viewPicker.isHidden = false
+            
+        case 2:
+            doneView.isHidden = true
+            dobPicker.isHidden = true
+            viewPicker.isHidden = true
+            animateView.isHidden = false
+            AFWrapperClass.dampingEffect(view: animateView)
+            genderView.isHidden = false
+        case 3:
+            break
+        case 4:
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+                vc.keyForApi = "country"
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 5:
+            if appDelegate.signUpCountryID == ""
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select Country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            }
+            else
+            {
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+                vc.keyForApi = "state"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+        case 6:
+            if appDelegate.signUpStateID == ""
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select State", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            }
+            else
+            {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+            vc.keyForApi = "city"
+            self.navigationController?.pushViewController(vc, animated: true)
+            }
+        case 7:
+            if appDelegate.signUpCityID == ""
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            }
+            else
+            {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+            vc.keyForApi = "location"
+            self.navigationController?.pushViewController(vc, animated: true)
+            }
+        default:
+            break
+        }
     }
 
     @IBAction func doneBTNTap(_ sender: Any)
     {
-        
+        self.animateView.isHidden = true
     }
     @IBAction func signUpBTNTap(_ sender: Any)
     {
@@ -79,13 +196,13 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
             "email": appDelegate.signUpEmail as String,
             "password": appDelegate.signUpPassword as String,
             "mobile_no": appDelegate.signUpMobileNumber as String,
-            "country" : signUpCountry as String,
-            "state" : signUpState as String,
-            "city" : signUpCity as String,
-            "locality" : SignUpLocation as String,
-            "category_id" : SignUpInterests as String,
-            "d_o_b" : signUpDOB as String,
-            "gender" : signUpGender as String,
+            "country" : appDelegate.signUpCountry as String,
+            "state" : appDelegate.signUpState as String,
+            "city" : appDelegate.signUpCity as String,
+            "locality" : appDelegate.SignUpLocation as String,
+            "category_id" : appDelegate.SignUpInterests as String,
+            "d_o_b" : dob as String,
+            "gender" : gender as String,
             "profile_image" : "",
             "community_id" : "",
             "school_id" : "",
@@ -163,11 +280,39 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
     }
     @IBAction func maleFemaleBTNTap(_ sender: UIButton)
     {
+        if sender.tag == 0
+        {
+            femaleIMG.image = UIImage.init(named: "radio-off")
+            maleIMG.image = UIImage.init(named: "radio-on-button")
+            gender = "Male"
+        }
+        else
+        {
+            maleIMG.image = UIImage.init(named: "radio-off")
+            femaleIMG.image = UIImage.init(named: "radio-on-button")
+            gender = "Female"
+        }
         
     }
     @IBAction func genderOkCancelBTNTap(_ sender: UIButton)
     {
-        
+//        if sender.tag == 0
+//        {
+//            self.genderLBL.text = gender
+//        }
+//        else
+//        {
+            if gender.characters.count > 0
+            {
+                self.genderLBL.text = gender
+            }
+            else
+            {
+                self.genderLBL.text = "Select Item"
+
+            }
+        self.animateView.isHidden = true
+//        }
     }
     
 }

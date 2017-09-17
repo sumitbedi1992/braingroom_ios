@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>46561143796-gdsmiesg1nb53uu42v7cbg1k8nu9vsit.apps.googleusercontent.com</string>
+	<string>373478936307-73cloqrmda6ci96kj3ebqgj3hjm42otf.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.46561143796-gdsmiesg1nb53uu42v7cbg1k8nu9vsit</string>
+	<string>com.googleusercontent.apps.373478936307-73cloqrmda6ci96kj3ebqgj3hjm42otf</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.appKnit.brainGroom</string>
 	<key>PROJECT_ID</key>
-	<string>firebase-braingroom</string>
+	<string>braingroom-180108</string>
 	<key>IS_ADS_ENABLED</key>
 	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -23,6 +23,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:46561143796:ios:4287c20755c19a75</string>
+	<string>1:373478936307:ios:4287c20755c19a75</string>
 </dict>
 </plist>
