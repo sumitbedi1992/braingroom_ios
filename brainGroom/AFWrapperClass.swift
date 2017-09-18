@@ -30,9 +30,29 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         }
     }
     
+    class func requestPOSTURLVersionChange(_ strURL : String, params : [String : AnyObject]?, success:@escaping (NSDictionary) -> Void, failure:@escaping (NSError) -> Void){
+        let urlwithPercentEscapes = strURL.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        Alamofire.request(urlwithPercentEscapes!, method: .post, parameters: params, encoding: JSONEncoding.default, headers: ["Content-Type":"application/json","Accept":"application/json","X-App-Type":"BGUSR01","X-App-Version":"1.2"])
+            
+            .responseJSON { response in
+                print(response)
+                //to get status code
+                if response.result.isSuccess {
+                    let resJson = response.result.value as! NSDictionary
+                    success(resJson)
+                }
+                if response.result.isFailure {
+                    let error : NSError = response.result.error! as NSError
+                    failure(error)
+                }
+        }
+        
+    }
+    
     class func requestPOSTURL(_ strURL : String, params : [String : AnyObject]?, success:@escaping (NSDictionary) -> Void, failure:@escaping (NSError) -> Void){
         let urlwithPercentEscapes = strURL.addingPercentEncoding( withAllowedCharacters: CharacterSet.urlQueryAllowed)
         Alamofire.request(urlwithPercentEscapes!, method: .post, parameters: params, encoding: JSONEncoding.default, headers: ["Content-Type":"application/json","Accept":"application/json","X-App-Type":"BGUSR01"])
+            
             .responseJSON { response in
                 print(response)
                 //to get status code

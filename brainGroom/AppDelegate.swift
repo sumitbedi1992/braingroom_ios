@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     var SignUpInterests = NSString()
     var tempUser = NSString()
     
+    
 
     
     

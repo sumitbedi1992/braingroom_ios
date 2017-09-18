@@ -246,7 +246,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         if collectionView == itemCollectionView
         {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
-//            vc.catID = ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "id") as? String)!
+            vc.catID = ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "id") as? String)!
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else

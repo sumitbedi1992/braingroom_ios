@@ -118,6 +118,14 @@
 			name = ComponentExtensions;
 			sourceTree = "<group>";
 		};
+		3D47DD011F70302700FA15F1 /* DetailsOfItemVC */ = {
+			isa = PBXGroup;
+			children = (
+				550AD2861F6F0D0B00FDBF0E /* DetailItemViewController2.swift */,
+			);
+			name = DetailsOfItemVC;
+			sourceTree = "<group>";
+		};
 		3DF509FC1F3DDCD0007D288B = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +157,7 @@
 				5555EA0F1F651E96005E54F1 /* HomeVC */,
 				5555EA0E1F651E7D005E54F1 /* CategoriesVC */,
 				5555EA131F651EB8005E54F1 /* ShowListVC */,
+				3D47DD011F70302700FA15F1 /* DetailsOfItemVC */,
 				5555EA0D1F651E6B005E54F1 /* SupportFiles */,
 				3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */,
 				3DF50A0C1F3DDCD2007D288B /* Main.storyboard */,
@@ -321,7 +330,6 @@
 			isa = PBXGroup;
 			children = (
 				3D4EA7581F4B5C7A005D3A49 /* ItemViewController.swift */,
-				550AD2861F6F0D0B00FDBF0E /* DetailItemViewController2.swift */,
 			);
 			name = ShowListVC;
 			sourceTree = "<group>";
