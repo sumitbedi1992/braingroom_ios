@@ -19,34 +19,7 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-<<<<<<< HEAD
-            filePath = "brainGroom/ItemViewController.swift"
-            timestampString = "527281069.395997"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
-            landmarkName = "collectionView(_:didSelectItemAt:)"
-=======
             filePath = "brainGroom/RegisterViewController2.swift"
-            timestampString = "527279156.062012"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "selectTypesBTNTap(_:)"
->>>>>>> V2-17Sep2017
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "brainGroom/RegisterViewController2.swift"
-<<<<<<< HEAD
             timestampString = "527279156.062012"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
@@ -66,11 +39,6 @@
             timestampString = "527279536.529777"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-=======
-            timestampString = "527279536.529777"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
->>>>>>> V2-17Sep2017
             startingLineNumber = "220"
             endingLineNumber = "220"
             landmarkName = "signUpBTNTap(_:)"

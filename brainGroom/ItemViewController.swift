@@ -163,15 +163,6 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     {
         if collectionView == itemCollectionView
         {
-<<<<<<< HEAD
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
-            cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
-            cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: nil)
-            cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_summary") as! String)
-            if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
-            {
-                cell.onlineLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
-=======
             if isTable == false
             {
                 
@@ -200,7 +191,6 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 
                 cell.contentView.backgroundColor = UIColor.white
                 return cell
->>>>>>> V2-17Sep2017
             }
             else
             {
@@ -231,22 +221,6 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 cell.contentView.backgroundColor = UIColor.white
                 return cell
             }
-<<<<<<< HEAD
-         
-            cell.sessionsLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
-            cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
-            
-            cell.layer.masksToBounds = false;
-            cell.layer.shadowOpacity = 0.75;
-            cell.layer.shadowRadius = 5.0;
-            cell.layer.shadowOffset = CGSize.zero;
-            cell.layer.shadowColor = UIColor.lightGray.cgColor
-            cell.layer.shadowPath = UIBezierPath.init(rect: cell.bounds).cgPath
-
-            cell.contentView.backgroundColor = UIColor.white
-            return cell
-=======
->>>>>>> V2-17Sep2017
         }
         else
         {

@@ -3238,28 +3238,17 @@ Cg
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="bB7-hE-fJF" customClass="itemCell" customModule="brainGroom" customModuleProvider="target">
-<<<<<<< HEAD
-                                        <rect key="frame" x="82" y="0.0" width="156" height="258"/>
-=======
                                         <rect key="frame" x="68" y="0.0" width="184" height="173"/>
->>>>>>> V2-17Sep2017
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="184" height="173"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="249" image="chocolate1Dca410A2" translatesAutoresizingMaskIntoConstraints="NO" id="clt-Z6-quP">
-<<<<<<< HEAD
-                                                    <rect key="frame" x="5" y="5" width="146" height="147.5"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sinumeric 808 Operating Turning Adult 20 Hours" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ts9-us-Wpv">
-                                                    <rect key="frame" x="5" y="157.5" width="146" height="33"/>
-=======
                                                     <rect key="frame" x="5" y="5" width="174" height="62.5"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sinumeric 808 Operating Turning Adult 20 Hours" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ts9-us-Wpv">
                                                     <rect key="frame" x="5" y="72.5" width="174" height="33"/>
->>>>>>> V2-17Sep2017
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="33" id="Ze5-Pz-1iC"/>
                                                     </constraints>
@@ -3268,32 +3257,20 @@ Cg
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pinPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="BDF-Xz-x58">
-<<<<<<< HEAD
-                                                    <rect key="frame" x="8" y="199" width="13" height="13"/>
-=======
                                                     <rect key="frame" x="8" y="114" width="13" height="13"/>
->>>>>>> V2-17Sep2017
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="13" id="OI5-3M-Udg"/>
                                                         <constraint firstAttribute="height" constant="13" id="QGG-t0-QUt"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="online" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2f1-1s-oM4">
-<<<<<<< HEAD
-                                                    <rect key="frame" x="31" y="199" width="36.5" height="13"/>
-=======
                                                     <rect key="frame" x="31" y="114" width="36.5" height="13"/>
->>>>>>> V2-17Sep2017
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rs 699" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NcB-l7-pYe">
-<<<<<<< HEAD
-                                                    <rect key="frame" x="8" y="217" width="52" height="20"/>
-=======
                                                     <rect key="frame" x="8" y="132" width="52" height="20"/>
->>>>>>> V2-17Sep2017
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="cut-Mu-dBA"/>
                                                     </constraints>
@@ -3306,11 +3283,7 @@ Cg
                                                     <state key="normal" title="Flexible"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Sessions, 3 Hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="Kox-x3-2WN">
-<<<<<<< HEAD
-                                                    <rect key="frame" x="8" y="238" width="140" height="15"/>
-=======
                                                     <rect key="frame" x="8" y="153" width="168" height="15"/>
->>>>>>> V2-17Sep2017
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="eIa-gN-Zp7"/>
                                                     </constraints>
@@ -3332,10 +3305,7 @@ Cg
                                             <constraint firstItem="Ts9-us-Wpv" firstAttribute="top" secondItem="clt-Z6-quP" secondAttribute="bottom" constant="5" id="OOO-dG-NCE"/>
                                             <constraint firstItem="NcB-l7-pYe" firstAttribute="leading" secondItem="bB7-hE-fJF" secondAttribute="leading" constant="8" id="Ti7-Lw-lyU"/>
                                             <constraint firstItem="Kox-x3-2WN" firstAttribute="leading" secondItem="bB7-hE-fJF" secondAttribute="leading" constant="8" id="bDj-i1-T9c"/>
-<<<<<<< HEAD
-=======
                                             <constraint firstItem="dyx-cL-drC" firstAttribute="height" secondItem="NcB-l7-pYe" secondAttribute="height" id="crr-bQ-ftK"/>
->>>>>>> V2-17Sep2017
                                             <constraint firstAttribute="trailing" secondItem="Kox-x3-2WN" secondAttribute="trailing" constant="8" id="ee6-vq-grg"/>
                                             <constraint firstItem="dyx-cL-drC" firstAttribute="centerY" secondItem="NcB-l7-pYe" secondAttribute="centerY" id="gPH-pg-lV4"/>
                                             <constraint firstItem="2f1-1s-oM4" firstAttribute="leading" secondItem="BDF-Xz-x58" secondAttribute="trailing" constant="10" id="ij0-6Z-pBo"/>
@@ -5749,14 +5719,14 @@ Cg
                         <viewControllerLayoutGuide type="bottom" id="eep-Rn-CcY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7r7-sn-dlw">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="900"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eIe-je-ycR">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W4n-3O-jJP">
-                                        <rect key="frame" x="10" y="30.5" width="54" height="54.5"/>
+                                        <rect key="frame" x="10" y="17.5" width="34" height="34.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="W4n-3O-jJP" secondAttribute="height" multiplier="1:1" id="2Sj-DL-cJH"/>
                                         </constraints>
@@ -5766,7 +5736,7 @@ Cg
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rJ8-XG-YFG">
-                                        <rect key="frame" x="110" y="30.5" width="100" height="54.5"/>
+                                        <rect key="frame" x="110" y="17.5" width="100" height="34.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -5786,7 +5756,7 @@ Cg
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="scL-Dv-fSH">
-                                <rect key="frame" x="0.0" y="90" width="320" height="810"/>
+                                <rect key="frame" x="0.0" y="57" width="320" height="511"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
@@ -6209,10 +6179,4 @@ Cg
         <image name="time" width="73" height="73"/>
         <image name="usernameTextbox" width="245" height="37"/>
     </resources>
-<<<<<<< HEAD
-    <inferredMetricsTieBreakers>
-        <segue reference="cYB-EJ-QcW"/>
-    </inferredMetricsTieBreakers>
-=======
->>>>>>> V2-17Sep2017
 </document>

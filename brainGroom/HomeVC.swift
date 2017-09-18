@@ -54,8 +54,6 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
     override func viewDidLoad()
     {
         
-
-        
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
         
         self.addChildViewController(vc)
@@ -356,11 +354,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 view?.removeFromParentViewController()
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
                 self.addChildViewController(vc)
-<<<<<<< HEAD
-                vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
-=======
                 vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
->>>>>>> V2-17Sep2017
                 self.container.addSubview((vc.view)!)
                 vc.didMove(toParentViewController: self)
                 
