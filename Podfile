@@ -4,6 +4,7 @@ target 'brainGroom' do
 use_frameworks!
 
 pod 'GoogleMaps'
+pod 'GooglePlaces'
 pod 'IQKeyboardManagerSwift', '4.0.6'
 pod 'SVProgressHUD'
 pod 'Alamofire', '~> 4.0'

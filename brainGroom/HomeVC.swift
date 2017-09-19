@@ -127,7 +127,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        var vc =  UIViewController()
+//        var vc =  UIViewController()
         if appDelegate.userId == ""
         {
             switch indexPath.row
@@ -135,9 +135,16 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             case 0:
                 self.searchBtn.isHidden = false
                 self.notificationBtn.isHidden = false
-                let view = self.childViewControllers.last
+                
+                let view1 = self.childViewControllers.last
+
+                view1?.willMove(toParentViewController: nil)
+                view1?.view.removeFromSuperview()
+                view1?.removeFromParentViewController()
 //                view.removeFromSuperview()
-                view?.removeFromParentViewController()
+//                view?.removeFromParentViewController()
+                
+                
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
                 self.addChildViewController(vc)
                 vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
@@ -149,8 +156,14 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 self.searchBtn.isHidden = true
                 self.notificationBtn.isHidden = true
                 
-                let view = self.childViewControllers.last
-                view?.removeFromParentViewController()
+                let view1 = self.childViewControllers.last
+                
+                view1?.willMove(toParentViewController: nil)
+                view1?.view.removeFromSuperview()
+                view1?.removeFromParentViewController()
+                
+//                let view = self.childViewControllers.last
+//                view?.removeFromParentViewController()
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
                 self.addChildViewController(vc)
                 vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
@@ -164,8 +177,15 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 self.searchBtn.isHidden = true
                 self.notificationBtn.isHidden = true
                 
-                let view = self.childViewControllers.last
-                view?.removeFromParentViewController()
+                
+                let view1 = self.childViewControllers.last
+                
+                view1?.willMove(toParentViewController: nil)
+                view1?.view.removeFromSuperview()
+                view1?.removeFromParentViewController()
+                
+//                let view = self.childViewControllers.last
+//                view?.removeFromParentViewController()
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
                 self.addChildViewController(vc)
                 vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
@@ -206,9 +226,11 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 self.searchBtn.isHidden = true
                 self.notificationBtn.isHidden = true
                 
-                let view = self.childViewControllers.last
-                //                view.removeFromSuperview()
-                view?.removeFromParentViewController()
+                let view1 = self.childViewControllers.last
+                
+                view1?.willMove(toParentViewController: nil)
+                view1?.view.removeFromSuperview()
+                view1?.removeFromParentViewController()
                 
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
                 self.addChildViewController(vc)
@@ -222,9 +244,11 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 self.searchBtn.isHidden = true
                 self.notificationBtn.isHidden = true
                 
-                let view = self.childViewControllers.last
-                //                view.removeFromSuperview()
-                view?.removeFromParentViewController()
+                let view1 = self.childViewControllers.last
+                
+                view1?.willMove(toParentViewController: nil)
+                view1?.view.removeFromSuperview()
+                view1?.removeFromParentViewController()
                 
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
                 self.addChildViewController(vc)
@@ -245,8 +269,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         case 0:
             self.searchBtn.isHidden = false
             self.notificationBtn.isHidden = false
-            let view = self.childViewControllers.last
-            view?.removeFromParentViewController()
+            let view1 = self.childViewControllers.last
+            
+            view1?.willMove(toParentViewController: nil)
+            view1?.view.removeFromSuperview()
+            view1?.removeFromParentViewController()
+            
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
@@ -256,8 +284,11 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         case 1:
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
-            let view = self.childViewControllers.last
-            view?.removeFromParentViewController()
+            let view1 = self.childViewControllers.last
+            
+            view1?.willMove(toParentViewController: nil)
+            view1?.view.removeFromSuperview()
+            view1?.removeFromParentViewController()
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
@@ -270,8 +301,11 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
             
-            let view = self.childViewControllers.last
-            view?.removeFromParentViewController()
+            let view1 = self.childViewControllers.last
+            
+            view1?.willMove(toParentViewController: nil)
+            view1?.view.removeFromSuperview()
+            view1?.removeFromParentViewController()
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "WishListViewController") as! WishListViewController
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
@@ -284,8 +318,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
             
-            let view = self.childViewControllers.last
-            view?.removeFromParentViewController()
+            let view1 = self.childViewControllers.last
+            
+            view1?.willMove(toParentViewController: nil)
+            view1?.view.removeFromSuperview()
+            view1?.removeFromParentViewController()
+            
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "BookmarksViewController") as! BookmarksViewController
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
@@ -299,8 +337,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             {
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
-            let view = self.childViewControllers.last
-            view?.removeFromParentViewController()
+                let view1 = self.childViewControllers.last
+                
+                view1?.willMove(toParentViewController: nil)
+                view1?.view.removeFromSuperview()
+                view1?.removeFromParentViewController()
+                
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
@@ -375,8 +417,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
 
-            let view = self.childViewControllers.last
-            view?.removeFromParentViewController()
+            let view1 = self.childViewControllers.last
+            
+            view1?.willMove(toParentViewController: nil)
+            view1?.view.removeFromSuperview()
+            view1?.removeFromParentViewController()
+            
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
@@ -390,8 +436,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
             
-            let view = self.childViewControllers.last
-            view?.removeFromParentViewController()
+            let view1 = self.childViewControllers.last
+            
+            view1?.willMove(toParentViewController: nil)
+            view1?.view.removeFromSuperview()
+            view1?.removeFromParentViewController()
+            
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)

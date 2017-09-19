@@ -9,13 +9,16 @@
 import UIKit
 import MXSegmentedPager
 import FCAlertView
+import GoogleMaps
+import GooglePlaces
 
-class DetailItemViewController2: UIViewController, FCAlertViewDelegate
+class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocationManagerDelegate
 {
+    
+    let locationManager = CLLocationManager()
+
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
-
     var catID = String()
-
     @IBOutlet weak var shareBtn: UIButton!
     @IBOutlet weak var locationBtn: UIButton!
     @IBOutlet var headerView: UIView!
@@ -28,8 +31,8 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate
     @IBOutlet weak var providerImage: UIImageViewX!
     @IBOutlet weak var mainScrollView: UIScrollView!
     
+    @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var starLbl: UILabel!
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -42,13 +45,10 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate
         self.dataFromServer()
         // Do any additional setup after loading the view.
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
     
     func dataFromServer()
     {
@@ -78,6 +78,22 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate
                 let s = attributedString.string
                 
                 self.aboutTheClassLbl.text = s
+                self.itemNameLbl.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provided_by") as! String)
+                
+                self.locationBtn.setTitle((((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String, for: .normal)
+                let lat = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "latitude") as! NSString
+                let long = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "longitude") as! NSString
+                
+               
+                // Creates a marker in the center of the map.
+                let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2D(latitude: lat.doubleValue, longitude: long.doubleValue)
+                marker.title = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location_area") as? String
+                marker.icon = UIImage(named: "pin")
+                marker.map = self.mapView
+                
+                let camera = GMSCameraPosition.camera(withLatitude: lat.doubleValue, longitude: long.doubleValue, zoom: 6.0)
+                self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
                 
                 }
             }
