@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps
+import FCAlertView
 
 
 class CVCell : UICollectionViewCell
@@ -20,14 +21,21 @@ class CVCell : UICollectionViewCell
     @IBOutlet weak var descLbl: UILabel!
 }
 
-class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,CLLocationManagerDelegate
+class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,CLLocationManagerDelegate, FCAlertViewDelegate
 {
-
+    
+    @IBOutlet weak var mapVW: GMSMapView!
     @IBOutlet weak var CV: UICollectionView!
-    @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var gradientView: UIView!
     
+    lazy var mapView = GMSMapView()
+    
     var locationManager = CLLocationManager()
+    
+    var latitude = Double()
+    var longitude = Double()
+    
+    var dataArray = NSArray()
     
     override func viewDidLoad()
     {
@@ -36,25 +44,129 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         if CLLocationManager.locationServicesEnabled()
         {
             locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
         
-        let camera = GMSCameraPosition.camera(withLatitude: 13.407767, longitude: 80.0782175, zoom: 15.5)
-        let mapView = GMSMapView.map(withFrame: self.mapView.frame, camera: camera)
-        self.mapView.addSubview(gradientView)
+        latitude = 12.960184
+        longitude = 80.242936
         
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2DMake(13.407767, 80.0782175)
-        marker.snippet = "Hello World"
-        marker.appearAnimation = .pop
-        marker.icon = #imageLiteral(resourceName: "pinPlaceholder")
-        marker.map = mapView
-
+        //        let marker = GMSMarker()
+        //        marker.position = CLLocationCoordinate2DMake(12.960184, 80.242936)
+        //        marker.snippet = "Hello World"
+        ////        marker.appearAnimation = .pop
+        //        marker.icon = #imageLiteral(resourceName: "pinPlaceholder")
+        //        marker.map = mapView
+        
+    }
+    //MARK: ------------------------ Location Delegate ----------------------------
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    {
+                let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+//                latitude = locValue.latitude
+//                longitude = locValue.longitude
+        
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude:longitude, zoom: 15);
+        self.mapVW.camera = camera
+        self.mapVW.addSubview(gradientView)
+        
+        locationManager.stopUpdatingLocation()
+        
+        locationManager.stopUpdatingLocation()
+        locationManager.delegate = nil
+        self.dataFromServer()
+    }
+    //MARK: --------------------------- API Hitting --------------------------
+    func dataFromServer()
+    {
+        let baseURL: String  = String(format:"%@exploreDashboard",Constants.mainURLProd)
+        let innerParams : [String: String] = [
+            "lat": String(format:"%f",latitude),
+            "lng" : String(format:"%f",longitude)
+        ]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        
+        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+        
+        AFWrapperClass.requestPOSTURLVersionChange(baseURL, params: params, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "res_code")) as! String == "1"
+            {
+                self.dataArray = dic["braingroom"] as! NSArray
+                if (self.dataArray.count > 0)
+                {
+                for i in 0..<self.dataArray.count
+                {
+                    let latStr = String(format:"%@",(self.dataArray.object(at: i) as! NSDictionary).object(forKey: "latitude") as! String)
+                    let lonStr = String(format:"%@",(self.dataArray.object(at: i) as! NSDictionary).object(forKey: "longitude") as! String)
+                    
+                    let lat: Double = Double(latStr) ?? 0.0
+                    let lon: Double = Double(lonStr) ?? 0.0
+                    
+                    let center = CLLocationCoordinate2D(latitude:lat, longitude:lon)
+                    
+                    let marker = GMSMarker()
+                    marker.position = center
+                    marker.snippet = (self.dataArray.object(at: i) as! NSDictionary).object(forKey: "class_topic") as? String
+                    marker.appearAnimation = .pop
+                    marker.icon = #imageLiteral(resourceName: "pinPlaceholder")
+                    marker.map = self.mapVW
+                }
+                }
+                else
+                {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "No results found in your location" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
+                    })
+                }
+                
+            }
+            else
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
+                })
+            }
+        }) { (error) in
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            alert.hideDoneButton = true;
+            alert.addButton("OK", withActionBlock: {
+            })
+        }
     }
     
- 
-    
+    //MARK: ----------------------- CV Delegates & DataSource -----------------------
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         return 5
@@ -75,8 +187,10 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         return CGSize(width: CV.bounds.size.width/2, height: CV.bounds.size.height/1.1);
     }
     
-    @IBAction func backBtn(_ sender: Any) {
+    @IBAction func backBtn(_ sender: Any)
+    {
         self.navigationController?.popViewController(animated: true)
     }
-
+    
 }
+

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "744A39B79081CA6DC2635C66BA03F11D"
+               BlueprintIdentifier = "1CDE4EB777EC8D85E6A60461EB7B37FD"
                BuildableName = "Pods_brainGroom.framework"
                BlueprintName = "Pods-brainGroom"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -26,6 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -36,6 +37,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -45,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "744A39B79081CA6DC2635C66BA03F11D"
+            BlueprintIdentifier = "1CDE4EB777EC8D85E6A60461EB7B37FD"
             BuildableName = "Pods_brainGroom.framework"
             BlueprintName = "Pods-brainGroom"
             ReferencedContainer = "container:Pods.xcodeproj">

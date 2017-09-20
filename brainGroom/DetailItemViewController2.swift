@@ -11,14 +11,19 @@ import MXSegmentedPager
 import FCAlertView
 import GoogleMaps
 import GooglePlaces
+import YouTubePlayer
 
 class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocationManagerDelegate
 {
-    
     let locationManager = CLLocationManager()
-
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var catID = String()
+    var myVideoURL = String()
+    
+    @IBOutlet weak var videoPlayer: YouTubePlayerView!
+    
+    @IBOutlet weak var vidBtn: UIButton!
+    @IBOutlet weak var vidImage: UIImageView!
     @IBOutlet weak var shareBtn: UIButton!
     @IBOutlet weak var locationBtn: UIButton!
     @IBOutlet var headerView: UIView!
@@ -30,7 +35,6 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     @IBOutlet weak var providerName: UILabel!
     @IBOutlet weak var providerImage: UIImageViewX!
     @IBOutlet weak var mainScrollView: UIScrollView!
-    
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var starLbl: UILabel!
     override func viewDidLoad()
@@ -49,7 +53,6 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     func dataFromServer()
     {
         let baseURL: String  = String(format:"%@viewClassDetail",Constants.mainURLProd)
@@ -76,10 +79,24 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                {
                 let attributedString : NSMutableAttributedString = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_summary") as! String).htmlAttributedString() as! NSMutableAttributedString
                 let s = attributedString.string
-                
                 self.aboutTheClassLbl.text = s
-                self.itemNameLbl.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provided_by") as! String)
+                self.providerName.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provided_by") as! String)
+                self.providerImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provider_pic") as! String)), placeholderImage: nil)
+                self.vidImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "photo") as! String)), placeholderImage: nil)
                 
+                if(((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video")) is NSNull)
+                {
+                    self.vidBtn.isHidden = true
+                }
+                else
+                {
+                    self.vidBtn.isHidden = false
+                    self.myVideoURL = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video") as! String
+                }
+                self.itemNameLbl.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_topic") as! String)
+                
+                self.priceLbl.text = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? NSString as String?
+                self.sessionLbl.text = String.init(format: "%@ Sessions, %@", ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "no_of_session") as! String), ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_duration") as! String))
                 self.locationBtn.setTitle((((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String, for: .normal)
                 let lat = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "latitude") as! NSString
                 let long = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "longitude") as! NSString
@@ -93,8 +110,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 marker.map = self.mapView
                 
                 let camera = GMSCameraPosition.camera(withLatitude: lat.doubleValue, longitude: long.doubleValue, zoom: 6.0)
-                self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-                
+                self.mapView.camera = camera
                 }
             }
             else
@@ -110,7 +126,6 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 alert.hideDoneButton = true;
                 alert.addButton("OK", withActionBlock: {
                 })
-                
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
@@ -126,6 +141,23 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
             alert.addButton("OK", withActionBlock: {
             })
         }
+    }
+   
+    
+    // Get Video ID from URL
+    func extractYoutubeIdFromLink(link: String) -> String? {
+        let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
+        guard let regExp = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else {
+            return nil
+        }
+        let nsLink = link as NSString
+        let options = NSRegularExpression.MatchingOptions(rawValue: 0)
+        let range = NSRange(location: 0, length: nsLink.length)
+        let matches = regExp.matches(in: link as String, options:options, range:range)
+        if let firstMatch = matches.first {
+            return nsLink.substring(with: firstMatch.range)
+        }
+        return nil
     }
 
     @IBAction func shareBtnAction(_ sender: Any)
@@ -152,28 +184,38 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     }
     @IBAction func giftClassBtn(_ sender: Any)
     {
-        
+//        videoView.load(withVideoId: videodID, playerVars: [
+//            "controls" : 0,
+//            "playsinline" : 1,
+//            "autohide" : 1,
+//            "showinfo" : 0,
+//            "modestbranding" : 0])
     }
-    
     @IBAction func locationBtnAct(_ sender: Any)
     {
         
     }
-    
     @IBAction func privateTutorBtnAct(_ sender: Any)
     {
         
     }
     @IBAction func contactUsBtn(_ sender: Any)
     {
-        
+
     }
-    
     @IBAction func postQuery(_ sender: Any)
     {
         
     }
-    
+    @IBAction func videoBtnAct(_ sender: Any)
+    {
+        vidImage.isHidden = true
+        vidBtn.isHidden = true
+        print(extractYoutubeIdFromLink(link: myVideoURL)!)
+        videoPlayer.loadVideoID(extractYoutubeIdFromLink(link: myVideoURL)!)
+//        videoPlayer.loadVideoURL(myVideoURL as URL)
+//        videoPlayer.play()
+    }
 }
 
 

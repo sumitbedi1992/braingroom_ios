@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'DDBCFDE490CDFDABF6F16A26F346932D'
-               BlueprintName = 'FacebookCore'
+               BlueprintIdentifier = 'D41F2F37088EE2B724A283C89AC6B567'
+               BlueprintName = 'MXSegmentedPager'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'FacebookCore.framework'>
+               BuildableName = 'MXSegmentedPager.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

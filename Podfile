@@ -17,6 +17,5 @@ pod 'FacebookShare'
 pod 'Google/SignIn'
 pod 'FCAlertView'
 pod 'MXSegmentedPager'
-#pod 'YouTube-Player-iOS-Helper'
-
+pod 'YouTubePlayer'
 end

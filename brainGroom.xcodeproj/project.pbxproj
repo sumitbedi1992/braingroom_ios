@@ -82,6 +82,7 @@
 		55D6AAC61F6D1ADC00692B23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		55D6AAC81F6D3D8C00692B23 /* SearchItemsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchItemsViewController.swift; sourceTree = "<group>"; };
 		BF0400E31F64017600C52118 /* OTPViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
+		BFCD1CCD1F72D0EB003D50E6 /* brainGroom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "brainGroom-Bridging-Header.h"; sourceTree = "<group>"; };
 		CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_brainGroom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF1792C24A73FF573580254 /* Pods-brainGroom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -165,6 +166,7 @@
 				3DF50A111F3DDCD2007D288B /* LaunchScreen.storyboard */,
 				55D6AAC61F6D1ADC00692B23 /* GoogleService-Info.plist */,
 				3DF50A141F3DDCD2007D288B /* Info.plist */,
+				BFCD1CCD1F72D0EB003D50E6 /* brainGroom-Bridging-Header.h */,
 			);
 			path = brainGroom;
 			sourceTree = "<group>";
@@ -379,6 +381,7 @@
 					3DF50A041F3DDCD1007D288B = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = CE86X5LG58;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -663,12 +666,15 @@
 			baseConfigurationReference = DDF1792C24A73FF573580254 /* Pods-brainGroom.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = CE86X5LG58;
 				INFOPLIST_FILE = brainGroom/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.appKnit.brainGroom;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "brainGroom/brainGroom-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -678,12 +684,14 @@
 			baseConfigurationReference = 4E92EE515693C508160853CE /* Pods-brainGroom.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = CE86X5LG58;
 				INFOPLIST_FILE = brainGroom/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.appKnit.brainGroom;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "brainGroom/brainGroom-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
