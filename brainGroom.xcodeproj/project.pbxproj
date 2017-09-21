@@ -42,6 +42,7 @@
 		55F4C0301F7160FA00C42ED2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55D6AAC61F6D1ADC00692B23 /* GoogleService-Info.plist */; };
 		747D226B4804CDBDB9ACB8D7 /* Pods_brainGroom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */; };
 		BF0400E41F64017600C52118 /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0400E31F64017600C52118 /* OTPViewController.swift */; };
+		BF469D251F7421B70008D69E /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF469D241F7421B70008D69E /* FAQViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		55D6AAC61F6D1ADC00692B23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		55D6AAC81F6D3D8C00692B23 /* SearchItemsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchItemsViewController.swift; sourceTree = "<group>"; };
 		BF0400E31F64017600C52118 /* OTPViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
+		BF469D241F7421B70008D69E /* FAQViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
 		BFCD1CCD1F72D0EB003D50E6 /* brainGroom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "brainGroom-Bridging-Header.h"; sourceTree = "<group>"; };
 		CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_brainGroom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF1792C24A73FF573580254 /* Pods-brainGroom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.debug.xcconfig"; sourceTree = "<group>"; };
@@ -152,13 +154,13 @@
 				5555EA011F651D8E005E54F1 /* SideMenuViewControllers */,
 				5555EA121F651EAE005E54F1 /* ExploreVC */,
 				3DCB87A91F49CE7C0041C122 /* HeadingViewController.swift */,
-				3D4A1DC51F48559800885106 /* MyProfileViewController.swift */,
 				5555EA111F651EA4005E54F1 /* NotificationsVC */,
 				5555EA101F651E9D005E54F1 /* FilterVC */,
 				5555EA0F1F651E96005E54F1 /* HomeVC */,
 				5555EA0E1F651E7D005E54F1 /* CategoriesVC */,
 				5555EA131F651EB8005E54F1 /* ShowListVC */,
 				3D47DD011F70302700FA15F1 /* DetailsOfItemVC */,
+				BF3525F51F73BD67003E206D /* VendorProfileVC */,
 				5555EA0D1F651E6B005E54F1 /* SupportFiles */,
 				3D1BEAB71F3F3D6700A28BA9 /* ComponentExtensions */,
 				3DF50A0C1F3DDCD2007D288B /* Main.storyboard */,
@@ -174,6 +176,7 @@
 		5555EA011F651D8E005E54F1 /* SideMenuViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				BF469D261F7424990008D69E /* FAQVC */,
 				5555EA071F651DEF005E54F1 /* TermsVC */,
 				5555EA081F651DFC005E54F1 /* ContactUsVC */,
 				5555EA091F651E03005E54F1 /* ProfileVC */,
@@ -343,6 +346,22 @@
 				4E92EE515693C508160853CE /* Pods-brainGroom.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		BF3525F51F73BD67003E206D /* VendorProfileVC */ = {
+			isa = PBXGroup;
+			children = (
+				3D4A1DC51F48559800885106 /* MyProfileViewController.swift */,
+			);
+			name = VendorProfileVC;
+			sourceTree = "<group>";
+		};
+		BF469D261F7424990008D69E /* FAQVC */ = {
+			isa = PBXGroup;
+			children = (
+				BF469D241F7421B70008D69E /* FAQViewController.swift */,
+			);
+			name = FAQVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -538,6 +557,7 @@
 				3DCB87AE1F49CF5C0041C122 /* FilterViewController.swift in Sources */,
 				3D1BEAB51F3F311F00A28BA9 /* UITextFieldX.swift in Sources */,
 				3DF50A091F3DDCD1007D288B /* AppDelegate.swift in Sources */,
+				BF469D251F7421B70008D69E /* FAQViewController.swift in Sources */,
 				3D4A1DCE1F4869ED00885106 /* AFWrapperClass.swift in Sources */,
 				3D4A1DCA1F4855F300885106 /* RegisterViewController2.swift in Sources */,
 				3D1BEAA41F3EC26C00A28BA9 /* TermsVC.swift in Sources */,

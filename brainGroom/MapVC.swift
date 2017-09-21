@@ -40,15 +40,15 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.locationManager.requestWhenInUseAuthorization()
-        if CLLocationManager.locationServicesEnabled()
-        {
+        self.locationManager.requestAlwaysAuthorization()
+//        if CLLocationManager.locationServicesEnabled()
+//        {
             locationManager.delegate = self
             locationManager.requestWhenInUseAuthorization()
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
-        }
-        
+//        }
+        CV.isHidden = true
         latitude = 12.960184
         longitude = 80.242936
         
@@ -67,7 +67,7 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
 //                latitude = locValue.latitude
 //                longitude = locValue.longitude
         
-        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude:longitude, zoom: 15);
+        let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude:longitude, zoom: 12);
         self.mapVW.camera = camera
         self.mapVW.addSubview(gradientView)
         
@@ -80,7 +80,7 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     //MARK: --------------------------- API Hitting --------------------------
     func dataFromServer()
     {
-        let baseURL: String  = String(format:"%@exploreDashboard",Constants.mainURLProd)
+        let baseURL: String  = String(format:"%@exploreDashboard",Constants.mainURL)
         let innerParams : [String: String] = [
             "lat": String(format:"%f",latitude),
             "lng" : String(format:"%f",longitude)
@@ -111,13 +111,16 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                     let lon: Double = Double(lonStr) ?? 0.0
                     
                     let center = CLLocationCoordinate2D(latitude:lat, longitude:lon)
-                    
+                   
                     let marker = GMSMarker()
                     marker.position = center
                     marker.snippet = (self.dataArray.object(at: i) as! NSDictionary).object(forKey: "class_topic") as? String
                     marker.appearAnimation = .pop
-                    marker.icon = #imageLiteral(resourceName: "pinPlaceholder")
+                    marker.icon = UIImage.init(named: "pin")
+                    marker.icon = GMSMarker.markerImage(with: AFWrapperClass.colorWithHexString(((self.dataArray.object(at: i) as! NSDictionary).object(forKey: "color_code") as? String)!))
                     marker.map = self.mapVW
+                    
+                    
                 }
                 }
                 else
@@ -193,4 +196,5 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
 }
+
 

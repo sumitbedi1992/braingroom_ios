@@ -10,16 +10,11 @@ import UIKit
 
 class itemCell2 : UICollectionViewCell
 {
-    
-    
     @IBOutlet weak var wishListBtn: UIButton!
     @IBOutlet weak var imgView: UIImageView!
-    
     @IBOutlet weak var descripitionLbl: UILabel!
     @IBOutlet weak var onlineLbl: UILabel!
-    
     @IBOutlet weak var amountLbl: UILabel!
-    
     @IBOutlet weak var sessionsLbl: UILabel!
 }
 
@@ -29,9 +24,11 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
 
     @IBOutlet weak var itemCollectionView: UICollectionView!
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        itemCollectionView.delegate = self
+        itemCollectionView.dataSource = self
+        itemCollectionView.reloadData()
         // Do any additional setup after loading the view.
     }
 
@@ -48,18 +45,24 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath as IndexPath) as! itemCell2
-            
+        
+        cell.layer.masksToBounds = false;
+        cell.layer.shadowOpacity = 0.75;
+        cell.layer.shadowRadius = 5.0;
+        cell.layer.shadowOffset = CGSize.zero;
+        cell.layer.shadowColor = UIColor.lightGray.cgColor
+        cell.layer.shadowPath = UIBezierPath.init(rect: cell.bounds).cgPath
+        
+        cell.contentView.backgroundColor = UIColor.white
+        
             return cell
         
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
             return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: itemCollectionView.bounds.size.height/1.7)
     }
-    
 
     @IBAction func backBtnAction(_ sender: Any)
     {

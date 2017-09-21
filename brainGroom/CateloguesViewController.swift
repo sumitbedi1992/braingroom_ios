@@ -37,7 +37,7 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
     
     func dataFromServer()
     {
-        let baseURL: String  = String(format:"%@getCategory",Constants.mainURLProd)
+        let baseURL: String  = String(format:"%@getCategory",Constants.mainURL)
         
 //        let innerParams : [String: String] = [
 //            "mobile": mobileNumberTF.text!,
@@ -59,10 +59,29 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
                 self.itemsArray = dic.object(forKey: "braingroom") as! NSArray
+
+                if (self.itemsArray.count > 0)
+                {
                 
                 self.itemCollectionView.delegate = self
                 self.itemCollectionView.dataSource = self
-                self.itemCollectionView.reloadData()
+                    self.itemCollectionView.reloadData()
+                    
+                }
+                else
+                {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
+                    })
+                }
             }
             else
             {
@@ -122,7 +141,7 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
         
         print((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "category_image")!)
         
-        cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "category_image") as! String), placeholderImage: nil)
+        cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "category_image") as! String), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
 
         
             return cell

@@ -53,7 +53,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
     
     override func viewDidLoad()
     {
-        
+        appDelegate.userId = "111"
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
         
         self.addChildViewController(vc)
@@ -70,8 +70,8 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         
         if appDelegate.userId == ""
         {
-            menuArray = ["Home","Login","Register","Catalogue","FAQ","Terms and Conditions","Contact Us"]
-            imageArray = ["home","login","comment","catalogue-1","FAQ","terms and Condition","contact us"]
+            menuArray = ["Home","Login","Register","FAQ","Terms and Conditions","Contact Us"]
+            imageArray = ["home","login","comment","FAQ","terms and Condition","contact us"]
             userEmailLbl.text = "Hello Learner!"
             userNameLbl.text = "Please Login to Braingroom"
             userImageLbl.image = UIImage.init(named: "imm")
@@ -79,17 +79,17 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         else
         {
             
-                menuArray = ["Home","My Profile","Wishlist","Booking History","Change Password","Catalogue","Logout","FAQ","Terms and Conditions","Contact Us","Competitions"]
-                imageArray = ["home","my profile","wishlist","booking history","change password","catalogue-1","login","FAQ","terms and Condition","contact us","competition"]
+                menuArray = ["Home","My Profile","Wishlist","Booking History","Change Password","Logout","FAQ","Terms and Conditions","Contact Us","Competitions"]
+                imageArray = ["home","my profile","wishlist","booking history","change password","login","FAQ","terms and Condition","contact us","competition"]
         
             
             print(appDelegate.userData)
 
             
-            userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
-            userEmailLbl.text = UserDefaults.standard.value(forKey: "user_email") as? String
-//            userImageLbl.image = UIImage.init(named: "imm")
-            userImageLbl.sd_setImage(with: URL(string: appDelegate.userData.value(forKey:"profile_pic") as! String), placeholderImage: UIImage.init(named: "imm"))
+//            userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
+//            userEmailLbl.text = UserDefaults.standard.value(forKey: "user_email") as? String
+////            userImageLbl.image = UIImage.init(named: "imm")
+//            userImageLbl.sd_setImage(with: URL(string: appDelegate.userData.value(forKey:"profile_pic") as! String), placeholderImage: UIImage.init(named: "imm"))
 
         }
         
@@ -191,37 +191,23 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
                 self.container.addSubview((vc.view)!)
                 vc.didMove(toParentViewController: self)
-                
-//                vc = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-//                self.navigationController?.pushViewController(vc, animated: true)
+
             case 3:
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeCaution()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Comming Soon...", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)            case 3:
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeCaution()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "Comming Soon...", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
+                
+                self.searchBtn.isHidden = true
+                self.notificationBtn.isHidden = true
+                let view1 = self.childViewControllers.last
+                view1?.willMove(toParentViewController: nil)
+                view1?.view.removeFromSuperview()
+                view1?.removeFromParentViewController()
+                
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+                self.addChildViewController(vc)
+                vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
+                self.container.addSubview((vc.view)!)
+                vc.didMove(toParentViewController: self)
                 
             case 4:
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeCaution()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Comming Soon...", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
-            case 5:
                 
                 self.searchBtn.isHidden = true
                 self.notificationBtn.isHidden = true
@@ -234,12 +220,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
                 self.addChildViewController(vc)
-                vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
+                vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
                 self.container.addSubview((vc.view)!)
                 vc.didMove(toParentViewController: self)
 //                        vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
 //                        self.navigationController?.pushViewController(vc, animated: true)
-            case 6:
+            case 5:
                 
                 self.searchBtn.isHidden = true
                 self.notificationBtn.isHidden = true
@@ -252,7 +238,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
                 self.addChildViewController(vc)
-                vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
+                vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
                 self.container.addSubview((vc.view)!)
                 vc.didMove(toParentViewController: self)
                 
@@ -360,19 +346,8 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 alert.makeAlertTypeCaution()
                 alert.showAlert(withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
             }
-//            vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
-//            self.navigationController?.pushViewController(vc, animated: true)
-//            
+
         case 5:
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeCaution()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: "Comming Soon...", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
-        case 6:
             
             let alert = FCAlertView()
             alert.blurBackground = false
@@ -403,16 +378,22 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             })
             alert.addButton("No, Thanks", withActionBlock: {
             })
+        case 6:
+            self.searchBtn.isHidden = true
+            self.notificationBtn.isHidden = true
+            
+            let view1 = self.childViewControllers.last
+            
+            view1?.willMove(toParentViewController: nil)
+            view1?.view.removeFromSuperview()
+            view1?.removeFromParentViewController()
+            
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+            self.addChildViewController(vc)
+            vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
+            self.container.addSubview((vc.view)!)
+            vc.didMove(toParentViewController: self)
         case 7:
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeCaution()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: "Comming Soon...", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
-        case 8:
             
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
@@ -431,7 +412,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             
 //            vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
 //            self.navigationController?.pushViewController(vc, animated: true)
-        case 9:
+        case 8:
             
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
@@ -449,7 +430,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             vc.didMove(toParentViewController: self)
 //            vc = self.storyboard?.instantiateViewController(withIdentifier: "ContactUsVC") as! ContactUsVC
 //            self.navigationController?.pushViewController(vc, animated: true)
-        case 10:
+        case 9:
             UIApplication.shared.openURL(URL(string: "https://www.braingroom.com/")!)
 
         default:

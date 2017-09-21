@@ -19,6 +19,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var catID = String()
     var myVideoURL = String()
+    var vendorID = String()
     
     @IBOutlet weak var videoPlayer: YouTubePlayerView!
     
@@ -55,7 +56,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     }
     func dataFromServer()
     {
-        let baseURL: String  = String(format:"%@viewClassDetail",Constants.mainURLProd)
+        let baseURL: String  = String(format:"%@viewClassDetail",Constants.mainURL)
         let innerParams : [String: String] = [
             "id": catID as String,
             "user_id" : appDelegate.userId as String,
@@ -81,8 +82,9 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 let s = attributedString.string
                 self.aboutTheClassLbl.text = s
                 self.providerName.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provided_by") as! String)
-                self.providerImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provider_pic") as! String)), placeholderImage: nil)
-                self.vidImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "photo") as! String)), placeholderImage: nil)
+                
+                self.providerImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provider_pic") as! String)), placeholderImage: UIImage.init(named: "imm"))
+                self.vidImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
                 
                 if(((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video")) is NSNull)
                 {
@@ -90,10 +92,14 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 }
                 else
                 {
+                    
                     self.vidBtn.isHidden = false
                     self.myVideoURL = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video") as! String
+                    self.videoPlayer.loadVideoID(self.extractYoutubeIdFromLink(link: self.myVideoURL)!)
                 }
                 self.itemNameLbl.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_topic") as! String)
+                self.starLbl.text = String.init(format: "%d",((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "rating") as! Int))
+                self.vendorID = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provider_id") as! String?)!
                 
                 self.priceLbl.text = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? NSString as String?
                 self.sessionLbl.text = String.init(format: "%@ Sessions, %@", ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "no_of_session") as! String), ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_duration") as! String))
@@ -101,7 +107,6 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 let lat = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "latitude") as! NSString
                 let long = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "longitude") as! NSString
                 
-               
                 // Creates a marker in the center of the map.
                 let marker = GMSMarker()
                 marker.position = CLLocationCoordinate2D(latitude: lat.doubleValue, longitude: long.doubleValue)
@@ -176,7 +181,9 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
 
     @IBAction func providerBtnAct(_ sender: Any)
     {
-        
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+        vc.vendorID = self.vendorID
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     @IBAction func bookNowBtn(_ sender: Any)
     {
@@ -184,12 +191,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     }
     @IBAction func giftClassBtn(_ sender: Any)
     {
-//        videoView.load(withVideoId: videodID, playerVars: [
-//            "controls" : 0,
-//            "playsinline" : 1,
-//            "autohide" : 1,
-//            "showinfo" : 0,
-//            "modestbranding" : 0])
+        
     }
     @IBAction func locationBtnAct(_ sender: Any)
     {
@@ -201,7 +203,44 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     }
     @IBAction func contactUsBtn(_ sender: Any)
     {
-
+        let actionSheetController = UIAlertController(title: nil, message: "Option to select", preferredStyle: .actionSheet)
+        
+        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
+        }
+        actionSheetController.addAction(cancelActionButton)
+        
+        let actionButton = UIAlertAction(title: "044-49507392", style: .default) { action -> Void in
+            if let url = URL(string: "tel://04449507392"), UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+        actionSheetController.addAction(actionButton)
+        
+        let saveActionButton = UIAlertAction(title: "044-65556012", style: .default) { action -> Void in
+            if let url = URL(string: "tel://04465556012"), UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+        actionSheetController.addAction(saveActionButton)
+        
+        let deleteActionButton = UIAlertAction(title: "044-65556013", style: .default) { action -> Void in
+            if let url = URL(string: "tel://04465556013"), UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }        }
+        actionSheetController.addAction(deleteActionButton)
+        self.present(actionSheetController, animated: true, completion: nil)
     }
     @IBAction func postQuery(_ sender: Any)
     {
@@ -212,9 +251,6 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
         vidImage.isHidden = true
         vidBtn.isHidden = true
         print(extractYoutubeIdFromLink(link: myVideoURL)!)
-        videoPlayer.loadVideoID(extractYoutubeIdFromLink(link: myVideoURL)!)
-//        videoPlayer.loadVideoURL(myVideoURL as URL)
-//        videoPlayer.play()
     }
 }
 

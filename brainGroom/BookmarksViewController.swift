@@ -54,6 +54,15 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath as IndexPath) as! itemCell3
         
+        cell.layer.masksToBounds = false;
+        cell.layer.shadowOpacity = 0.75;
+        cell.layer.shadowRadius = 5.0;
+        cell.layer.shadowOffset = CGSize.zero;
+        cell.layer.shadowColor = UIColor.lightGray.cgColor
+        cell.layer.shadowPath = UIBezierPath.init(rect: cell.bounds).cgPath
+        
+        cell.contentView.backgroundColor = UIColor.white
+        
         return cell
         
     }

@@ -74,7 +74,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     
     func dataFromServer()
     {
-        let baseURL: String  = String(format:"%@getCategoryClass",Constants.mainURLProd)
+        let baseURL: String  = String(format:"%@getCategoryClass",Constants.mainURL)
         
                 let innerParams : [String: String] = [
                     "category_id": catID as String,
@@ -197,7 +197,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell1", for: indexPath as IndexPath) as! itemCellTable
                 cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
-                cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: nil)
+                cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: UIImage.init(named: "imm"))
                 cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_summary") as! String)
                 if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
                 {
