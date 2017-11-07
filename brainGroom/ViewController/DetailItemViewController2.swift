@@ -1,0 +1,419 @@
+//
+//  DetailItemViewController.swift
+//  brainGroom
+//
+//  Created by Krishna Kanth on 18/09/17.
+//  Copyright © 2017 Mahesh. All rights reserved.
+//
+
+import UIKit
+import MXSegmentedPager
+import FCAlertView
+import GoogleMaps
+import GooglePlaces
+import YouTubePlayer
+import MessageUI
+
+class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate
+{
+    let locationManager = CLLocationManager()
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var catID = String()
+    var price = String()
+    var myVideoURL = String()
+    var vendorID = String()
+    var clsID = String()
+    var isOnline = Bool()
+    var dataDic = NSDictionary()
+    
+    @IBOutlet weak var mapHeight: NSLayoutConstraint!
+    @IBOutlet weak var videoPlayer: YouTubePlayerView!
+    
+    @IBOutlet weak var mapMainView: UIViewX!
+    @IBOutlet weak var vidBtn: UIButton!
+    @IBOutlet weak var vidImage: UIImageView!
+    @IBOutlet weak var shareBtn: UIButton!
+    @IBOutlet weak var locationBtn: UIButton!
+    @IBOutlet var headerView: UIView!
+    @IBOutlet weak var sessionLbl: UILabel!
+    @IBOutlet weak var aboutTheClassLbl: UILabel!
+    @IBOutlet weak var priceLbl: UILabel!
+    @IBOutlet weak var favBtn: UIButton!
+    @IBOutlet weak var itemNameLbl: UILabel!
+    @IBOutlet weak var providerName: UILabel!
+    @IBOutlet weak var providerImage: UIImageViewX!
+    @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var starLbl: UILabel!
+    
+    @IBOutlet weak var privateTutorView: UIView!
+    
+    @IBOutlet weak var nameTF: ACFloatingTextfield!
+    @IBOutlet weak var mobileTF: ACFloatingTextfield!
+    @IBOutlet weak var emailTF: ACFloatingTextfield!
+    @IBOutlet weak var dateAndTimeTF: ACFloatingTextfield!
+    @IBOutlet weak var requestDetailsTextView: UITextView!
+    
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        mainScrollView.parallaxHeader.view = headerView
+        mainScrollView.parallaxHeader.height = 200
+        mainScrollView.parallaxHeader.mode = .fill
+        mainScrollView.parallaxHeader.minimumHeight = 39
+        mainScrollView.bounces = false
+    }
+    
+    override func viewDidAppear(_ animated: Bool)
+    {
+        super.viewDidAppear(true)
+        
+        requestDetailsTextView.layer.cornerRadius = 5.0
+        requestDetailsTextView.layer.borderWidth = 1.0
+        requestDetailsTextView.layer.borderColor = UIColor.lightGray.cgColor
+        
+        requestDetailsTextView.placeholder = "Tutor Request Details"
+        
+        self.dataFromServer()
+    }
+    func dataFromServer()
+    {
+        let baseURL: String  = String(format:"%@viewClassDetail",Constants.mainURL)
+        let innerParams : [String: String] = [
+            "id": catID as String,
+            "user_id" : appDelegate.userId as String,
+            "is_Catalogue": "0"
+            ]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        
+        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+        
+        AFWrapperClass.requestPOSTURLVersionChange(baseURL, params: params, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "res_code")) as! String == "1"
+            {
+               if((dic.object(forKey: "braingroom")) as! NSArray).count > 0
+               {
+                self.dataDic = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary)
+                let attributedString : NSMutableAttributedString = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_summary") as! String).htmlAttributedString() as! NSMutableAttributedString
+                let s = attributedString.string
+                self.aboutTheClassLbl.text = s
+                self.providerName.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provided_by") as! String)
+                
+                self.providerImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provider_pic") as! String)), placeholderImage: UIImage.init(named: "imm"))
+                self.vidImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
+                
+                if(((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video")) is NSNull)
+                {
+                    self.vidBtn.isHidden = true
+                }
+                else
+                {
+                    if ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video") as! String).range(of: "youtube") != nil {
+                        self.vidBtn.isHidden = false
+                        self.myVideoURL = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video") as! String
+                        self.videoPlayer.loadVideoID(self.extractYoutubeIdFromLink(link: self.myVideoURL)!)
+                    }
+                    else
+                    {
+                        self.vidBtn.isHidden = true
+                    }
+                }
+                self.itemNameLbl.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_topic") as! String)
+                self.clsID = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "id") as! String)
+                
+                self.starLbl.text = String.init(format: "%d",((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "rating") as! Int))
+                self.vendorID = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provider_id") as! String?)!
+                
+                
+                
+                if (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? NSString as! String != "" {
+                    
+                    self.priceLbl.text = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? NSString as String?
+                    
+                }else{
+                    self.priceLbl.text = "Free"
+                }
+                
+                self.sessionLbl.text = String.init(format: "%@ Sessions, %@", ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "no_of_session") as! String), ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_duration") as! String))
+                
+                if self.isOnline == true
+                {
+                    self.locationBtn.setTitle("Online" , for: .normal)
+//                    self.mapMainView.frame = CGRect(x: self.mapMainView.frame.origin.x , y: self.mapMainView.frame.origin.y, width: self.mapMainView.frame.size.width, height: 0)
+                    self.mapHeight.constant = 0
+                    self.mapMainView.isHidden = true
+                }
+                else
+                {
+                self.locationBtn.setTitle((((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String, for: .normal)
+                let lat = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "latitude") as! NSString
+                let long = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "longitude") as! NSString
+                
+                // Creates a marker in the center of the map.
+                let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2D(latitude: lat.doubleValue, longitude: long.doubleValue)
+                marker.title = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location_area") as? String
+                marker.icon = UIImage(named: "pin")
+                marker.map = self.mapView
+                
+                let camera = GMSCameraPosition.camera(withLatitude: lat.doubleValue, longitude: long.doubleValue, zoom: 6.0)
+                self.mapView.camera = camera
+                }
+                }
+            }
+            else
+            {
+                self.alert(text: dic.object(forKey: "res_msg") as! String)
+            }
+        }) { (error) in
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            self.alert(text: error.localizedDescription)
+        }
+    }
+   
+    
+    // Get Video ID from URL
+    func extractYoutubeIdFromLink(link: String) -> String? {
+        let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
+        guard let regExp = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else {
+            return nil
+        }
+        let nsLink = link as NSString
+        let options = NSRegularExpression.MatchingOptions(rawValue: 0)
+        let range = NSRange(location: 0, length: nsLink.length)
+        let matches = regExp.matches(in: link as String, options:options, range:range)
+        if let firstMatch = matches.first {
+            return nsLink.substring(with: firstMatch.range)
+        }
+        return nil
+    }
+
+    @IBAction func shareBtnAction(_ sender: Any)
+    {
+    }
+    @IBAction func favBtnAction(_ sender: Any)
+    {
+        
+        if appDelegate.userId != ""
+        {
+        let baseURL: String  = String(format:"%@addWishList",Constants.mainURL)
+        
+        let innerParams : [String: String] = [
+            "uuid": (appDelegate.userData as NSDictionary).value(forKey: "uuid") as! String,
+//            "uuid": "fas_58b50efabe904",
+            "class_id" : self.clsID
+        ]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+        AFWrapperClass.requestPOSTURL(baseURL, params: params, success: { (responseDict) in
+            print("DDD: \(responseDict)")
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "res_id")) as! String == "1"
+            {
+                if dic.object(forKey: "res_msg") as! String == "Added to Wishlist"
+                {
+                    self.favBtn.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
+                }
+                else
+                {
+                    self.favBtn.setImage(#imageLiteral(resourceName: "heartEmpty"), for: .normal)
+                }
+            }
+            else
+            {
+                self.alert(text: dic.object(forKey: "res_msg") as! String)
+            }
+        }) { (error) in
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            self.alert(text: error.localizedDescription)
+        }
+        }
+        else
+        {
+            self.showalert("BrainGroom", message: "Please login to add in wishlist")
+        }
+    }
+    @IBAction func backBtnAction(_ sender: Any)
+    {
+        self.navigationController?.popViewController(animated: true)
+    }
+   
+
+    @IBAction func providerBtnAct(_ sender: Any)
+    {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "MyProfileViewController") as! MyProfileViewController
+        vc.vendorID = self.vendorID
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    @IBAction func bookNowBtn(_ sender: Any)
+    {
+        
+        let bvc = self.storyboard?.instantiateViewController(withIdentifier:"BookingVC") as! BookingVC
+        bvc.dataDict = self.dataDic
+        bvc.price = price
+        if isOnline == true
+        {
+            bvc.isOnline = true
+        }
+        self.navigationController!.pushViewController(bvc, animated:true)
+    }
+    @IBAction func giftClassBtn(_ sender: Any)
+    {
+        let bvc = self.storyboard?.instantiateViewController(withIdentifier:"BookingVC") as! BookingVC
+        bvc.dataDict = self.dataDic
+        self.navigationController!.pushViewController(bvc, animated:true)
+    }
+    @IBAction func locationBtnAct(_ sender: Any)
+    {
+        
+    }
+    @IBAction func privateTutorBtnAct(_ sender: Any)
+    {
+        privateTutorView.isHidden = false
+    }
+    @IBAction func contactUsBtn(_ sender: Any)
+    {
+        let actionSheetController = UIAlertController(title: nil, message: "Option to select", preferredStyle: .actionSheet)
+        
+        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
+        }
+        actionSheetController.addAction(cancelActionButton)
+        
+        let actionButton = UIAlertAction(title: "044-49507392", style: .default) { action -> Void in
+            if let url = URL(string: "tel://04449507392"), UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+        actionSheetController.addAction(actionButton)
+        
+        let saveActionButton = UIAlertAction(title: "044-65556012", style: .default) { action -> Void in
+            if let url = URL(string: "tel://04465556012"), UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+        actionSheetController.addAction(saveActionButton)
+        
+        let deleteActionButton = UIAlertAction(title: "044-65556013", style: .default) { action -> Void in
+            if let url = URL(string: "tel://04465556013"), UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }        }
+        actionSheetController.addAction(deleteActionButton)
+        self.present(actionSheetController, animated: true, completion: nil)
+    }
+    @IBAction func postQuery(_ sender: Any)
+    {
+        
+    }
+    @IBAction func videoBtnAct(_ sender: Any)
+    {
+        vidImage.isHidden = true
+        vidBtn.isHidden = true
+        print(extractYoutubeIdFromLink(link: myVideoURL)!)
+    }
+    
+    @IBAction func privateTutorSubmitBtnAction(_ sender: Any)
+    {
+        if nameTF.text!.characters.count != 0 && mobileTF.text!.characters.count != 0 && emailTF.text!.characters.count != 0 && dateAndTimeTF.text!.characters.count != 0 && requestDetailsTextView.text!.characters.count != 0
+        {
+            if !MFMailComposeViewController.canSendMail() {
+                print("Mail services are not available")
+                return
+            }
+            sendEmail()
+        }
+        else
+        {
+            self.alert(text: "Please, Fill all fields.")
+        }
+    }
+    @IBAction func privateTutorCloseBtnAction(_ sender: Any)
+    {
+        privateTutorView.isHidden = true
+    }
+    
+    func sendEmail() {
+        let composeVC = MFMailComposeViewController()
+        composeVC.mailComposeDelegate = self
+        // Configure the fields of the interface.
+        composeVC.setToRecipients(["address@example.com"])
+        composeVC.setSubject("Hello!")
+        composeVC.setMessageBody("Hello this is my message body!", isHTML: false)
+        // Present the view controller modally.
+        self.present(composeVC, animated: true, completion: nil)
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController,
+                               didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        // Check the result or perform other tasks.
+        // Dismiss the mail compose view controller.
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func alert(text: String)
+    {
+        let alert = FCAlertView()
+        alert.blurBackground = false
+        alert.cornerRadius = 15
+        alert.bounceAnimations = true
+        alert.dismissOnOutsideTouch = false
+        alert.delegate = self
+        alert.makeAlertTypeWarning()
+        alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+        alert.hideDoneButton = true;
+        alert.addButton("OK", withActionBlock: {
+        })
+    }
+    
+    func alertSuccessView(text: String)
+    {
+        let alert = FCAlertView()
+        alert.blurBackground = false
+        alert.cornerRadius = 15
+        alert.bounceAnimations = true
+        alert.dismissOnOutsideTouch = false
+        alert.delegate = self
+        alert.makeAlertTypeSuccess()
+        alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+        alert.hideDoneButton = true;
+        alert.addButton("OK", withActionBlock: {
+        })
+    }
+    
+    
+}
+
+
+extension String {
+    func htmlAttributedString() -> NSAttributedString? {
+        guard let data = self.data(using: String.Encoding.utf16, allowLossyConversion: false) else { return nil }
+        guard let html = try? NSMutableAttributedString(
+            data: data,
+            options: [NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType],
+            documentAttributes: nil) else { return nil }
+        return html
+    }
+}

@@ -3,26 +3,26 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>373478936307-73cloqrmda6ci96kj3ebqgj3hjm42otf.apps.googleusercontent.com</string>
+	<string>1036645765552-h3t4c43bc36el12f7ia996e80vgud37t.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.373478936307-73cloqrmda6ci96kj3ebqgj3hjm42otf</string>
+	<string>com.googleusercontent.apps.1036645765552-h3t4c43bc36el12f7ia996e80vgud37t</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.appKnit.brainGroom</string>
+	<string>com.braingroom</string>
 	<key>PROJECT_ID</key>
-	<string>braingroom-180108</string>
+	<string>braingroom-374f0</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_GCM_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:373478936307:ios:4287c20755c19a75</string>
+	<string>1:1036645765552:ios:a136875f95695d61</string>
 </dict>
 </plist>

@@ -44,10 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     var SignUpInterests = NSString()
     var tempUser = NSString()
     
-    
-
-    
-    
     var userId = NSString()
     var userUUID = NSString()
     var userData = NSMutableDictionary()
@@ -56,9 +52,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     {
         IQKeyboardManager.sharedManager().enable = true
         IQKeyboardManager.sharedManager().enableAutoToolbar = true
+        
         GMSPlacesClient.provideAPIKey("AIzaSyALR0632alLB7CfRKlG6GEqz8HlVGhZTGA")
         GMSServices.provideAPIKey("AIzaSyALR0632alLB7CfRKlG6GEqz8HlVGhZTGA")
         GIDSignIn.sharedInstance().delegate = self
+        
+        
+        BITHockeyManager.shared().configure(withIdentifier: "287fa86dfde34d3ea8a29f2a078c0402")
+        // Do some additional configuration if needed here
+        BITHockeyManager.shared().start()
+        BITHockeyManager.shared().authenticator.authenticateInstallation()
+
+        GIDSignIn.sharedInstance().clientID = "1036645765552-h3t4c43bc36el12f7ia996e80vgud37t.apps.googleusercontent.com"
         
          signUpFullName = ""
          signUpEmail = ""
@@ -219,6 +224,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func timeStampToDate(time: String) -> String
+    {
+        let date = NSDate(timeIntervalSince1970: Double(time)!)
+        
+        let dayTimePeriodFormatter =
+            
+            DateFormatter()
+        dayTimePeriodFormatter.dateFormat = "dd/MMM/yyyy"
+        
+        let dateString = dayTimePeriodFormatter.string(from: date as Date)
+        return dateString
+    }
+    
 }
 

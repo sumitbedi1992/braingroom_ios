@@ -33,12 +33,30 @@
 			<string>REVERSED_CLIENT_ID</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.373478936307-73cloqrmda6ci96kj3ebqgj3hjm42otf</string>
+				<string>com.googleusercontent.apps.1036645765552-h3t4c43bc36el12f7ia996e80vgud37t</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>1036645765552-h3t4c43bc36el12f7ia996e80vgud37t.apps.googleusercontent.com</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.braingroom</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.braingroom</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>10</string>
 	<key>FacebookAppID</key>
 	<string>594294434292581</string>
 	<key>FacebookDisplayName</key>
@@ -49,6 +67,8 @@
 		<string>fb-messenger-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
+		<string>com.googleusercontent.apps.1036645765552-h3t4c43bc36el12f7ia996e80vgud37t</string>
+		<string>googlegmail</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -57,10 +77,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow to access your device camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow to access your location.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow to access your location.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow to access your photos.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
