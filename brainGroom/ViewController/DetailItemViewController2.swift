@@ -339,38 +339,57 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     {
         if nameTF.text!.characters.count != 0 && mobileTF.text!.characters.count != 0 && emailTF.text!.characters.count != 0 && dateAndTimeTF.text!.characters.count != 0 && requestDetailsTextView.text!.characters.count != 0
         {
+            let strBody : String = String(format: "Name : %@\nMobile : %@\nEmail : %@\nDate & Time : %@\nRequest : %@", nameTF.text!,mobileTF.text!,emailTF.text!,dateAndTimeTF.text!,requestDetailsTextView.text!)
             if !MFMailComposeViewController.canSendMail() {
                 print("Mail services are not available")
                 return
             }
-            sendEmail()
+            sendEmail(strBody)
         }
         else
         {
             self.alert(text: "Please, Fill all fields.")
         }
     }
+    
     @IBAction func privateTutorCloseBtnAction(_ sender: Any)
     {
         privateTutorView.isHidden = true
     }
     
-    func sendEmail() {
+    func sendEmail(_ body : String) {
         let composeVC = MFMailComposeViewController()
         composeVC.mailComposeDelegate = self
         // Configure the fields of the interface.
-        composeVC.setToRecipients(["address@example.com"])
-        composeVC.setSubject("Hello!")
-        composeVC.setMessageBody("Hello this is my message body!", isHTML: false)
+        composeVC.setToRecipients(["contactus@braingroom.com"])
+        composeVC.setSubject("BrainGrrom")
+        composeVC.setMessageBody(body, isHTML: false)
         // Present the view controller modally.
         self.present(composeVC, animated: true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController,
-                               didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    private func mailComposeController(controller: MFMailComposeViewController,
+                               didFinishWithResult result: MFMailComposeResult, error: Error?) {
         // Check the result or perform other tasks.
         // Dismiss the mail compose view controller.
         controller.dismiss(animated: true, completion: nil)
+        
+        switch (result) {
+            case .saved:
+                // Add code on save mail to draft.
+                break;
+            case .sent:
+                // Add code on sent a mail.
+                AFWrapperClass.showToast(title: "Email sent successfully.", view: self.view)
+                break;
+            case .cancelled:
+                // Add code on cancel a mail.
+                AFWrapperClass.showToast(title: "Email failed.", view: self.view)
+                break;
+            case .failed:
+                // Add code on failed to send a mail.
+                break;
+        }
     }
     
     func alert(text: String)

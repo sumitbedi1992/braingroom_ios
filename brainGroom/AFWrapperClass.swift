@@ -405,6 +405,12 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         SVProgressHUD.dismiss();
         view.view.isUserInteractionEnabled = true;
     }
+    
+    class func showToast(title:String,view:UIView) -> Void
+    {
+        view.makeToast(title)
+    }
+    
     class func viewSlideInFromRightToLeft(view:UIView) -> Void
     {
         let transition:CATransition = CATransition()

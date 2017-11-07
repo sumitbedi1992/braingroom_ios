@@ -13,6 +13,7 @@
 		043515691F97EF9900B9976A /* Buy & Sell.png in Resources */ = {isa = PBXBuildFile; fileRef = 043515631F97EF9900B9976A /* Buy & Sell.png */; };
 		0435156A1F97EF9900B9976A /* Knowledge & nugget selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 043515641F97EF9900B9976A /* Knowledge & nugget selected.png */; };
 		0435156B1F97EF9900B9976A /* Knowledge & nugget.png in Resources */ = {isa = PBXBuildFile; fileRef = 043515651F97EF9900B9976A /* Knowledge & nugget.png */; };
+		185677651FB1D870001BD9A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185677641FB1D86F001BD9A7 /* Toast.swift */; };
 		2F5298DA1FB0C121003687C8 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5298D91FB0C121003687C8 /* AlertController.swift */; };
 		2FA48F731F9FC5D400096643 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F491F9FC5D400096643 /* WishListViewController.swift */; };
 		2FA48F741F9FC5D400096643 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */; };
@@ -84,6 +85,7 @@
 		043515631F97EF9900B9976A /* Buy & Sell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Buy & Sell.png"; sourceTree = "<group>"; };
 		043515641F97EF9900B9976A /* Knowledge & nugget selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knowledge & nugget selected.png"; sourceTree = "<group>"; };
 		043515651F97EF9900B9976A /* Knowledge & nugget.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knowledge & nugget.png"; sourceTree = "<group>"; };
+		185677641FB1D86F001BD9A7 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		2F5298D91FB0C121003687C8 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2FA48F491F9FC5D400096643 /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
 		2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 			children = (
 				3D1BEAAB1F3EC55D00A28BA9 /* Constants.swift */,
 				3D4A1DCD1F4869ED00885106 /* AFWrapperClass.swift */,
+				185677641FB1D86F001BD9A7 /* Toast.swift */,
 			);
 			name = SupportFiles;
 			sourceTree = "<group>";
@@ -767,6 +770,7 @@
 				3D4A1DCE1F4869ED00885106 /* AFWrapperClass.swift in Sources */,
 				2FA48F9B1F9FC83B00096643 /* HomeVC.swift in Sources */,
 				2FA48F751F9FC5D400096643 /* TermsVC.swift in Sources */,
+				185677651FB1D870001BD9A7 /* Toast.swift in Sources */,
 				2FA48F7E1F9FC5D400096643 /* HomePageViewController.swift in Sources */,
 				2FA48FAF1F9FC8A700096643 /* ItemViewController.swift in Sources */,
 			);
