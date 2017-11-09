@@ -29,9 +29,12 @@ class ProfileFeedViewController: UIViewController {
         super.viewDidLoad()
         let dic = UserDefaults.standard.object(forKey: "userData") as! NSDictionary
         
-        let url = URL(string: dic.object(forKey: "profile_pic") as! String)!
+        if dic.object(forKey: "profile_pic") != nil {
+            let url = URL(string: dic.object(forKey: "profile_pic") as! String)!
+            
+            userImage.af_setImage(withURL: url)
+        }
         
-        userImage.af_setImage(withURL: url)
         
         userNameLbl.text = dic.object(forKey: "name") as? String
         collegeLbl.text = ""

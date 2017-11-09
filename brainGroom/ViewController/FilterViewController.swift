@@ -166,7 +166,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     {
         displayOptionsTV()
         optionTitleLbl.text = "Class Type"
-        dataArray = [["id": "1","class_type": "Workshop"],["id": "2","class_type": "Seminar"],["id": "3","class_type": "Webinar"],["id": "4","class_type": "Classes"],["id": "5","class_type": "Activity"]]
+        dataArray = [["id": "1","class_type": "Workshop"],["id": "2","class_type": "Online"],["id": "3","class_type": "Webinar"],["id": "4","class_type": "Classes"],["id": "5","class_type": "Activity"]]
         selectedOption = 4
         TV.reloadData()
         

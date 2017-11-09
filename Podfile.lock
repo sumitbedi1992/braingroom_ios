@@ -60,7 +60,7 @@ PODS:
   - HockeySDK (5.0.0):
     - HockeySDK/DefaultLib (= 5.0.0)
   - HockeySDK/DefaultLib (5.0.0)
-  - IQKeyboardManagerSwift (4.0.6)
+  - IQKeyboardManagerSwift (5.0.6)
   - LCBannerView (2.1.1):
     - SDWebImage (~> 3.7.6)
   - MXPagerView (0.2.1)
@@ -87,12 +87,21 @@ DEPENDENCIES:
   - GooglePlaces
   - GoogleSignIn
   - HockeySDK (~> 5.0.0)
-  - IQKeyboardManagerSwift (= 4.0.6)
+  - IQKeyboardManagerSwift (from `https://github.com/hackiftekhar/IQKeyboardManager`)
   - LCBannerView
   - MXSegmentedPager
   - SDWebImage
   - SVProgressHUD
   - YouTubePlayer
+
+EXTERNAL SOURCES:
+  IQKeyboardManagerSwift:
+    :git: https://github.com/hackiftekhar/IQKeyboardManager
+
+CHECKOUT OPTIONS:
+  IQKeyboardManagerSwift:
+    :commit: b4c93805e558fe4fd09d35a09cb9beff7ee45943
+    :git: https://github.com/hackiftekhar/IQKeyboardManager
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
@@ -114,7 +123,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   HMSegmentedControl: 7c6145afb50f26cec5f3243082f6f12b9f41318f
   HockeySDK: 82bf8dcbe1af3c87c24dc98924fcf2e2ba5be8c4
-  IQKeyboardManagerSwift: b3015e819559ca76381f87a0833f44d178564603
+  IQKeyboardManagerSwift: eb4634f7d0121c3088bc74d8b7c2d6af1c53860d
   LCBannerView: 072c732ad7a2136e96c893e24cb650295c6c2635
   MXPagerView: ede184b5191b2ed689ccf05a750a9978cce42414
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
@@ -123,6 +132,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
   YouTubePlayer: 028451f6772f372d4759866db99824c676ac1473
 
-PODFILE CHECKSUM: d8c5b8aa2edc2fb4fab9328b710c6dee1a57765b
+PODFILE CHECKSUM: af9e330a070ed6bb3b8a9626a2d7d79425d1e9cc
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.3.1

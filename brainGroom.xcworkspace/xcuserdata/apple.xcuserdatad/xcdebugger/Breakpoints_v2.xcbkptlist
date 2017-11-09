@@ -26,61 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brainGroom/ViewController/HomeVC.swift"
-            timestampString = "531739693.813726"
+            timestampString = "531841130.897897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "199"
-            endingLineNumber = "199"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "brainGroom/Cell/BuyAndSellVC.swift"
-            timestampString = "531742748.459793"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "407"
-            endingLineNumber = "407"
-            landmarkName = "tableView(_:didSelectRowAt:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "brainGroom.BuyAndSellVC.tableView(__ObjC.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "brainGroom"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/BuyAndSellVC.swift"
-                  timestampString = "531759027.129485"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "407"
-                  endingLineNumber = "407"
-                  offsetFromSymbolStart = "6523">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "brainGroom.BuyAndSellVC.tableView(__ObjC.UITableView, didSelectRowAt: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "brainGroom"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/BuyAndSellVC.swift"
-                  timestampString = "531759027.133842"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "407"
-                  endingLineNumber = "407"
-                  offsetFromSymbolStart = "15154">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -106,7 +58,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/ActivityVC.swift"
-                  timestampString = "531759027.142135"
+                  timestampString = "531897894.575866"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "403"
@@ -121,7 +73,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/ActivityVC.swift"
-                  timestampString = "531759027.145745"
+                  timestampString = "531897894.579094"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "403"
@@ -154,7 +106,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/DiscussionVC.swift"
-                  timestampString = "531759027.15517"
+                  timestampString = "531897894.58571"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "405"
@@ -169,7 +121,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/DiscussionVC.swift"
-                  timestampString = "531759027.158665"
+                  timestampString = "531897894.588827"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "405"
@@ -202,7 +154,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/ArticlesVC.swift"
-                  timestampString = "531759027.165845"
+                  timestampString = "531897894.596168"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "406"
@@ -217,7 +169,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/ArticlesVC.swift"
-                  timestampString = "531759027.16909"
+                  timestampString = "531897894.599556"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "406"
@@ -234,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brainGroom/ViewController/SocialLearningViewController/SocialLearningVC.swift"
-            timestampString = "531742388.152131"
+            timestampString = "531830043.657489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "403"
@@ -250,7 +202,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/ViewController/SocialLearningViewController/SocialLearningVC.swift"
-                  timestampString = "531759027.17563"
+                  timestampString = "531897894.606848"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "403"
@@ -265,7 +217,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/ViewController/SocialLearningViewController/SocialLearningVC.swift"
-                  timestampString = "531759027.17901"
+                  timestampString = "531897894.611713"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "403"
@@ -276,18 +228,124 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "brainGroom/Cell/BuyAndSellVC.swift"
-            timestampString = "531742748.461649"
+            filePath = "brainGroom/Cell/ItemViewController.swift"
+            timestampString = "531897893.763341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "329"
-            endingLineNumber = "329"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "getFilterDataFromServer()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "brainGroom.ItemViewController.getFilterDataFromServer() -&gt; ()"
+                  moduleName = "brainGroom"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/ItemViewController.swift"
+                  timestampString = "531897894.627795"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "189"
+                  endingLineNumber = "189"
+                  offsetFromSymbolStart = "2535">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__ObjC.NSDictionary) -&gt; () in brainGroom.ItemViewController.getFilterDataFromServer() -&gt; ()"
+                  moduleName = "brainGroom"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/ItemViewController.swift"
+                  timestampString = "531897894.630546"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "191"
+                  endingLineNumber = "191"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/Cell/ItemViewController.swift"
+            timestampString = "531897893.764639"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
+            landmarkName = "sortActionToServer(str:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "brainGroom.ItemViewController.sortActionToServer(str: Swift.String) -&gt; ()"
+                  moduleName = "brainGroom"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/ItemViewController.swift"
+                  timestampString = "531897894.637399"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "492"
+                  endingLineNumber = "492"
+                  offsetFromSymbolStart = "2595">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (__ObjC.NSDictionary) -&gt; () in brainGroom.ItemViewController.sortActionToServer(str: Swift.String) -&gt; ()"
+                  moduleName = "brainGroom"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/Cell/ItemViewController.swift"
+                  timestampString = "531897894.641548"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "493"
+                  endingLineNumber = "493"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/Cell/ItemViewController.swift"
+            timestampString = "531897893.765345"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "dataFromServer()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

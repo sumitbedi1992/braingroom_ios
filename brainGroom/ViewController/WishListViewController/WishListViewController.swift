@@ -22,13 +22,14 @@ class itemCell2 : UICollectionViewCell
 
 class WishListViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate {
     
-    var itemsArray = NSArray()
+    var itemsArray = NSMutableArray()
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     @IBOutlet weak var itemCollectionView: UICollectionView!
     
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     var fromSocial = Bool()
+    var fromLoad = Bool()
     @IBAction func backBtnAction(_ sender: Any)
     {
         _=self.navigationController?.popViewController(animated:true)
@@ -36,7 +37,7 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        fromLoad = true
         dataFromServer()
         
         // Do any additional setup after loading the view.
@@ -65,28 +66,58 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
-                self.itemsArray = dic.object(forKey: "braingroom") as! NSArray
-                if(self.itemsArray.count > 0)
-                {
+                if (dic.object(forKey: "braingroom") as! NSArray).count > 0 {
+                    if self.fromLoad == true {
+                        self.fromLoad = false
+                        self.itemsArray.removeAllObjects()
+                        self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
+                    }else
+                    {
+                        self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
+                    }
                     self.itemCollectionView.delegate = self
                     self.itemCollectionView.dataSource = self
                     self.itemCollectionView.reloadData()
+
+                }else {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
+                        self.itemCollectionView .reloadData()
+                    })
+
                 }
-                else
-                {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
-                    self.itemCollectionView .reloadData()
-                })
-                }
+                
+                
+                
+//                if(self.itemsArray.count > 0)
+//                {
+//                    self.itemCollectionView.delegate = self
+//                    self.itemCollectionView.dataSource = self
+//                    self.itemCollectionView.reloadData()
+//                }
+//                else
+//                {
+//                let alert = FCAlertView()
+//                alert.blurBackground = false
+//                alert.cornerRadius = 15
+//                alert.bounceAnimations = true
+//                alert.dismissOnOutsideTouch = false
+//                alert.delegate = self
+//                alert.makeAlertTypeWarning()
+//                alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//                alert.hideDoneButton = true;
+//                alert.addButton("OK", withActionBlock: {
+//                    self.itemCollectionView .reloadData()
+//                })
+//                }
             }
             else
             {

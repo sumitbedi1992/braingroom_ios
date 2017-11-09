@@ -122,7 +122,7 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell1", for: indexPath as IndexPath) as! itemCell1
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell1", for: indexPath as IndexPath) as! itemCell1
         
         cell.descripitionLbl.text = (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "category_name") as? String
         

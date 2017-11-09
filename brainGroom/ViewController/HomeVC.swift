@@ -23,6 +23,7 @@ class MenuTVCell: UITableViewCell
 {
     @IBOutlet weak var menuTitleLbl: UILabel!
     @IBOutlet weak var arrowImage: UIImageView!
+    @IBOutlet weak var arrowImgBtn: UIButton!
     
     override func awakeFromNib()
     {
@@ -83,7 +84,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         
             print(appDelegate.userData)
 
-            userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
+            userNameLbl.text = (appDelegate.userData.value(forKey:"first_name") as? String)?.capitalized
             userEmailLbl.text = UserDefaults.standard.value(forKey: "user_email") as? String
 //            userImageLbl.image = UIImage.init(named: "imm")
             if appDelegate.userData.value(forKey:"profile_pic") != nil {
@@ -123,7 +124,8 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuTVCell", for: indexPath as IndexPath) as! MenuTVCell
         cell.selectionStyle = UITableViewCellSelectionStyle.none
         cell.menuTitleLbl.text = menuArray[indexPath.row] as? String
-        cell.arrowImage.image = UIImage.init(named: imageArray[indexPath.row] as! String)
+//        cell.arrowImage.image =
+        cell.arrowImgBtn.setImage(UIImage.init(named: imageArray[indexPath.row] as! String), for: .normal)
         return cell
     }
     
