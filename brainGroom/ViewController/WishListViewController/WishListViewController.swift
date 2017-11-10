@@ -38,10 +38,15 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
     override func viewDidLoad() {
         super.viewDidLoad()
         fromLoad = true
-        dataFromServer()
+        
         
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        dataFromServer()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -70,7 +75,11 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                     if self.fromLoad == true {
                         self.fromLoad = false
                         self.itemsArray.removeAllObjects()
-                        self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
+                        
+
+                        self.itemsArray.addObjects(from:(dic.object(forKey: "braingroom") as? Array<Any>)!)
+                        
+//                        self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
                     }else
                     {
                         self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
@@ -178,6 +187,14 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+    {
+//        let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
+//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
+//        vc.catID = (dict.object(forKey: "id") as? String)!
+//        //vc.price = (dict.object(forKey: "price") as? String)!
+//        self.navigationController?.pushViewController(vc, animated: true)
+    }
     func wishlistAction(sender : UIButton)
     {
         let button = sender

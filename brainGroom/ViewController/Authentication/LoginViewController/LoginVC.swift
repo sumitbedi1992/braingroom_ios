@@ -131,6 +131,9 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                                 print(self.appDelegate.userData)
                                 
                                 UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
+                                
+                                //appDelegate.getUserProfile()
+                                
                                 print("From Booking ---> \(fromBooking())")
                                 if fromBooking() != true
                                 {
@@ -381,6 +384,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                                             print(self.appDelegate.userData)
                     
                                             UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
+                                            //appDelegate.getUserProfile()
                                             let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                                             self.navigationController?.pushViewController(viewController, animated: true)
                 })

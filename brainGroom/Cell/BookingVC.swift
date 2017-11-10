@@ -106,7 +106,16 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         self.TVHeightConstraint.constant = CGFloat(levelArray.count) * 60.0
         self.locationTVHeightConstraint.constant = CGFloat(locationArray.count) * 150
         
-        razorpay = Razorpay.initWithKey("rzp_live_SN4tYAqDnzHHem", andDelegate: self)
+        
+        razorpay = Razorpay.initWithKey("rzp_test_RzeA80NW4jeMpe", andDelegate: self)
+//        razorpay = Razorpay.initWithKey("rzp_live_SN4tYAqDnzHHem", andDelegate: self)
+        if price != nil && price != ""
+        {
+            total = Int(price)!
+        }
+        else{
+            total = 0
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool)
@@ -343,7 +352,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
             else
             {
-                alertView(text: "Please, select location.")
+                AFWrapperClass.showToast(title: "Please, select location.", view: self.view)
             }
         }
         else
@@ -374,7 +383,22 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         }
         else
         {
-            alertView(text: "Please, select number of seats.")
+//            alertView(text: "Please, select number of seats.")
+            if userId() == ""
+            {
+                popUpView.isHidden = false
+                loginView.isHidden = false
+                locationView.isHidden = true
+                isPopUpOpen = true
+            }
+            else
+            {
+                if isPromo == false && isCoupon == false
+                {
+                    self.grandTotal = total
+                }
+                paymentApiHitting(guest:0)
+            }
         }
     }
     
@@ -435,7 +459,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         }
         else
         {
-            alertView(text: "Please, fill all fields.")
+            AFWrapperClass.showToast(title: "Please, fill all fields.", view: self.view)
         }
     }
     
@@ -485,23 +509,31 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             let dic:NSDictionary = responseDict as NSDictionary
             if dic.object(forKey: "res_code") as! String == "1"
             {
-                self.grandTotal = Int((((dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary).object(forKey: "promo_amount") as? String)!)!
-                print("Grand total --> \(self.grandTotal)")
-                
-                self.payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
-            
-                self.alertSuccessView(text: "Code applied successfully.")
-                
-                self.popUpView.isHidden = true
-                self.loginView.isHidden = true
-                
-                if self.isCoupon == true
+                if (dic.object(forKey: "res_msg") as! String) != "Invalid Promo!"
                 {
-                   self.couponCodeBtn.setTitle("Applied", for: .normal)
+                    
+                    self.grandTotal = self.total - Int((((dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary).object(forKey: "promo_amount") as? String)!)!
+                    print("Grand total --> \(self.grandTotal)")
+                    
+                    self.payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                    
+                    self.alertSuccessView(text: "Code applied successfully.")
+                    
+                    self.popUpView.isHidden = true
+                    self.loginView.isHidden = true
+                    
+                    if self.isCoupon == true
+                    {
+                        self.couponCodeBtn.setTitle("Applied", for: .normal)
+                    }
+                    else
+                    {
+                        self.promoCodeBtn.setTitle("Applied", for: .normal)
+                    }
                 }
                 else
                 {
-                    self.promoCodeBtn.setTitle("Applied", for: .normal)
+                    self.alertView(text: dic.object(forKey: "res_msg") as! String)
                 }
             }
         }) { (error) in
@@ -533,16 +565,22 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "braingroom") as! NSArray).count != 0
             {
-                print("Payment Success")
-                if self.isGuest == true
+                if self.grandTotal != 0 {
+                    print("Payment Success")
+                    if self.isGuest == true
+                    {
+                        self.showPaymentForm(total: String(format:"%lu",self.grandTotal), email: self.emailTF.text!, phone: self.mobileTF.text!)
+                    }
+                    else
+                    {
+                        self.transactionId = (((dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary).object(forKey:"txnid") as? String)!
+                        self.showPaymentForm(total: String(format:"%lu",self.grandTotal), email: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "email") as? String)!, phone: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "phone") as? String)!)
+                    }
+                }else
                 {
-                    self.showPaymentForm(total: String(format:"%lu",self.grandTotal), email: self.emailTF.text!, phone: self.mobileTF.text!)
+                    self.paymentSuccessApiHitting(paymentTxtId: "", transactionId: self.transactionId, guest: guest)
                 }
-                else
-                {
-                    self.transactionId = (((dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary).object(forKey:"txnid") as? String)!
-                    self.showPaymentForm(total: String(format:"%lu",self.grandTotal), email: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "email") as? String)!, phone: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "phone") as? String)!)
-                }
+                
             }
             else
             {
@@ -569,7 +607,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             "promo_id":"",
             "tickets":"{tickets:[\((levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String):\(quantityTotal)]}",
             "user_email":"",
-            "user_mobile":UserDefaults.standard.object(forKey: "userMobile") as! String ,
+            "user_mobile":UserDefaults.standard.object(forKey: "userMobile") as? String ?? "" ,
             "txnid":paymentTxtId,
             "user_id":userId()
             ] as [String : Any]
@@ -584,11 +622,13 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "braingroom") as! NSArray).count != 0
             {
-                self.alertSuccessView(text: "Payment Successfully Done. Thank you.")
+                AFWrapperClass.showToast(title: "Payment Successfully Done. Thank you.", view: self.view)
+//                self.alertSuccessView(text: "Payment Successfully Done. Thank you.")
                 self.isGuest = false
                 
                 self.isCoupon = false
                 self.isPromo = false
+                self.backBtnAction(self)
             }
             else
             {

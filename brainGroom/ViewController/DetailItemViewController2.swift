@@ -13,6 +13,7 @@ import GoogleMaps
 import GooglePlaces
 import YouTubePlayer
 import MessageUI
+import Messages
 
 class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocationManagerDelegate, MFMailComposeViewControllerDelegate
 {
@@ -163,16 +164,19 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 
                 if let strPrice : String = ((self.dataDic.value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? String
                 {
-                    if strPrice != ""
+                    if strPrice != "" || strPrice != "0"
                     {
                         self.priceLbl.text = "Rs. " + strPrice
+                        self.price = strPrice
                     }
                     else
                     {
                         self.priceLbl.text = "Free"
+                        self.price = "0"
                     }
                 }else{
                     self.priceLbl.text = "Free"
+                    self.price = "0"
                 }
                 
                 self.sessionLbl.text = String.init(format: "%@ Sessions, %@", (self.dataDic.value(forKey: "no_of_session") as! String), (self.dataDic.value(forKey: "class_duration") as! String))
@@ -308,7 +312,6 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     }
     @IBAction func bookNowBtn(_ sender: Any)
     {
-        
         let bvc = self.storyboard?.instantiateViewController(withIdentifier:"BookingVC") as! BookingVC
         bvc.dataDict = self.dataDic
         bvc.price = price
@@ -424,8 +427,8 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
         self.present(composeVC, animated: true, completion: nil)
     }
     
-    private func mailComposeController(controller: MFMailComposeViewController,
-                               didFinishWithResult result: MFMailComposeResult, error: Error?) {
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                               didFinishWith result: MFMailComposeResult, error: Error?) {
         // Check the result or perform other tasks.
         // Dismiss the mail compose view controller.
         controller.dismiss(animated: true, completion: nil)

@@ -14,6 +14,7 @@
 		0435156A1F97EF9900B9976A /* Knowledge & nugget selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 043515641F97EF9900B9976A /* Knowledge & nugget selected.png */; };
 		0435156B1F97EF9900B9976A /* Knowledge & nugget.png in Resources */ = {isa = PBXBuildFile; fileRef = 043515651F97EF9900B9976A /* Knowledge & nugget.png */; };
 		185677651FB1D870001BD9A7 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185677641FB1D86F001BD9A7 /* Toast.swift */; };
+		18C78CF51FB458AC00CDFCA9 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C78CF41FB458AC00CDFCA9 /* EditProfileVC.swift */; };
 		2F5298DA1FB0C121003687C8 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5298D91FB0C121003687C8 /* AlertController.swift */; };
 		2FA48F731F9FC5D400096643 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F491F9FC5D400096643 /* WishListViewController.swift */; };
 		2FA48F741F9FC5D400096643 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */; };
@@ -86,6 +87,7 @@
 		043515641F97EF9900B9976A /* Knowledge & nugget selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knowledge & nugget selected.png"; sourceTree = "<group>"; };
 		043515651F97EF9900B9976A /* Knowledge & nugget.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Knowledge & nugget.png"; sourceTree = "<group>"; };
 		185677641FB1D86F001BD9A7 /* Toast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		18C78CF41FB458AC00CDFCA9 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		2F5298D91FB0C121003687C8 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2FA48F491F9FC5D400096643 /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
 		2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				2FC0243D1FA3B6EA00545BDF /* ProfileFeedViewController.swift */,
+				18C78CF41FB458AC00CDFCA9 /* EditProfileVC.swift */,
 			);
 			path = ProfileFeedViewController;
 			sourceTree = "<group>";
@@ -760,6 +763,7 @@
 				2FA48F7D1F9FC5D400096643 /* SearchItemsViewController.swift in Sources */,
 				2FA48F921F9FC72B00096643 /* UILabelX.swift in Sources */,
 				2FA48F831F9FC5D400096643 /* RegisterViewController2.swift in Sources */,
+				18C78CF51FB458AC00CDFCA9 /* EditProfileVC.swift in Sources */,
 				2FA48F801F9FC5D400096643 /* SocialLearningVC.swift in Sources */,
 				2FA48FAD1F9FC8A700096643 /* PostVC.swift in Sources */,
 				2FC0243E1FA3B6EA00545BDF /* ProfileFeedViewController.swift in Sources */,

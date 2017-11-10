@@ -99,6 +99,8 @@ class SocialLearningVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(onUpdateLoggedInUserData), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
+        
         if appDelegate.userId == ""
         {
             menuArray = ["Home","Login","Register","FAQ","Terms and Conditions","Contact Us"]
@@ -112,20 +114,6 @@ class SocialLearningVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             
             menuArray = ["Home","My Profile","Wishlist","Booking History","Change Password","Logout","FAQ","Terms and Conditions","Contact Us","Competitions"]
             imageArray = ["home","my profile","wishlist","booking history","change password","login","FAQ","terms and Condition","contact us","competition"]
-            
-            
-            print(appDelegate.userData)
-            
-            
-            userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
-            userEmailLbl.text = UserDefaults.standard.value(forKey: "user_email") as? String
-//            userImageLbl.image = UIImage.init(named: "imm")
-            if appDelegate.userData.value(forKey:"profile_pic") != nil {
-                userImageLbl.sd_setImage(with: URL(string: appDelegate.userData.value(forKey:"profile_pic") as! String), placeholderImage: UIImage.init(named: "imm"))
-            }
-            
-            
-            
         }
         
         sideMenuCloseBtn.isHidden = false
@@ -138,6 +126,18 @@ class SocialLearningVC: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewWillAppear(animated)
         self.postsApiHitting()
     }
+    
+    func onUpdateLoggedInUserData()
+    {
+        print(appDelegate.userData)
+        userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
+        userEmailLbl.text = UserDefaults.standard.value(forKey: "email") as? String
+        //            userImageLbl.image = UIImage.init(named: "imm")
+        if appDelegate.userData.value(forKey:"profile_image") != nil {
+            userImageLbl.sd_setImage(with: URL(string: appDelegate.userData.value(forKey:"profile_image") as! String), placeholderImage: UIImage.init(named: "imm"))
+        }
+    }
+    
     func postsApiHitting()
     {
         let baseURL: String  = String(format:"%@getConnectFeedsData",Constants.mainURL)
@@ -405,11 +405,14 @@ class SocialLearningVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             self.navigationController?.pushViewController(vc, animated: true)
         case 4:
             
-            if (appDelegate.userData.value(forKey: "login_type") as! String == "direct")
+            if let login_type = appDelegate.userData.value(forKey: "login_type")
             {
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
-                vc.fromSocial = true
-                self.navigationController?.pushViewController(vc, animated: true)
+                if (login_type as! String) == "direct"
+                {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
+                    vc.fromSocial = true
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
             else
             {

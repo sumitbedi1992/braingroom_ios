@@ -79,11 +79,14 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
             alert.dismissOnOutsideTouch = false
             alert.delegate = self
             alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter Old password (Min 6 charecters)" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
-                self.navigationController?.popViewController(animated: true)
-            })
+            DispatchQueue.main.async {
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter Old password (Min 6 charecters)" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
+                    //self.navigationController?.popViewController(animated: true)
+                })
+            }
+            
             
         }
         else if (newPasswordTF.text?.characters.count)! < 6 {
@@ -153,6 +156,8 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
 //                }
 //                else
 //                {
+                
+                DispatchQueue.main.async {
                     let alert = FCAlertView()
                     alert.blurBackground = false
                     alert.cornerRadius = 15
@@ -165,6 +170,8 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
                     alert.addButton("OK", withActionBlock: {
                     })
                     
+                }
+                
 //                }
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)

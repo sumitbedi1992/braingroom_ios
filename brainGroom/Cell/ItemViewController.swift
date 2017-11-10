@@ -71,6 +71,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     var startDate = String()
     var endDate = String()
     var isFilterData : Bool = false
+    var pageNumber : Int = 1
+    var isNextPage : Bool = false    
     
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var subCollectionView: UICollectionView!
@@ -79,23 +81,74 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(filterClass), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: nil)
         
         isTable = false
+        self.subCollectionView.delegate = self
+        self.subCollectionView.dataSource = self
+        self.itemCollectionView.delegate = self
+        self.itemCollectionView.dataSource = self
         
-        if isFilterData == false
-        {
-            self.dataFromServer()
-        }
-        else
-        {
-            getFilterDataFromServer()
-        }
+        getSegmentOfCategory()
+        
         self.imgListGrid.image = UIImage(named: "grid")
     }
     
-    func dataFromServer()
+    func filterClass(noti : NSNotification)
     {
-        let baseURL = String(format:"%@getCategoryClass",Constants.mainURL)
+        pageNumber = 1
+        isNextPage = true
+        let dict : [String : AnyObject] = noti.object as! [String : AnyObject]
+        print(dict)
+        
+        searchKey = dict["searchKey"] as? String ?? ""
+        segmentId = dict["segmentId"] as? String ?? ""
+        localityId = dict["localityId"] as? String ?? ""
+        communityId = dict["communityId"] as? String ?? ""
+        classTypeId = dict["classTypeId"] as? String ?? ""
+        classScheduleId = dict["classScheduleId"] as? String ?? ""
+        vendorId = dict["vendorId"] as? String ?? ""
+        startDate = dict["startDate"] as? String ?? ""
+        endDate = dict["endDate"] as? String ?? ""
+        if catID == dict["catID"] as? String ?? ""
+        {
+            if self.segmentId != ""
+            {
+                for i in 0..<self.subArray.count
+                {
+                    let newDict : NSDictionary = self.subArray.object(at: i) as! NSDictionary
+                    if (newDict.object(forKey: "id") as! String) == self.segmentId
+                    {
+                        self.index = i
+                        subCollectionView.reloadData()
+                        break
+                    }
+                }
+            }
+            itemsArray = NSMutableArray()
+            itemCollectionView.reloadData()
+            getClassFromSegment()
+        }
+        else
+        {
+            self.index = 0
+            subArray = NSArray()
+            subCollectionView.reloadData()
+            itemsArray = NSMutableArray()
+            itemCollectionView.reloadData()
+            if let newCatId = dict["catID"]
+            {
+                catID = newCatId as! String
+            }
+            
+            getSegmentOfCategory()
+        }
+        
+    }
+    
+    func getSegmentOfCategory()
+    {
+        let baseURL = String(format:"%@getSegment",Constants.mainURL)
         let innerParams  = [
             "category_id": catID as String,
             ]
@@ -117,23 +170,15 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 {
                     self.itemsArray.removeAllObjects()
                     
-                    if (dic.object(forKey: "braingroom") as! NSArray).count > 0 {
-                        self.subArray = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "segment") as! NSArray
+                    if let segment = dic.object(forKey: "braingroom")
+                    {
+                        self.subArray = segment as! NSArray
                         
-                        self.itemsArray = ((self.subArray.object(at: self.index) as! NSDictionary).object(forKey: "class") as! NSArray).mutableCopy() as! NSMutableArray
-                        
-                        if (self.subArray.count > 0)
+                        if self.itemsArray.count == 0 && self.subArray.count > 0
                         {
-                            self.subCollectionView.delegate = self
-                            self.subCollectionView.dataSource = self
+                            self.segmentId = ((self.subArray[0] as? NSDictionary)?.object(forKey: "id") as? String)!
                             self.subCollectionView.reloadData()
-                        }
-                        
-                        if(self.itemsArray.count > 0)
-                        {
-                            self.itemCollectionView.delegate = self
-                            self.itemCollectionView.dataSource = self
-                            self.itemCollectionView.reloadData()
+                            self.getClassFromSegment()
                         }
                     }
                     else
@@ -145,9 +190,6 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 {
                     self.alertView(text: dic.object(forKey: "res_msg") as! String)
                 }
-                
-                
-                
             }
             else
             {
@@ -159,9 +201,9 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         }
     }
     
-    func getFilterDataFromServer()
+    func getClassFromSegment()
     {
-        let baseURL = String(format:"%@generalFilter",Constants.mainURL)
+        let baseURL = String(format:"%@generalFilter/%d",Constants.mainURL,pageNumber)
         let innerParams  = [
             "catlog":"",
             "search_cat_id": catID as String,
@@ -195,38 +237,43 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             {
                 if (dic.object(forKey: "res_msg")) as? String != "Record Not Found"
                 {
-                    self.itemsArray.removeAllObjects()
-                    
-                    if let newData = dic.object(forKey: "braingroom") {
-                        
-                        self.itemsArray = (newData as! NSArray).mutableCopy() as! NSMutableArray
-                        
-                        if (self.subArray.count > 0)
-                        {
-                            self.subCollectionView.delegate = self
-                            self.subCollectionView.dataSource = self
-                            self.subCollectionView.reloadData()
-                        }
-                        
-                        if(self.itemsArray.count > 0)
-                        {
-                            self.itemCollectionView.delegate = self
-                            self.itemCollectionView.dataSource = self
-                            self.itemCollectionView.reloadData()
-                        }
+                    let tempArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
+                    if self.pageNumber == 1
+                    {
+                        self.itemsArray = tempArray
                     }
                     else
                     {
-                        self.alertView(text: dic.object(forKey: "res_msg") as! String)
+                        self.itemsArray.addObjects(from: tempArray as! [Any])
+                    }
+                    
+                    self.itemCollectionView.reloadData()
+                    if self.pageNumber == 1
+                    {
+                        self.itemCollectionView.setContentOffset(CGPoint.zero, animated: true)
+                    }
+                    
+                    if let page = dic.object(forKey: "next_page")
+                    {
+                        if (page is String) && (page as! String) == "-1"
+                        {
+                            self.isNextPage = false
+                        }
+                        else if self.pageNumber == page as! Int
+                        {
+                            self.isNextPage = false
+                        }
+                        else
+                        {
+                            self.pageNumber = page as! Int
+                            self.isNextPage = true
+                        }
                     }
                 }
                 else
                 {
                     self.alertView(text: dic.object(forKey: "res_msg") as! String)
                 }
-                
-                
-                
             }
             else
             {
@@ -263,38 +310,29 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             if isTable == false
             {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
-                
-                if (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String != "" {
-                    cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
+                let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
+                if (dict.object(forKey: "price") as! String) != ""
+                {
+                    cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
                 }else{
                     cell.amountLbl.text = "Free"
                 }
                 
-                
-                let itemObject  = itemsArray[indexPath.row] as! [String : Any]
-                if let image = itemObject["pic_name"] as? String  {
+                if let image = dict["pic_name"] as? String  {
                     cell.imgView.sd_setImage(with: URL(string: image), placeholderImage: nil)
                 }
-                
-                //                if let picName = (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as? String
-                //                {
-                //                    cell.imgView.sd_setImage(with: URL(string: picName), placeholderImage: nil)
-                //                }else
-                //                {
-                //                    cell.imgView.image = nil
-                //                }
-                cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
-                if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
+                cell.descripitionLbl.text = String.init(format: "%@", dict.object(forKey: "class_topic") as! String)
+                if dict["locality_name"] != nil
                 {
-                    cell.onlineLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
+                    cell.onlineLbl.text = String.init(format: "%@", dict.object(forKey: "locality_name") as! String)
                 }
                 else
                 {
                     cell.onlineLbl.text = "Online"
                 }
                 
-                cell.sessionsLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
-                cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
+                cell.sessionsLbl.text = String.init(format: "%@", dict.object(forKey: "class_topic") as! String)
+                cell.flexBtn.setTitle(String.init(format: "%@", dict.object(forKey: "class_type_data") as! String), for: .normal)
                 
                 cell.layer.masksToBounds = false;
                 cell.layer.shadowOpacity = 0.75;
@@ -310,28 +348,27 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             {
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell1", for: indexPath as IndexPath) as! itemCellTable
-                cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
+                let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
                 
+                cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
                 
-                let itemObject  = itemsArray[indexPath.row] as! [String : Any]
-                if let image = itemObject["pic_name"] as? String  {
+                if let image = dict["pic_name"] as? String  {
                     cell.imgView.sd_setImage(with: URL(string: image), placeholderImage: nil)
                 }
                 
-                //                cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: UIImage.init(named: "imm"))
-                cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
+                cell.descripitionLbl.text = String.init(format: "%@", dict.object(forKey: "class_topic") as! String)
                 
-                if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
+                if dict["locality_name"] != nil
                 {
-                    cell.onlineLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
+                    cell.onlineLbl.text = String.init(format: "%@", dict.object(forKey: "locality_name") as! String)
                 }
                 else
                 {
                     cell.onlineLbl.text = "Online"
                 }
                 
-                cell.sessionsLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
-                cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
+                cell.sessionsLbl.text = String.init(format: "%@", dict.object(forKey: "class_topic") as! String)
+                cell.flexBtn.setTitle(String.init(format: "%@", dict.object(forKey: "class_type_data") as! String), for: .normal)
                 
                 cell.layer.masksToBounds = false;
                 cell.layer.shadowOpacity = 0.75;
@@ -358,7 +395,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 cell.subLbl.backgroundColor = UIColor.white
             }
             cell.subLbl.textAlignment = NSTextAlignment.center
-            cell.subLbl.text = String.init(format: "+%@",((subArray[indexPath.row] as? NSDictionary)?.object(forKey: "segment_name") as? String)!)
+            cell.subLbl.text = String(format: "+%@", ((subArray[indexPath.row] as? NSDictionary)?.object(forKey: "category_name") as? String)!)
             return cell
         }
     }
@@ -367,33 +404,40 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     {
         if collectionView == itemCollectionView
         {
+            let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
-            vc.catID = ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "id") as? String)!
-            vc.price = ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as? String)!
+            vc.catID = (dict.object(forKey: "id") as? String)!
+            vc.price = (dict.object(forKey: "price") as? String)!
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else
         {
             self.index = indexPath.row
-            if (self.subArray.object(at: self.index) as! NSDictionary).value(forKey: "class") != nil
-            {
-                self.itemsArray = ((self.subArray.object(at: self.index) as! NSDictionary).object(forKey: "class") as! NSArray).mutableCopy() as! NSMutableArray
-                if(self.itemsArray.count > 0)
-                {
-                    self.itemCollectionView.delegate = self
-                    self.itemCollectionView.dataSource = self
-                    self.itemCollectionView.reloadData()
-                }
-            }
-            else
-            {
-                self.itemsArray.removeAllObjects()
-                
-                self.itemCollectionView.delegate = self
-                self.itemCollectionView.dataSource = self
-                self.itemCollectionView.reloadData()
-            }
             self.subCollectionView.reloadData()
+            pageNumber = 1
+            itemsArray = NSMutableArray()
+            segmentId = ((subArray[self.index] as? NSDictionary)?.object(forKey: "id") as? String)!
+            getClassFromSegment()
+            
+//            if (self.subArray.object(at: self.index) as! NSDictionary).value(forKey: "class") != nil
+//            {
+//                self.itemsArray = ((self.subArray.object(at: self.index) as! NSDictionary).object(forKey: "class") as! NSArray).mutableCopy() as! NSMutableArray
+//                if(self.itemsArray.count > 0)
+//                {
+//                    self.itemCollectionView.delegate = self
+//                    self.itemCollectionView.dataSource = self
+//                    self.itemCollectionView.reloadData()
+//                }
+//            }
+//            else
+//            {
+//                self.itemsArray.removeAllObjects()
+//
+//                self.itemCollectionView.delegate = self
+//                self.itemCollectionView.dataSource = self
+//                self.itemCollectionView.reloadData()
+//            }
+//            self.subCollectionView.reloadData()
             
         }
     }
@@ -415,12 +459,23 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         {
             let font = UIFont.systemFont(ofSize: 18)
             let fontAttributes = [NSFontAttributeName: font]
-            let testStr = String.init(format: "+%@",((subArray[indexPath.row] as? NSDictionary)?.object(forKey: "segment_name") as? NSString)!)
+            let testStr = String(format: "+%@", ((subArray[indexPath.row] as? NSDictionary)?.object(forKey: "category_name") as? String)!)
             let size: CGSize = testStr.size(attributes: fontAttributes)
             
             return CGSize(width: size.width+10, height: subCollectionView.bounds.size.height-25);
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == itemCollectionView
+        {
+            if indexPath.row == itemsArray.count-1 && isNextPage == true
+            {
+                getClassFromSegment()
+            }
+        }
+    }
+    
     @IBAction func collectionStyleBtn(_ sender: Any)
     {
         print(itemsArray)
@@ -461,6 +516,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     @IBAction func filterBtnAction(_ sender: Any)
     {
         let fvc = self.storyboard?.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        fvc.categoryIdStr = catID
+        fvc.segmentIdStr = segmentId
         self.navigationController?.pushViewController(fvc, animated: true)
     }
     

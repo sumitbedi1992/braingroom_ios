@@ -14,8 +14,9 @@ class ProfileFeedViewController: UIViewController {
     @IBOutlet weak var profileTable: UITableView!
     var dataArray = NSArray()
     var fromSocial = false
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var userImage: UIButton!
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var collegeLbl: UILabel!
     @IBOutlet weak var categoryLbl: UILabel!
@@ -27,25 +28,12 @@ class ProfileFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let dic = UserDefaults.standard.object(forKey: "userData") as! NSDictionary
         
-        if dic.object(forKey: "profile_pic") != nil {
-            let url = URL(string: dic.object(forKey: "profile_pic") as! String)!
-            
-            userImage.af_setImage(withURL: url)
-        }
-        
-        
-        userNameLbl.text = dic.object(forKey: "name") as? String
-        collegeLbl.text = ""
-        categoryLbl.text = ""
-        localityLbl.text = ""
-        
+        userImage.layer.cornerRadius = userImage.frame.size.height/2
+        userImage.layer.masksToBounds = true
+        onUpdateLoggedInUserData()
         profileTable.estimatedRowHeight = 330
         profileTable.rowHeight = UITableViewAutomaticDimension
-        
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +41,28 @@ class ProfileFeedViewController: UIViewController {
         postsApiHitting(major: "learners_forum", minor: "tips_tricks")
     }
 
+    func onUpdateLoggedInUserData()
+    {
+        userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
+        
+        if appDelegate.userData.value(forKey:"profile_image") != nil {
+            userImage.sd_setImage(with: URL(string: appDelegate.userData.value(forKey:"profile_image") as! String), for: .normal, placeholderImage: UIImage.init(named: "imm"))
+        }else
+        {
+            userImage.setImage(UIImage.init(named: "imm"), for: .normal)
+        }
+        
+        categoryLbl.text = (appDelegate.userData.value(forKey:"category_name") as? String)
+        localityLbl.text = (appDelegate.userData.value(forKey:"locality") as? String)
+        collegeLbl.text = (appDelegate.userData.value(forKey:"institute_name1") as? String)
+    }
+    
+    @IBAction func clickToEditProfile(_ sender: Any)
+    {
+        let vc : EditProfileVC = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileVC") as! EditProfileVC
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

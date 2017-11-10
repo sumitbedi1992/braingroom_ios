@@ -40,12 +40,24 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     var index : Int = 0
     var isTable = Bool()
     var isOnline = Bool()
-
+    var pageNumber : Int = 1
+    var isNextPage : Bool = false
+    
+    var segmentId = String()
+    var localityId = String()
+    var communityId = String()
+    var classTypeId = String()
+    var classScheduleId = String()
+    var vendorId = String()
+    var startDate = String()
+    var endDate = String()
+    
     @IBOutlet weak var itemCollectionView: UICollectionView!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(filterClass), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: nil)
         
         isTable = false
         
@@ -61,28 +73,50 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "SearchVC") as! SearchVC
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func filterClass(noti : NSNotification)
+    {
+        pageNumber = 1
+        isNextPage = true
+        let dict : [String : AnyObject] = noti.object as! [String : AnyObject]
+        print(dict)
+        
+        searchKey = dict["searchKey"] as? String ?? ""
+        segmentId = dict["segmentId"] as? String ?? ""
+        localityId = dict["localityId"] as? String ?? ""
+        communityId = dict["communityId"] as? String ?? ""
+        classTypeId = dict["classTypeId"] as? String ?? ""
+        classScheduleId = dict["classScheduleId"] as? String ?? ""
+        vendorId = dict["vendorId"] as? String ?? ""
+        startDate = dict["startDate"] as? String ?? ""
+        endDate = dict["endDate"] as? String ?? ""
+        dataFromServer()
+    }
+    
+    
+    
     func dataFromServer()
     {
         let innerParams : [String: String]
-        var baseURL: String  = String(format:"%@generalFilter/",Constants.mainURL)
+        let baseURL: String  = String(format:"%@generalFilter/%d",Constants.mainURL,pageNumber)
         if isOnline == true
         {
             innerParams  = [
                 "catlog":"",
                 "search_cat_id": "",
-                "class_provider":"",
-                "class_schedule":"",
-                "class_type":"2",
-                "community_id": "",
-                "end_date":"",
+                "class_provider": vendorId as String,
+                "class_schedule": classScheduleId as String,
+                "class_type": classTypeId as String,
+                "community_id": communityId as String,
+                "end_date": endDate as String,
                 "gift_id":"",
-                "search_key": "",
-                "location_id":"",
+                "search_key": searchKey as String,
+                "location_id": localityId as String,
                 "logged_in_userid":"",
-                "search_seg_id":"",
+                "search_seg_id": segmentId as String,
                 "price_sort_status":"",
                 "sort_by_latest":"",
-                "start_date":""
+                "start_date": startDate as String
             ]
         }
         
@@ -92,46 +126,46 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             {
                 innerParams  = [
                     "catlog":"",
-                    "search_cat_id": self.catID as String,
-                    "class_provider":"",
-                    "class_schedule":"",
-                    "class_type":"",
-                    "community_id":"",
-                    "end_date":"",
+                    "search_cat_id": catID as String,
+                    "class_provider": vendorId as String,
+                    "class_schedule": classScheduleId as String,
+                    "class_type": classTypeId as String,
+                    "community_id": communityId as String,
+                    "end_date": endDate as String,
                     "gift_id":"",
-                    "search_key": self.searchKey as String,
-                    "location_id":"",
+                    "search_key": searchKey as String,
+                    "location_id": localityId as String,
                     "logged_in_userid":"",
-                    "search_seg_id":"",
+                    "search_seg_id": segmentId as String,
                     "price_sort_status":"",
                     "sort_by_latest":"",
-                    "start_date":""
+                    "start_date": startDate as String
                 ]
             }
          else {
         innerParams  = [
             "catlog":"",
             "search_cat_id": "",
-            "class_provider":"",
-            "class_schedule":"",
-            "class_type":"",
-            "community_id": self.catID,
-            "end_date":"",
+            "class_provider": vendorId as String,
+            "class_schedule": classScheduleId as String,
+            "class_type": classTypeId as String,
+            "community_id": catID as String,
+            "end_date": endDate as String,
             "gift_id":"",
-            "search_key": "",
-            "location_id":"",
+            "search_key": searchKey as String,
+            "location_id": localityId as String,
             "logged_in_userid":"",
-            "search_seg_id":"",
+            "search_seg_id": segmentId as String,
             "price_sort_status":"",
             "sort_by_latest":"",
-            "start_date":""
+            "start_date": startDate as String
         ]
             }
         }
         let params : [String: AnyObject] = [
             "braingroom": innerParams as AnyObject
         ]
-        baseURL  = String(format:"%@generalFilter",Constants.mainURL)
+//        baseURL  = String(format:"%@generalFilter",Constants.mainURL)
         print(params)
         AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
         AFWrapperClass.requestPOSTURL(baseURL, params: params, success: { (responseDict) in
@@ -141,10 +175,35 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
-              if ((dic.object(forKey: "braingroom")) as! NSArray).count > 0
-              {
-                self.itemsArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
-                self.itemCollectionView.reloadData()
+                if ((dic.object(forKey: "braingroom")) as! NSArray).count > 0
+                {
+                    let tempArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
+                    if self.pageNumber == 1
+                    {
+                        self.itemsArray = tempArray
+                    }
+                    else
+                    {
+                        self.itemsArray.addObjects(from: tempArray as! [Any])
+                    }
+                    
+                    self.itemCollectionView.reloadData()
+                }
+                if let page = dic.object(forKey: "next_page")
+                {
+                    if (page is String) && (page as! String) == "-1"
+                    {
+                        self.isNextPage = false
+                    }
+                    else if self.pageNumber == page as! Int
+                    {
+                        self.isNextPage = false
+                    }
+                    else
+                    {
+                        self.pageNumber = page as! Int
+                        self.isNextPage = true
+                    }
                 }
             }
             else
@@ -170,22 +229,27 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
         if isTable == false
         {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCVCell", for: indexPath as IndexPath) as! itemCVCell
-            cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
-            if ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name")) as! String != "0"
+            let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
+            
+            cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
+            if let pic = (dict.object(forKey: "pic_name"))
             {
-            cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: nil)
+                if (pic is String) && (pic as! String) != "0"
+                {
+                    cell.imgView.sd_setImage(with: URL(string: (pic as! String)), placeholderImage: nil)
+                }
             }
-            cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
+            cell.descripitionLbl.text = String.init(format: "%@", dict.object(forKey: "class_topic") as! String)
             if self.isOnline == false
             {
-                cell.onlineLbl.text = String.init(format: "%@", (((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "vendorClasseLocationDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as! String)
+                cell.onlineLbl.text = String.init(format: "%@", ((dict.object(forKey: "vendorClasseLocationDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as! String)
             }
             else
             {
                 cell.onlineLbl.text = "Online"
             }
-            cell.sessionsLbl.text = String.init(format: "%@ Sessions, %@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "no_of_session") as! String, (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_duration") as! String)
-            cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
+            cell.sessionsLbl.text = String.init(format: "%@ Sessions, %@", dict.object(forKey: "no_of_session") as! String, dict.object(forKey: "class_duration") as! String)
+            cell.flexBtn.setTitle(String.init(format: "%@", dict.object(forKey: "class_type_data") as! String), for: .normal)
                 
             cell.layer.masksToBounds = false;
             cell.layer.shadowOpacity = 0.75;
@@ -201,22 +265,23 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
         {
                 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCVCell2", for: indexPath as IndexPath) as! itemCVCell2
-            cell.amountLbl.text = String.init(format: "Rs.%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "price") as! String)
-            if ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name")) as! String != "0"
+            let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
+            cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
+            if (dict.object(forKey: "pic_name")) as! String != "0"
             {
-                cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: nil)
+                cell.imgView.sd_setImage(with: URL(string: dict.object(forKey: "pic_name") as! String), placeholderImage: nil)
             }
-            cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
+            cell.descripitionLbl.text = String.init(format: "%@",  dict.object(forKey: "class_topic") as! String)
             if self.isOnline == false
             {
-                cell.onlineLbl.text = String.init(format: "%@", (((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "vendorClasseLocationDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as! String)
+                cell.onlineLbl.text = String.init(format: "%@", ((dict.object(forKey: "vendorClasseLocationDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as! String)
             }
             else
             {
                 cell.onlineLbl.text = "Online"
             }
-            cell.sessionsLbl.text = String.init(format: "%@ Sessions, %@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "no_of_session") as! String, (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_duration") as! String)
-            cell.flexBtn.setTitle(String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
+            cell.sessionsLbl.text = String.init(format: "%@ Sessions, %@", dict.object(forKey: "no_of_session") as! String, dict.object(forKey: "class_duration") as! String)
+            cell.flexBtn.setTitle(String.init(format: "%@", dict.object(forKey: "class_type_data") as! String), for: .normal)
                 
             cell.layer.masksToBounds = false;
             cell.layer.shadowOpacity = 0.75;
@@ -256,6 +321,13 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
         }
     }
 
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath)
+    {
+        if indexPath.row == itemsArray.count - 1 && isNextPage == true
+        {
+            dataFromServer()
+        }
+    }
 //MARK: ------------------- Button Action ----------------------
     @IBAction func CVStyleBtnAction(_ sender: Any)
     {
@@ -271,7 +343,8 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     }
     @IBAction func filterBtnAction(_ sender: Any)
     {
-      let fvc = self.storyboard?.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        let fvc = self.storyboard?.instantiateViewController(withIdentifier: "FilterViewController") as! FilterViewController
+        fvc.categoryIdStr = catID
         self.navigationController?.pushViewController(fvc, animated: true)
     }
 
@@ -299,7 +372,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     
     func sortActionToServer(str: String)
     {
-        let baseURL  = String(format:"%@generalFilter",Constants.mainURL)
+        let baseURL  = String(format:"%@generalFilter/%d",Constants.mainURL, pageNumber)
         let innerParams  = [
             "catlog":"",
             "search_cat_id": catID as String,
@@ -329,13 +402,37 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
                 self.itemsArray.removeAllObjects()
-                let array = dic.object(forKey: "braingroom") as! NSArray
-                self.itemsArray =  NSMutableArray(array: array)
+                let tempArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
+                if self.pageNumber == 1
+                {
+                    self.itemsArray = tempArray
+                }
+                else
+                {
+                    self.itemsArray.addObjects(from: tempArray as! [Any])
+                }
+                
                 if(self.itemsArray.count > 0)
                 {
                     self.itemCollectionView.delegate = self
                     self.itemCollectionView.dataSource = self
                     self.itemCollectionView.reloadData()
+                }
+                if let page = dic.object(forKey: "next_page")
+                {
+                    if (page is String) && (page as! String) == "-1"
+                    {
+                        self.isNextPage = false
+                    }
+                    else if self.pageNumber == page as! Int
+                    {
+                        self.isNextPage = false
+                    }
+                    else
+                    {
+                        self.pageNumber = page as! Int
+                        self.isNextPage = true
+                    }
                 }
             }
             else

@@ -7413,7 +7413,7 @@ Cg
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2F9-o6-7vm">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2F9-o6-7vm">
                                 <rect key="frame" x="0.0" y="8" width="320" height="0.0"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bHZ-lJ-cof">
@@ -7444,7 +7444,7 @@ Cg
                                     <constraint firstItem="xCL-II-AWn" firstAttribute="centerX" secondItem="2F9-o6-7vm" secondAttribute="centerX" id="hzt-br-DKa"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yNH-aw-lLh">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yNH-aw-lLh">
                                 <rect key="frame" x="0.0" y="8" width="320" height="0.0"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kyg-6M-oBL">

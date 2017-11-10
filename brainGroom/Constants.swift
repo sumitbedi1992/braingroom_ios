@@ -128,3 +128,8 @@ extension UITextView: UITextViewDelegate {
     
 }
 
+struct NOTIFICATION
+{
+    static var UPDATE_LOGIN_USER_PROFILE = "UPDATE_LOGIN_USER_PROFILE"
+    static var UPDATE_FILTER_CLASS = "UPDATE_FILTER_CLASS"
+}

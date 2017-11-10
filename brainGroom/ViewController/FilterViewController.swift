@@ -175,7 +175,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     {
         displayOptionsTV()
         optionTitleLbl.text = "Class Schedule"
-        dataArray = [["id": "1","class_schedule": "Fixed"],["id": "2","class_schedule": "Flexible"]]
+        dataArray = [["id": "1","class_schedule": "Flexible"],["id": "2","class_schedule": "Fixed"]]
         selectedOption = 5
         TV.reloadData()
     }
@@ -364,6 +364,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     @IBAction func doneBtnAction(_ sender: Any)
     {
+        /*
         let ivc = self.storyboard?.instantiateViewController(withIdentifier: "ItemViewController") as! ItemViewController
         ivc.catID = categoryIdStr
         ivc.searchKey = keyWordTF.text!
@@ -385,8 +386,23 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         {
             ivc.isFilterData = true
         }
-        
         self.navigationController?.pushViewController(ivc, animated: true)
+        */
+        var dict : [String : AnyObject] = [String : AnyObject]()
+        dict["catID"] = categoryIdStr as AnyObject
+        dict["searchKey"] = keyWordTF.text! as AnyObject
+        dict["segmentId"] = segmentIdStr as AnyObject
+        dict["localityId"] = appDelegate.SignUpLocationID as AnyObject
+        dict["communityId"] = communitiesIdStr as AnyObject
+        dict["classScheduleId"] = classScheduleIdStr as AnyObject
+        dict["vendorId"] = vendorListIdStr as AnyObject
+        dict["startDate"] = startTime as AnyObject
+        dict["endDate"] = endTime as AnyObject
+        dict["classTypeLbl"] = classTypeIdStr as AnyObject
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: dict)
+        self.navigationController?.popViewController(animated: true)
+        
     }
     
     @IBAction func refreshBtnAction(_ sender: Any)
@@ -401,19 +417,10 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         classTypeLbl.text = "Select Class Type"
         classScheduleLbl.text = "Select Class Schedule"
         vendorListLbl.text = "Select Vendor List"
-        
-        startTime = ""
-        endTime = ""
-        categoryIdStr = ""
-        segmentIdStr = ""
-        cityIdStr = ""
-        localityIdStr = ""
-        communitiesIdStr = ""
-        classTypeIdStr = ""
-        classScheduleIdStr = ""
-        vendorListIdStr = ""
-        
-        keyWordTF.text = ""
+        appDelegate.SignUpLocationID = ""
+        let dict : [String : AnyObject] = [String : AnyObject]()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: dict)
+        self.navigationController?.popViewController(animated: true)
     }
     
     

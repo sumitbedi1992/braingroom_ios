@@ -55,6 +55,8 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
     override func viewDidLoad()
     {
 //        appDelegate.userId = "111"
+        NotificationCenter.default.addObserver(self, selector: #selector(onUpdateLoggedInUserData), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
+        
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
         
         self.addChildViewController(vc)
@@ -63,6 +65,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         vc.didMove(toParentViewController: self)
         
         self.userImageLbl.layer.cornerRadius = self.userImageLbl.frame.width/2
+        appDelegate.getUserProfile()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,15 +87,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         
             print(appDelegate.userData)
 
-            userNameLbl.text = (appDelegate.userData.value(forKey:"first_name") as? String)?.capitalized
-            userEmailLbl.text = UserDefaults.standard.value(forKey: "user_email") as? String
-//            userImageLbl.image = UIImage.init(named: "imm")
-            if appDelegate.userData.value(forKey:"profile_pic") != nil {
-                userImageLbl.sd_setImage(with: URL(string: appDelegate.userData.value(forKey:"profile_pic") as! String), placeholderImage: UIImage.init(named: "imm"))
-            }else
-            {
-              userImageLbl.image = UIImage.init(named: "imm")
-            }
+            onUpdateLoggedInUserData()
             
         }
         
@@ -103,6 +98,19 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
 //        self.closeMenuBtnAction(self)
     }
 
+    func onUpdateLoggedInUserData()
+    {
+        userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
+        userEmailLbl.text = UserDefaults.standard.value(forKey: "email") as? String
+        //            userImageLbl.image = UIImage.init(named: "imm")
+        if appDelegate.userData.value(forKey:"profile_image") != nil {
+            userImageLbl.sd_setImage(with: URL(string: appDelegate.userData.value(forKey:"profile_image") as! String), placeholderImage: UIImage.init(named: "imm"))
+        }else
+        {
+            userImageLbl.image = UIImage.init(named: "imm")
+        }
+    }
+    
     @IBAction func menuBtnAction(_ sender: Any)
     {
         AFWrapperClass.viewSlideInFromRightToLeft(view: sideMenuView)
@@ -323,21 +331,24 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
 //            self.navigationController?.pushViewController(vc, animated: true)
         case 4:
             
-            if (appDelegate.userData.value(forKey: "login_type") as! String == "direct")
+            if let login_type = appDelegate.userData.value(forKey: "login_type")
             {
-            self.searchBtn.isHidden = true
-            self.notificationBtn.isHidden = true
-                let view1 = self.childViewControllers.last
-                
-                view1?.willMove(toParentViewController: nil)
-                view1?.view.removeFromSuperview()
-                view1?.removeFromParentViewController()
-                
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
-            self.addChildViewController(vc)
-            vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
-            self.container.addSubview((vc.view)!)
-            vc.didMove(toParentViewController: self)
+                if (login_type as! String) == "direct"
+                {
+                    self.searchBtn.isHidden = true
+                    self.notificationBtn.isHidden = true
+                    let view1 = self.childViewControllers.last
+                    
+                    view1?.willMove(toParentViewController: nil)
+                    view1?.view.removeFromSuperview()
+                    view1?.removeFromParentViewController()
+                    
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
+                    self.addChildViewController(vc)
+                    vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
+                    self.container.addSubview((vc.view)!)
+                    vc.didMove(toParentViewController: self)
+                }
             }
             else
             {

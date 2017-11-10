@@ -405,11 +405,15 @@ class ActivityVC: UIViewController,UITableViewDelegate,UITableViewDataSource,FCA
                     self.navigationController?.pushViewController(vc, animated: true)
                 case 4:
                     
-                    if (appDelegate.userData.value(forKey: "login_type") as! String == "direct")
+                    if let login_type = appDelegate.userData.value(forKey: "login_type")
                     {
-                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
-                        vc.fromSocial = true
-                        self.navigationController?.pushViewController(vc, animated: true)
+                        if (login_type as! String) == "direct"
+                        {
+                    
+                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
+                            vc.fromSocial = true
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
                     }
                     else
                     {

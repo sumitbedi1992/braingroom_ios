@@ -159,6 +159,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         // ...
     }
     
+    func mainStoryboard() -> UIStoryboard
+    {
+        return UIStoryboard(name: "Main", bundle: nil)
+    }
+    
+    func profileStoryboard() -> UIStoryboard
+    {
+        return UIStoryboard(name: "Profile", bundle: nil)
+    }
+    
+    func getUserProfile()
+    {
+        if UserDefaults.standard.value(forKey: "user_id") == nil || UserDefaults.standard.value(forKey: "user_id") as! String == ""
+        {
+            return
+        }
+        let baseURL: String  = String(format:"%@getProfile",Constants.mainURL)
+        
+        let innerParams : [String: String] = [
+            "id":UserDefaults.standard.value(forKey: "user_id") as! String
+        ]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        
+        AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "braingroom") as! NSArray).count > 0
+            {
+                let dictData = (dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary
+                print(dictData)
+                self.userData = NSMutableDictionary(dictionary: dictData)
+                for key in self.userData.allKeys
+                {
+                    if (self.userData[key] is NSNull)
+                    { // NSNull is a singleton, so this check is sufficient
+                        self.userData.setValue("", forKey: key as! String)
+                    }
+                }
+
+                UserDefaults.standard.set(self.userData, forKey: "userData")
+                UserDefaults.standard.synchronize()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    
     func applicationWillResignActive(_ application: UIApplication) {
         
         FBSDKAppEvents.activateApp()
