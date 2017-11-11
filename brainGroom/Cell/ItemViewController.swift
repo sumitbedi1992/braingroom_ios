@@ -448,11 +448,13 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         {
             if isTable == false
             {
-                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: itemCollectionView.bounds.size.height/1.7);
+                //TODO: Vignedh
+                //return CGSize(width: 167, height:258);
+                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 258 ? itemCollectionView.bounds.size.height/1.8:258);
             }
             else
             {
-                return CGSize(width: itemCollectionView.bounds.size.width-10, height: itemCollectionView.bounds.size.height/4);
+                return CGSize(width: itemCollectionView.bounds.size.width-10, height: 127);
             }
         }
         else
@@ -462,7 +464,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             let testStr = String(format: "+%@", ((subArray[indexPath.row] as? NSDictionary)?.object(forKey: "category_name") as? String)!)
             let size: CGSize = testStr.size(attributes: fontAttributes)
             
-            return CGSize(width: size.width+10, height: subCollectionView.bounds.size.height-25);
+            return CGSize(width: size.width+10, height: 36);
         }
     }
     

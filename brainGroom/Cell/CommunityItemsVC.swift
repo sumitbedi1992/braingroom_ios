@@ -309,15 +309,17 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
         }
     }
     
+    
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
          if isTable == false
         {
-            return CGSize(width: itemCollectionView.bounds.size.width/2-2, height: itemCollectionView.bounds.size.height/1.7);
+            //TODO: Vignedh
+            return CGSize(width: 167, height:258);
         }
         else
         {
-            return CGSize(width: itemCollectionView.bounds.size.width-5, height: itemCollectionView.bounds.size.height/4);
+            return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 258 ? itemCollectionView.bounds.size.height/1.8:258);
         }
     }
 
