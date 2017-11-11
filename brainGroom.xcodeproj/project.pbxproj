@@ -77,6 +77,10 @@
 		612A1D091FAF2D78008CF9BA /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A1D081FAF2CBF008CF9BA /* DatePickerDialog.swift */; };
 		61DA80D91FAA40E90058588B /* Main2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61DA80D81FAA40E90058588B /* Main2.storyboard */; };
 		747D226B4804CDBDB9ACB8D7 /* Pods_brainGroom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */; };
+		99599B621FB782C9004982EF /* BGSocialLearningVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99599B5E1FB782C5004982EF /* BGSocialLearningVC.swift */; };
+		99599B631FB782C9004982EF /* BGSocialLearningCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99599B5F1FB782C7004982EF /* BGSocialLearningCollectionCell.swift */; };
+		99599B641FB782C9004982EF /* BGSocialLearningCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 99599B601FB782C8004982EF /* BGSocialLearningCollectionCell.xib */; };
+		99599B651FB782C9004982EF /* BGSocialLearningTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99599B611FB782C9004982EF /* BGSocialLearningTableCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,6 +157,10 @@
 		4E92EE515693C508160853CE /* Pods-brainGroom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.release.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.release.xcconfig"; sourceTree = "<group>"; };
 		612A1D081FAF2CBF008CF9BA /* DatePickerDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		61DA80D81FAA40E90058588B /* Main2.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main2.storyboard; sourceTree = "<group>"; };
+		99599B5E1FB782C5004982EF /* BGSocialLearningVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGSocialLearningVC.swift; sourceTree = "<group>"; };
+		99599B5F1FB782C7004982EF /* BGSocialLearningCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGSocialLearningCollectionCell.swift; sourceTree = "<group>"; };
+		99599B601FB782C8004982EF /* BGSocialLearningCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BGSocialLearningCollectionCell.xib; sourceTree = "<group>"; };
+		99599B611FB782C9004982EF /* BGSocialLearningTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGSocialLearningTableCell.swift; sourceTree = "<group>"; };
 		BFCD1CCD1F72D0EB003D50E6 /* brainGroom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "brainGroom-Bridging-Header.h"; sourceTree = "<group>"; };
 		CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_brainGroom.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDF1792C24A73FF573580254 /* Pods-brainGroom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.debug.xcconfig"; sourceTree = "<group>"; };
@@ -332,6 +340,10 @@
 		2FA48F611F9FC5D400096643 /* SocialLearningViewController */ = {
 			isa = PBXGroup;
 			children = (
+				99599B5F1FB782C7004982EF /* BGSocialLearningCollectionCell.swift */,
+				99599B601FB782C8004982EF /* BGSocialLearningCollectionCell.xib */,
+				99599B611FB782C9004982EF /* BGSocialLearningTableCell.swift */,
+				99599B5E1FB782C5004982EF /* BGSocialLearningVC.swift */,
 				2FA48F621F9FC5D400096643 /* SocialLearningVC.swift */,
 			);
 			path = SocialLearningViewController;
@@ -614,6 +626,7 @@
 				043515681F97EF9900B9976A /* Buy & Sell selected.png in Resources */,
 				61DA80D91FAA40E90058588B /* Main2.storyboard in Resources */,
 				043515661F97EF9900B9976A /* activity Partners selected.png in Resources */,
+				99599B641FB782C9004982EF /* BGSocialLearningCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +764,7 @@
 				2FA48F861F9FC5D400096643 /* OTPViewController.swift in Sources */,
 				2FA48F761F9FC5D400096643 /* ContactUsVC.swift in Sources */,
 				2FA48FA81F9FC8A700096643 /* BookingVC.swift in Sources */,
+				99599B631FB782C9004982EF /* BGSocialLearningCollectionCell.swift in Sources */,
 				2FA48F931F9FC72B00096643 /* ACFloatingTextfield.swift in Sources */,
 				2FA48FB21F9FC8A700096643 /* ArticlesVC.swift in Sources */,
 				2FA48FAB1F9FC8A700096643 /* GetCommunityVC.swift in Sources */,
@@ -767,6 +781,7 @@
 				2FA48F801F9FC5D400096643 /* SocialLearningVC.swift in Sources */,
 				2FA48FAD1F9FC8A700096643 /* PostVC.swift in Sources */,
 				2FC0243E1FA3B6EA00545BDF /* ProfileFeedViewController.swift in Sources */,
+				99599B651FB782C9004982EF /* BGSocialLearningTableCell.swift in Sources */,
 				2FA48F811F9FC5D400096643 /* PostDetailsVC.swift in Sources */,
 				2FA48FA91F9FC8A700096643 /* CommentsVC.swift in Sources */,
 				2FA48F851F9FC5D400096643 /* ChangePasswordVC.swift in Sources */,
@@ -780,6 +795,7 @@
 				2FA48F781F9FC5D400096643 /* ReplyCommentsVC.swift in Sources */,
 				2FA48F741F9FC5D400096643 /* FAQViewController.swift in Sources */,
 				2FA48F821F9FC5D400096643 /* MyProfileViewController.swift in Sources */,
+				99599B621FB782C9004982EF /* BGSocialLearningVC.swift in Sources */,
 				2FA48F971F9FC7F600096643 /* NotificationsViewController.swift in Sources */,
 				3DF50A091F3DDCD1007D288B /* AppDelegate.swift in Sources */,
 				2FA48F791F9FC5D400096643 /* DetailItemViewController2.swift in Sources */,
