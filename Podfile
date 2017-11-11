@@ -5,7 +5,8 @@ use_frameworks!
 
 pod 'GoogleMaps'
 pod 'GooglePlaces'
-pod 'IQKeyboardManagerSwift', '4.0.6'
+#pod 'IQKeyboardManagerSwift', '4.0.6'
+pod 'IQKeyboardManagerSwift', :git => 'https://github.com/hackiftekhar/IQKeyboardManager'
 pod 'SVProgressHUD'
 pod 'Alamofire', '~> 4.0'
 pod 'SDWebImage'

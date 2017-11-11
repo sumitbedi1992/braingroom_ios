@@ -31,7 +31,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     
     @IBOutlet weak var mapMainView: UIViewX!
     @IBOutlet weak var vidBtn: UIButton!
-    @IBOutlet weak var vidImage: UIImageView!
+    @IBOutlet weak var vidImage: UIButton!
     @IBOutlet weak var shareBtn: UIButton!
     @IBOutlet weak var locationBtn: UIButton!
     @IBOutlet var headerView: UIView!
@@ -54,10 +54,12 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     @IBOutlet weak var dateAndTimeTF: ACFloatingTextfield!
     @IBOutlet weak var requestDetailsTextView: UITextView!
     
+    @IBOutlet weak var constraintHeightViewX: NSLayoutConstraint!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        constraintHeightViewX.constant = 70
         mainScrollView.parallaxHeader.view = headerView
         mainScrollView.parallaxHeader.height = 200
         mainScrollView.parallaxHeader.mode = .fill
@@ -102,23 +104,48 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                if((dic.object(forKey: "braingroom")) as! NSArray).count > 0
                {
                 self.dataDic = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary)
-                let attributedString : NSMutableAttributedString = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_summary") as! String).htmlAttributedString() as! NSMutableAttributedString
+                
+                let attributedString : NSMutableAttributedString = (self.dataDic.value(forKey: "class_summary") as! String).htmlAttributedString() as! NSMutableAttributedString
                 let s = attributedString.string
                 self.aboutTheClassLbl.text = s
-                self.providerName.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provided_by") as! String)
+                self.providerName.text = (self.dataDic.value(forKey: "class_provided_by") as! String)
                 
-                self.providerImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provider_pic") as! String)), placeholderImage: UIImage.init(named: "imm"))
-                self.vidImage.sd_setImage(with: URL(string: ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
                 
-                if(((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video")) is NSNull)
+                self.providerImage.sd_setImage(with: URL(string: (self.dataDic.value(forKey: "class_provider_pic") as! String)), placeholderImage: UIImage.init(named: "imm"))
+                
+                if let strUrl = self.dataDic.value(forKey: "photo")
+                {
+                    self.vidImage.sd_setBackgroundImage(with: URL(string: strUrl as! String), for: .normal, completed: { (image, error, SDImageCacheType, url) in
+                        if error == nil
+                        {
+                            self.vidImage.setBackgroundImage(image, for: .normal)
+                        }
+                        else
+                        {
+                            self.vidImage.setBackgroundImage(UIImage.init(named: "chocolate1Dca410A2"), for: .normal)
+                        }
+                    })
+                }
+                else
+                {
+                    self.vidImage.setBackgroundImage(UIImage.init(named: "chocolate1Dca410A2"), for: .normal)
+                }
+                
+//                vidBtn.sd_setBackgroundImage(with: URL(string: (self.dataDic.value(forKey: "photo") as! String)), for: UIControlState.normal, placeholderImage: nil, completed: { (image, error, SDImageCacheType, url) in
+//                    vidBtn.setBackgroundImage(image, for: UIControlState.normal)
+//                })
+                
+                //self.vidImage.sd_setImage(with: URL(string: (self.dataDic.value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
+                
+                if((self.dataDic.value(forKey: "video")) is NSNull)
                 {
                     self.vidBtn.isHidden = true
                 }
                 else
                 {
-                    if ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video") as! String).range(of: "youtube") != nil {
+                    if (self.dataDic.value(forKey: "video") as! String).range(of: "youtube") != nil {
                         self.vidBtn.isHidden = false
-                        self.myVideoURL = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "video") as! String
+                        self.myVideoURL = self.dataDic.value(forKey: "video") as! String
                         self.videoPlayer.loadVideoID(self.extractYoutubeIdFromLink(link: self.myVideoURL)!)
                     }
                     else
@@ -126,23 +153,30 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                         self.vidBtn.isHidden = true
                     }
                 }
-                self.itemNameLbl.text = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_topic") as! String)
-                self.clsID = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "id") as! String)
+                self.itemNameLbl.text = (self.dataDic.value(forKey: "class_topic") as! String)
+                self.clsID = (self.dataDic.value(forKey: "id") as! String)
                 
-                self.starLbl.text = String.init(format: "%d",((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "rating") as! Int))
-                self.vendorID = ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_provider_id") as! String?)!
+                self.starLbl.text = String.init(format: "%d",(self.dataDic.value(forKey: "rating") as! Int))
+                self.vendorID = (self.dataDic.value(forKey: "class_provider_id") as! String?)!
                 
                 
                 
-                if (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? NSString as! String != "" {
-                    
-                    self.priceLbl.text = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? NSString as String?
-                    
+                if let strPrice : String = ((self.dataDic.value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? String
+                {
+                    if strPrice != ""
+                    {
+                        self.priceLbl.text = "Rs. " + strPrice
+                    }
+                    else
+                    {
+                        self.priceLbl.text = "Free"
+                    }
                 }else{
                     self.priceLbl.text = "Free"
                 }
                 
-                self.sessionLbl.text = String.init(format: "%@ Sessions, %@", ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "no_of_session") as! String), ((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "class_duration") as! String))
+                self.sessionLbl.text = String.init(format: "%@ Sessions, %@", (self.dataDic.value(forKey: "no_of_session") as! String), (self.dataDic.value(forKey: "class_duration") as! String))
+                
                 
                 if self.isOnline == true
                 {
@@ -153,14 +187,14 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 }
                 else
                 {
-                self.locationBtn.setTitle((((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String, for: .normal)
-                let lat = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "latitude") as! NSString
-                let long = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "longitude") as! NSString
+                self.locationBtn.setTitle(((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String, for: .normal)
+                let lat = ((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "latitude") as! NSString
+                let long = ((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "longitude") as! NSString
                 
                 // Creates a marker in the center of the map.
                 let marker = GMSMarker()
                 marker.position = CLLocationCoordinate2D(latitude: lat.doubleValue, longitude: long.doubleValue)
-                marker.title = (((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location_area") as? String
+                marker.title = ((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location_area") as? String
                 marker.icon = UIImage(named: "pin")
                 marker.map = self.mapView
                 
@@ -198,7 +232,20 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
 
     @IBAction func shareBtnAction(_ sender: Any)
     {
+        if let shareUrl = dataDic.value(forKey: "detail_class_link")
+        {
+            var objectsToShare = [AnyObject]()
+            
+            let strShare = "Checkout this class I found at Braingroom : \n" + (shareUrl as! String)
+                objectsToShare.append(strShare as AnyObject)
+            
+            let activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            
+            present(activityViewController, animated: true, completion: nil)
+        }
     }
+    
     @IBAction func favBtnAction(_ sender: Any)
     {
         
@@ -225,10 +272,12 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 if dic.object(forKey: "res_msg") as! String == "Added to Wishlist"
                 {
                     self.favBtn.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
+                    AFWrapperClass.showToast(title: "Added to Wishlist", view: self.view)
                 }
                 else
                 {
                     self.favBtn.setImage(#imageLiteral(resourceName: "heartEmpty"), for: .normal)
+                    AFWrapperClass.showToast(title: "Removed from Wishlist", view: self.view)
                 }
             }
             else
@@ -277,7 +326,14 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     }
     @IBAction func locationBtnAct(_ sender: Any)
     {
-        
+        if let address = ((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location_area") as? String
+        {
+            let alertConfirmation = UIAlertController(title: "", message: (address ), preferredStyle: UIAlertControllerStyle.alert)
+            let dismissAction = UIAlertAction (title: "DISMISS", style: UIAlertActionStyle.cancel, handler: nil)
+            alertConfirmation.addAction(dismissAction)
+            
+            self.present(alertConfirmation, animated: true, completion: nil)
+        }
     }
     @IBAction func privateTutorBtnAct(_ sender: Any)
     {
@@ -339,38 +395,57 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     {
         if nameTF.text!.characters.count != 0 && mobileTF.text!.characters.count != 0 && emailTF.text!.characters.count != 0 && dateAndTimeTF.text!.characters.count != 0 && requestDetailsTextView.text!.characters.count != 0
         {
+            let strBody : String = String(format: "Name : %@\nMobile : %@\nEmail : %@\nDate & Time : %@\nRequest : %@", nameTF.text!,mobileTF.text!,emailTF.text!,dateAndTimeTF.text!,requestDetailsTextView.text!)
             if !MFMailComposeViewController.canSendMail() {
                 print("Mail services are not available")
                 return
             }
-            sendEmail()
+            sendEmail(strBody)
         }
         else
         {
             self.alert(text: "Please, Fill all fields.")
         }
     }
+    
     @IBAction func privateTutorCloseBtnAction(_ sender: Any)
     {
         privateTutorView.isHidden = true
     }
     
-    func sendEmail() {
+    func sendEmail(_ body : String) {
         let composeVC = MFMailComposeViewController()
         composeVC.mailComposeDelegate = self
         // Configure the fields of the interface.
-        composeVC.setToRecipients(["address@example.com"])
-        composeVC.setSubject("Hello!")
-        composeVC.setMessageBody("Hello this is my message body!", isHTML: false)
+        composeVC.setToRecipients(["contactus@braingroom.com"])
+        composeVC.setSubject("BrainGrrom")
+        composeVC.setMessageBody(body, isHTML: false)
         // Present the view controller modally.
         self.present(composeVC, animated: true, completion: nil)
     }
     
-    func mailComposeController(controller: MFMailComposeViewController,
-                               didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    private func mailComposeController(controller: MFMailComposeViewController,
+                               didFinishWithResult result: MFMailComposeResult, error: Error?) {
         // Check the result or perform other tasks.
         // Dismiss the mail compose view controller.
         controller.dismiss(animated: true, completion: nil)
+        
+        switch (result) {
+            case .saved:
+                // Add code on save mail to draft.
+                break;
+            case .sent:
+                // Add code on sent a mail.
+                AFWrapperClass.showToast(title: "Email sent successfully.", view: self.view)
+                break;
+            case .cancelled:
+                // Add code on cancel a mail.
+                AFWrapperClass.showToast(title: "Email failed.", view: self.view)
+                break;
+            case .failed:
+                // Add code on failed to send a mail.
+                break;
+        }
     }
     
     func alert(text: String)

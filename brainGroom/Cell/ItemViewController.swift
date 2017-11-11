@@ -319,7 +319,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 }
                 
                 //                cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: UIImage.init(named: "imm"))
-                cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_summary") as! String)
+                cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_topic") as! String)
+                
                 if (itemsArray[indexPath.row] as! NSDictionary)["locality_name"] != nil
                 {
                     cell.onlineLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "locality_name") as! String)
@@ -422,6 +423,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     }
     @IBAction func collectionStyleBtn(_ sender: Any)
     {
+        print(itemsArray)
         if isTable == false
         {
             isTable = true
@@ -501,6 +503,13 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                     self.itemCollectionView.delegate = self
                     self.itemCollectionView.dataSource = self
                     self.itemCollectionView.reloadData()
+                    if self.isTable {
+                        self.isTable = true
+                    } else{
+                        self.isTable = false
+                    }
+                    
+                    
                 }
             }
             else
