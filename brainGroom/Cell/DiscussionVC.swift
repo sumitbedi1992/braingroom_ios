@@ -414,14 +414,11 @@ class DiscussionVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                     self.navigationController?.pushViewController(vc, animated: true)
                 case 4:
                     
-                    if let login_type = appDelegate.userData.value(forKey: "login_type")
+                    if appDelegate.isSocialLogin() == false
                     {
-                        if (login_type as! String) == "direct"
-                        {
-                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
-                            vc.fromSocial = true
-                            self.navigationController?.pushViewController(vc, animated: true)
-                        }
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
+                        vc.fromSocial = true
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }
                     else
                     {
@@ -432,7 +429,7 @@ class DiscussionVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                         alert.dismissOnOutsideTouch = false
                         alert.delegate = self
                         alert.makeAlertTypeCaution()
-                        alert.showAlert(withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
+                        alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
                     }
                     
                 case 5:
@@ -444,7 +441,7 @@ class DiscussionVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                     alert.dismissOnOutsideTouch = false
                     alert.delegate = self
                     alert.makeAlertTypeCaution()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle:nil, andButtons: nil)
+                    alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
                     alert.hideDoneButton = true
                     
                     alert.addButton("Yes", withActionBlock: {

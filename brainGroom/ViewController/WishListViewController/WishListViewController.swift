@@ -37,20 +37,53 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onUpdateWishlistData), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_WISHLIST_CLASS), object: nil)
+        
         fromLoad = true
+        self.itemCollectionView.delegate = self
+        self.itemCollectionView.dataSource = self
         
-        
+        dataFromServer()
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        dataFromServer()
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func onUpdateWishlistData(noti:Notification)
+    {
+        let dict : [String : AnyObject] = noti.object as! [String : AnyObject]
+        if dict["isWishlist"] as! Int == 1
+        {
+            fromLoad = true
+            dataFromServer()
+        }
+        else
+        {
+            if let class_id = dict["class_id"]
+            {
+                let tempArray : NSMutableArray = NSMutableArray()
+                for i in 0..<itemsArray.count
+                {
+                    let tempDict : NSDictionary = itemsArray.object(at: i) as! NSDictionary
+                    if (tempDict.value(forKey: "id") as! String) != class_id as! String
+                    {
+                        tempArray.add(tempDict)
+                    }
+                }
+                itemsArray = NSMutableArray(array: tempArray)
+            }
+            itemCollectionView.reloadData()
+        }
+    }
+    
     func dataFromServer()
     {
         let baseURL: String  = String(format:"%@getAllWishList",Constants.mainURL)
@@ -84,8 +117,6 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                     {
                         self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
                     }
-                    self.itemCollectionView.delegate = self
-                    self.itemCollectionView.dataSource = self
                     self.itemCollectionView.reloadData()
 
                 }else {
@@ -103,30 +134,6 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                     })
 
                 }
-                
-                
-                
-//                if(self.itemsArray.count > 0)
-//                {
-//                    self.itemCollectionView.delegate = self
-//                    self.itemCollectionView.dataSource = self
-//                    self.itemCollectionView.reloadData()
-//                }
-//                else
-//                {
-//                let alert = FCAlertView()
-//                alert.blurBackground = false
-//                alert.cornerRadius = 15
-//                alert.bounceAnimations = true
-//                alert.dismissOnOutsideTouch = false
-//                alert.delegate = self
-//                alert.makeAlertTypeWarning()
-//                alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-//                alert.hideDoneButton = true;
-//                alert.addButton("OK", withActionBlock: {
-//                    self.itemCollectionView .reloadData()
-//                })
-//                }
             }
             else
             {
@@ -166,12 +173,39 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell1", for: indexPath as IndexPath) as! itemCell2
-        cell.imgView.sd_setImage(with: URL(string: (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "pic_name") as! String), placeholderImage: UIImage.init(named: "imm"))
-        cell.descripitionLbl.text = String.init(format: "%@", (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_summary") as! String)
-        cell.onlineLbl.text = (((itemsArray[indexPath.row] as! NSDictionary).value(forKey: "VendorClasseLocationDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String
-        cell.amountLbl.text = String.init(format: "Rs.%@",(((itemsArray[indexPath.row] as! NSDictionary).value(forKey: "VendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as! String)
-        cell.sessionsLbl.text = String.init(format: "Sessions %@", ((itemsArray[indexPath.row] as! NSDictionary).value(forKey: "no_of_session") as! String))
-        cell.flexBtn.setTitle((itemsArray[indexPath.row] as! NSDictionary).value(forKey: "class_type_data") as? String, for: .normal)
+        
+        let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
+        
+        
+        cell.imgView.sd_setImage(with: URL(string: dict.object(forKey: "pic_name") as! String), placeholderImage: UIImage.init(named: "imm"))
+        cell.descripitionLbl.text = String.init(format: "%@", dict.object(forKey: "class_summary") as! String)
+        
+        if let locationArr : NSArray = dict.object(forKey: "vendorClasseLocationDetail") as? NSArray
+        {
+            if locationArr.count != 0
+            {
+                if let locationDict : NSDictionary = locationArr.object(at: 0) as? NSDictionary
+                {
+                    cell.onlineLbl.text = String.init(format: "%@", locationDict.value(forKey: "locality") as! String)
+                }
+            }
+        }
+        
+        cell.amountLbl.text = "Rs. 0"
+        if let amountArr : NSArray = dict.object(forKey: "VendorClasseLevelDetail") as? NSArray
+        {
+            if amountArr.count != 0
+            {
+                if let amountDict : NSDictionary = amountArr.object(at: 0) as? NSDictionary
+                {
+                    cell.amountLbl.text = String.init(format: "Rs.%@",amountDict.value(forKey: "price") as! String)
+                }
+            }
+        }
+        
+        
+        cell.sessionsLbl.text = String.init(format: "Sessions %@", (dict.value(forKey: "no_of_session") as! String))
+        cell.flexBtn.setTitle(dict.value(forKey: "class_type_data") as? String, for: .normal)
         cell.wishListBtn.setImage(UIImage.init(named: "heart"), for: .normal)
         
         cell.wishListBtn.addTarget(self, action: #selector (wishlistAction(sender:)), for: .touchUpInside)
@@ -189,11 +223,11 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-//        let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
-//        let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
-//        vc.catID = (dict.object(forKey: "id") as? String)!
-//        //vc.price = (dict.object(forKey: "price") as? String)!
-//        self.navigationController?.pushViewController(vc, animated: true)
+        let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
+        vc.catID = (dict.object(forKey: "id") as? String)!
+        //vc.price = (dict.object(forKey: "price") as? String)!
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     func wishlistAction(sender : UIButton)
     {
@@ -205,7 +239,6 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             
             let innerParams : [String: String] = [
                 "uuid": (appDelegate.userData as NSDictionary).value(forKey: "uuid") as! String,
-//                "uuid": "fas_58b50efabe904",
                 "class_id" : (itemsArray[indexPath!.row] as! NSDictionary).value(forKey: "id") as! String
             ]
             let params : [String: AnyObject] = [
@@ -219,7 +252,8 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                 let dic:NSDictionary = responseDict as NSDictionary
                 if (dic.object(forKey: "res_id")) as! String == "1"
                 {
-                    self.dataFromServer()
+                    self.itemsArray.removeObject(at: (indexPath?.row)!)
+                    self.itemCollectionView.reloadData()
                 }
                 else
                 {

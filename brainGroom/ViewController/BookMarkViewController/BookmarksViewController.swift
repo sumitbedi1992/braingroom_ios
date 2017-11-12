@@ -124,20 +124,46 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath as IndexPath) as! itemCell3
-        if (((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary).object(forKey: "photo")) as? Int == 0
+        
+        let dict : NSDictionary = (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary
+        
+        if let picture = dict.object(forKey: "pic_name")
         {
-            cell.imgView.image = UIImage.init(named: "chocolate1Dca410A2")
+            cell.imgView.sd_setImage(with: URL(string: picture as! String), placeholderImage: UIImage.init(named: "imm"))
         }
         else
         {
-            cell.imgView.sd_setImage(with: URL(string: ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary).object(forKey: "photo") as! String), placeholderImage: UIImage.init(named: "imm"))
+            cell.imgView.image = UIImage.init(named: "chocolate1Dca410A2")
         }
         
-        cell.descripitionLbl.text = String.init(format: "%@", ((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary).object(forKey: "class_summary") as! String)
-        cell.onlineLbl.text = ((((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary).value(forKey: "VendorClasseLocationDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String
-        cell.amountLbl.text = String.init(format: "Rs.%@",((((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary).value(forKey: "VendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as! String)
-        cell.sessionsLbl.text = String.init(format: "Sessions %@",((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary).value(forKey: "no_of_session") as! String)
-        cell.flexBtn.setTitle(((itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary).value(forKey: "class_type_data") as? String, for: .normal)
+        cell.descripitionLbl.text = String.init(format: "%@", dict.object(forKey: "class_summary") as! String)
+        
+        if let locationArr : NSArray = dict.object(forKey: "vendorClasseLocationDetail") as? NSArray
+        {
+            if locationArr.count != 0
+            {
+                if let locationDict : NSDictionary = locationArr.object(at: 0) as? NSDictionary
+                {
+                    cell.onlineLbl.text = String.init(format: "%@", locationDict.value(forKey: "locality") as! String)
+                }
+            }
+        }
+        
+        
+        cell.amountLbl.text = "Rs. 0"
+        if let amountArr : NSArray = dict.object(forKey: "VendorClasseLevelDetail") as? NSArray
+        {
+            if amountArr.count != 0
+            {
+                if let amountDict : NSDictionary = amountArr.object(at: 0) as? NSDictionary
+                {
+                    cell.amountLbl.text = String.init(format: "Rs.%@",amountDict.value(forKey: "price") as! String)
+                }
+            }
+        }        
+        
+        cell.sessionsLbl.text = String.init(format: "Sessions %@",dict.value(forKey: "no_of_session") as! String)
+        cell.flexBtn.setTitle(dict.value(forKey: "class_type_data") as? String, for: .normal)
         
         cell.layer.masksToBounds = false;
         cell.layer.shadowOpacity = 0.75;

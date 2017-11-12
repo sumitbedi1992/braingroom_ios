@@ -104,107 +104,120 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
             {
                if((dic.object(forKey: "braingroom")) as! NSArray).count > 0
                {
-                self.dataDic = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary)
+                    self.dataDic = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary)
                 
-                let attributedString : NSMutableAttributedString = (self.dataDic.value(forKey: "class_summary") as! String).htmlAttributedString() as! NSMutableAttributedString
-                let s = attributedString.string
-                self.aboutTheClassLbl.text = s
-                self.providerName.text = (self.dataDic.value(forKey: "class_provided_by") as! String)
+                    let attributedString : NSMutableAttributedString = (self.dataDic.value(forKey: "class_summary") as! String).htmlAttributedString() as! NSMutableAttributedString
+                    let s = attributedString.string
+                    self.aboutTheClassLbl.text = s
+                    self.providerName.text = (self.dataDic.value(forKey: "class_provided_by") as! String)
                 
                 
-                self.providerImage.sd_setImage(with: URL(string: (self.dataDic.value(forKey: "class_provider_pic") as! String)), placeholderImage: UIImage.init(named: "imm"))
+                    self.providerImage.sd_setImage(with: URL(string: (self.dataDic.value(forKey: "class_provider_pic") as! String)), placeholderImage: UIImage.init(named: "imm"))
                 
-                if let strUrl = self.dataDic.value(forKey: "photo")
-                {
-                    self.vidImage.sd_setBackgroundImage(with: URL(string: strUrl as! String), for: .normal, completed: { (image, error, SDImageCacheType, url) in
-                        if error == nil
-                        {
-                            self.vidImage.setBackgroundImage(image, for: .normal)
-                        }
-                        else
-                        {
-                            self.vidImage.setBackgroundImage(UIImage.init(named: "chocolate1Dca410A2"), for: .normal)
-                        }
-                    })
-                }
-                else
-                {
-                    self.vidImage.setBackgroundImage(UIImage.init(named: "chocolate1Dca410A2"), for: .normal)
-                }
-                
-//                vidBtn.sd_setBackgroundImage(with: URL(string: (self.dataDic.value(forKey: "photo") as! String)), for: UIControlState.normal, placeholderImage: nil, completed: { (image, error, SDImageCacheType, url) in
-//                    vidBtn.setBackgroundImage(image, for: UIControlState.normal)
-//                })
-                
-                //self.vidImage.sd_setImage(with: URL(string: (self.dataDic.value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
-                
-                if((self.dataDic.value(forKey: "video")) is NSNull)
-                {
-                    self.vidBtn.isHidden = true
-                }
-                else
-                {
-                    if (self.dataDic.value(forKey: "video") as! String).range(of: "youtube") != nil {
-                        self.vidBtn.isHidden = false
-                        self.myVideoURL = self.dataDic.value(forKey: "video") as! String
-                        self.videoPlayer.loadVideoID(self.extractYoutubeIdFromLink(link: self.myVideoURL)!)
+                    if let strUrl = self.dataDic.value(forKey: "photo")
+                    {
+                        self.vidImage.sd_setBackgroundImage(with: URL(string: strUrl as! String), for: .normal, completed: { (image, error, SDImageCacheType, url) in
+                            if error == nil
+                            {
+                                self.vidImage.setBackgroundImage(image, for: .normal)
+                            }
+                            else
+                            {
+                                self.vidImage.setBackgroundImage(UIImage.init(named: "chocolate1Dca410A2"), for: .normal)
+                            }
+                        })
                     }
                     else
+                    {
+                        self.vidImage.setBackgroundImage(UIImage.init(named: "chocolate1Dca410A2"), for: .normal)
+                    }
+                
+    //                vidBtn.sd_setBackgroundImage(with: URL(string: (self.dataDic.value(forKey: "photo") as! String)), for: UIControlState.normal, placeholderImage: nil, completed: { (image, error, SDImageCacheType, url) in
+    //                    vidBtn.setBackgroundImage(image, for: UIControlState.normal)
+    //                })
+                
+                    //self.vidImage.sd_setImage(with: URL(string: (self.dataDic.value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
+                
+                    if((self.dataDic.value(forKey: "video")) is NSNull)
                     {
                         self.vidBtn.isHidden = true
                     }
-                }
-                self.itemNameLbl.text = (self.dataDic.value(forKey: "class_topic") as! String)
-                self.clsID = (self.dataDic.value(forKey: "id") as! String)
-                
-                self.starLbl.text = String.init(format: "%d",(self.dataDic.value(forKey: "rating") as! Int))
-                self.vendorID = (self.dataDic.value(forKey: "class_provider_id") as! String?)!
-                
-                
-                
-                if let strPrice : String = ((self.dataDic.value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? String
-                {
-                    if strPrice != "" || strPrice != "0"
-                    {
-                        self.priceLbl.text = "Rs. " + strPrice
-                        self.price = strPrice
-                    }
                     else
                     {
+                        if (self.dataDic.value(forKey: "video") as! String).range(of: "youtube") != nil {
+                            self.vidBtn.isHidden = false
+                            self.myVideoURL = self.dataDic.value(forKey: "video") as! String
+                            self.videoPlayer.loadVideoID(self.extractYoutubeIdFromLink(link: self.myVideoURL)!)
+                        }
+                        else
+                        {
+                            self.vidBtn.isHidden = true
+                        }
+                    }
+                    self.itemNameLbl.text = (self.dataDic.value(forKey: "class_topic") as! String)
+                    self.clsID = (self.dataDic.value(forKey: "id") as! String)
+                
+                    self.starLbl.text = String.init(format: "%d",(self.dataDic.value(forKey: "rating") as! Int))
+                    self.vendorID = (self.dataDic.value(forKey: "class_provider_id") as! String?)!
+                
+                
+                
+                    if let strPrice : String = ((self.dataDic.value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? String
+                    {
+                        if strPrice != "" || strPrice != "0"
+                        {
+                            self.priceLbl.text = "Rs. " + strPrice
+                            self.price = strPrice
+                        }
+                        else
+                        {
+                            self.priceLbl.text = "Free"
+                            self.price = "0"
+                        }
+                    }else{
                         self.priceLbl.text = "Free"
                         self.price = "0"
                     }
-                }else{
-                    self.priceLbl.text = "Free"
-                    self.price = "0"
-                }
                 
-                self.sessionLbl.text = String.init(format: "%@ Sessions, %@", (self.dataDic.value(forKey: "no_of_session") as! String), (self.dataDic.value(forKey: "class_duration") as! String))
+                    self.sessionLbl.text = String.init(format: "%@ Sessions, %@", (self.dataDic.value(forKey: "no_of_session") as! String), (self.dataDic.value(forKey: "class_duration") as! String))
                 
                 
-                if self.isOnline == true
-                {
-                    self.locationBtn.setTitle("Online" , for: .normal)
-//                    self.mapMainView.frame = CGRect(x: self.mapMainView.frame.origin.x , y: self.mapMainView.frame.origin.y, width: self.mapMainView.frame.size.width, height: 0)
-                    self.mapHeight.constant = 0
-                    self.mapMainView.isHidden = true
-                }
-                else
-                {
-                self.locationBtn.setTitle(((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String, for: .normal)
-                let lat = ((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "latitude") as! NSString
-                let long = ((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "longitude") as! NSString
+                    if self.isOnline == true
+                    {
+                        self.locationBtn.setTitle("Online" , for: .normal)
+    //                    self.mapMainView.frame = CGRect(x: self.mapMainView.frame.origin.x , y: self.mapMainView.frame.origin.y, width: self.mapMainView.frame.size.width, height: 0)
+                        self.mapHeight.constant = 0
+                        self.mapMainView.isHidden = true
+                    }
+                    else
+                    {
+                        if let locationDict : NSDictionary = (self.dataDic.value(forKey: "location") as? NSArray)?.object(at: 0) as? NSDictionary
+                        {
+                            self.locationBtn.setTitle(locationDict.value(forKey: "locality") as? String, for: .normal)
+                            
+                            let lat = locationDict.value(forKey: "latitude") as! NSString
+                            let long = locationDict.value(forKey: "longitude") as! NSString
+                            
+                            // Creates a marker in the center of the map.
+                            let marker = GMSMarker()
+                            marker.position = CLLocationCoordinate2D(latitude: lat.doubleValue, longitude: long.doubleValue)
+                            marker.title = locationDict.value(forKey: "location_area") as? String
+                            marker.icon = UIImage(named: "pin")
+                            marker.map = self.mapView
+                            
+                            let camera = GMSCameraPosition.camera(withLatitude: lat.doubleValue, longitude: long.doubleValue, zoom: 6.0)
+                            self.mapView.camera = camera
+                        }
+                    }
                 
-                // Creates a marker in the center of the map.
-                let marker = GMSMarker()
-                marker.position = CLLocationCoordinate2D(latitude: lat.doubleValue, longitude: long.doubleValue)
-                marker.title = ((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location_area") as? String
-                marker.icon = UIImage(named: "pin")
-                marker.map = self.mapView
-                
-                let camera = GMSCameraPosition.camera(withLatitude: lat.doubleValue, longitude: long.doubleValue, zoom: 6.0)
-                self.mapView.camera = camera
-                }
+                    if Int(self.dataDic.value(forKey: "wishlist") as! String) == 1
+                    {
+                        self.favBtn.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
+                    }
+                    else
+                    {
+                        self.favBtn.setImage(#imageLiteral(resourceName: "heartEmpty"), for: .normal)
+                    }
                 }
             }
             else
@@ -273,15 +286,21 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "res_id")) as! String == "1"
             {
+                var dict : [String : AnyObject] = [String : AnyObject]()
+                dict["class_id"] = self.clsID as AnyObject
                 if dic.object(forKey: "res_msg") as! String == "Added to Wishlist"
                 {
                     self.favBtn.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
                     AFWrapperClass.showToast(title: "Added to Wishlist", view: self.view)
+                    dict["isWishlist"] = 1 as AnyObject
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_WISHLIST_CLASS), object: dict)
                 }
                 else
                 {
                     self.favBtn.setImage(#imageLiteral(resourceName: "heartEmpty"), for: .normal)
                     AFWrapperClass.showToast(title: "Removed from Wishlist", view: self.view)
+                    dict["isWishlist"] = 0 as AnyObject
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_WISHLIST_CLASS), object: dict)
                 }
             }
             else
@@ -398,12 +417,13 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     {
         if nameTF.text!.characters.count != 0 && mobileTF.text!.characters.count != 0 && emailTF.text!.characters.count != 0 && dateAndTimeTF.text!.characters.count != 0 && requestDetailsTextView.text!.characters.count != 0
         {
-            let strBody : String = String(format: "Name : %@\nMobile : %@\nEmail : %@\nDate & Time : %@\nRequest : %@", nameTF.text!,mobileTF.text!,emailTF.text!,dateAndTimeTF.text!,requestDetailsTextView.text!)
-            if !MFMailComposeViewController.canSendMail() {
-                print("Mail services are not available")
-                return
-            }
-            sendEmail(strBody)
+//            let strBody : String = String(format: "Name : %@\nMobile : %@\nEmail : %@\nDate & Time : %@\nRequest : %@", nameTF.text!,mobileTF.text!,emailTF.text!,dateAndTimeTF.text!,requestDetailsTextView.text!)
+//            if !MFMailComposeViewController.canSendMail() {
+//                print("Mail services are not available")
+//                return
+//            }
+//            sendEmail(strBody)
+            contactToAdmin()
         }
         else
         {
@@ -414,6 +434,83 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     @IBAction func privateTutorCloseBtnAction(_ sender: Any)
     {
         privateTutorView.isHidden = true
+    }
+    
+    
+    func contactToAdmin()
+    {
+        let baseURL: String  = String(format:"%@contactAdmin",Constants.mainURL)
+        let innerParams : [String: String] = [
+            "name":nameTF.text!,
+            "mobile":mobileTF.text!,
+            "email":emailTF.text!,
+            "message":requestDetailsTextView.text!,
+            "datetime":dateAndTimeTF.text!
+        ]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+        AFWrapperClass.requestPOSTURLVersionChange(baseURL, params: params, success: { (responseDict) in
+            print("DDD: \(responseDict)")
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "res_code")) as! Int == 1
+            {
+                if((dic.object(forKey: "braingroom")) as! NSArray).count > 0
+                {
+                    self.privateTutorView.isHidden = true
+                    self.nameTF.text = ""
+                    self.mobileTF.text = ""
+                    self.emailTF.text = ""
+                    self.dateAndTimeTF.text = ""
+                    self.requestDetailsTextView.text = ""
+                    AFWrapperClass.showToast(title: "Email sent successfully.", view: self.view)
+                }
+                else
+                {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
+                    })
+                }
+            }
+            else
+            {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
+                })
+            }
+        }) { (error) in
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            alert.hideDoneButton = true;
+            alert.addButton("OK", withActionBlock: {
+            })
+        }
     }
     
     func sendEmail(_ body : String) {
@@ -449,6 +546,14 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 // Add code on failed to send a mail.
                 break;
         }
+        
+        privateTutorView.isHidden = true
+        nameTF.text = ""
+        mobileTF.text = ""
+        emailTF.text = ""
+        dateAndTimeTF.text = ""
+        requestDetailsTextView.text = ""
+        
     }
     
     func alert(text: String)

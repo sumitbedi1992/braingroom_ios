@@ -42,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     var SignUpLocation = NSString()
     var SignUpLocationID = NSString()
     var SignUpInterests = NSString()
+    var SignUpInterestsID = NSString()
     var tempUser = NSString()
     
     var userId = NSString()
@@ -145,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        if !url.absoluteString.contains("594294434292581")
+        if url.absoluteString.contains("com.googleusercontent.apps.1036645765552-h3t4c43bc36el12f7ia996e80vgud37t")
         {
             return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }else{
@@ -167,6 +168,89 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     func profileStoryboard() -> UIStoryboard
     {
         return UIStoryboard(name: "Profile", bundle: nil)
+    }
+    
+    func setSocialLogin(isSocial : Bool)
+    {
+        UserDefaults.standard.set(isSocial, forKey: "isSocialLogin")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func isSocialLogin() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "isSocialLogin")
+    }
+    
+    func setLoginUserCountry(value : String)
+    {
+        UserDefaults.standard.set(value, forKey: "user_country")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getLoginUserCountry() -> String
+    {
+        if let value = UserDefaults.standard.value(forKey: "user_country")
+        {
+            return value as! String
+        }
+        else
+        {
+            return ""
+        }
+    }
+    
+    func setLoginUserState(value : String)
+    {
+        UserDefaults.standard.set(value, forKey: "user_state")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getLoginUserState() -> String
+    {
+        if let value = UserDefaults.standard.value(forKey: "user_state")
+        {
+            return value as! String
+        }
+        else
+        {
+            return ""
+        }
+    }
+    
+    func setLoginUserCity(value : String)
+    {
+        UserDefaults.standard.set(value, forKey: "user_city")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getLoginUserCategory() -> String
+    {
+        if let value = UserDefaults.standard.value(forKey: "user_category")
+        {
+            return value as! String
+        }
+        else
+        {
+            return ""
+        }
+    }
+    
+    func setLoginUserCategory(value : String)
+    {
+        UserDefaults.standard.set(value, forKey: "user_category")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getLoginUserCity() -> String
+    {
+        if let value = UserDefaults.standard.value(forKey: "user_city")
+        {
+            return value as! String
+        }
+        else
+        {
+            return ""
+        }
     }
     
     func getUserProfile()

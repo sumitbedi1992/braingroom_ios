@@ -73,7 +73,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     var total = Int()
     var grandTotal = Int()
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
+    var ticket = String()
     @IBOutlet weak var couponTFWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var promoTFWidthConstraint: NSLayoutConstraint!
     
@@ -292,6 +292,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             couponCodeBtn.setTitle("Apply", for: .normal)
             promoCodeBtn.setTitle("Apply a promo code", for: .normal)
             self.isCoupon = true
+            self.isPromo = false
         }
         else{}
         
@@ -319,6 +320,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             promoCodeBtn.setTitle("Apply", for: .normal)
             couponCodeBtn.setTitle("Apply a coupan code", for: .normal)
             self.isPromo = true
+            self.isCoupon = false
         }
         else{}
         
@@ -489,12 +491,13 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func promoCodeApiHitting(guest: Int, codeText: String)
     {
+        ticket = String(format: "{\"tickets\":[{\"level_id\":\"%@\",\"tickets\":\"%d\"}]}", (levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String, quantityTotal)
         let baseURL  = String(format:"%@verifyPromoCode",Constants.mainURL)
         let innerParams  = [
             "class_id":dataDict.object(forKey: "id") as! String,
             "promo_code": codeText,
             "is_guest":guest,
-            "total_ticket":"{tickets:[\((levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String):\(quantityTotal)]}",
+            "total_ticket":ticket,
             "total_amount":total,
             "user_id":userId()
             ] as [String : Any]
@@ -511,10 +514,25 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             {
                 if (dic.object(forKey: "res_msg") as! String) != "Invalid Promo!"
                 {
+                    let dict : NSDictionary = (dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary
+                    self.grandTotal = self.total
+                    if let discount : String = dict.value(forKey: "promo_amount") as? String
+                    {
+                        let newDiscount : Float = Float(discount)!
+                        self.grandTotal = self.grandTotal - Int(newDiscount) 
+                    }
                     
-                    self.grandTotal = self.total - Int((((dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary).object(forKey: "promo_amount") as? String)!)!
                     print("Grand total --> \(self.grandTotal)")
-                    
+                    AFWrapperClass.autoLayoutUpdate(constrain: self.promoTFWidthConstraint, constrainValue: 0, view: self.view)
+                    AFWrapperClass.autoLayoutUpdate(constrain: self.couponTFWidthConstraint, constrainValue: 0, view: self.view)
+                    if self.isCoupon == true
+                    {
+                        self.couponCodeBtn.setTitle(String(format: "Coupon Code Discount Rs. : %d", self.grandTotal), for: .normal)
+                    }
+                    else if self.isPromo == true
+                    {
+                        self.promoCodeBtn.setTitle(String(format: "Promo Code Discount Rs. : %d", self.grandTotal), for: .normal)
+                    }
                     self.payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
                     
                     self.alertSuccessView(text: "Code applied successfully.")
@@ -522,14 +540,14 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                     self.popUpView.isHidden = true
                     self.loginView.isHidden = true
                     
-                    if self.isCoupon == true
-                    {
-                        self.couponCodeBtn.setTitle("Applied", for: .normal)
-                    }
-                    else
-                    {
-                        self.promoCodeBtn.setTitle("Applied", for: .normal)
-                    }
+//                    if self.isCoupon == true
+//                    {
+//                        self.couponCodeBtn.setTitle("Applied", for: .normal)
+//                    }
+//                    else
+//                    {
+//                        self.promoCodeBtn.setTitle("Applied", for: .normal)
+//                    }
                 }
                 else
                 {
@@ -544,12 +562,13 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
 
     func paymentApiHitting(guest: Int)
     {
+        
         let baseURL  = String(format:"%@getBookNowPageDetails",Constants.mainURL)
         let innerParams  = [
             "amount":self.grandTotal,
             "class_id": dataDict.object(forKey: "id") as! String,
             "is_guest":guest,
-            "levels":"[{\((levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String):\(quantityTotal)}]",
+            "levels":ticket,
             "locality_id":(locationArray.object(at: 0) as! NSDictionary).object(forKey: "locality_id") as! String,
             "txnid":"",
             "user_id":userId()
@@ -578,7 +597,9 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                     }
                 }else
                 {
-                    self.paymentSuccessApiHitting(paymentTxtId: "", transactionId: self.transactionId, guest: guest)
+                    self.transactionId = (((dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary).object(forKey:"txnid") as? String)!
+                    //self.paymentSuccessApiHitting(paymentTxtId: "", transactionId: self.transactionId, guest: guest)
+                    self.freeBookingPaymentSuccessApiHitting(paymentTxtId: "", transactionId: self.transactionId, guest: guest)
                 }
                 
             }
@@ -594,6 +615,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func paymentSuccessApiHitting(paymentTxtId: String, transactionId: String, guest: Int)
     {
+        ticket = String(format: "{\"tickets\":[{\"level_id\":\"%@\",\"tickets\":\"%d\"}]}", (levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String, quantityTotal)
         let baseURL  = String(format:"%@getBookNowPageDetails",Constants.mainURL)
         let innerParams  = [
             "amount":self.grandTotal,
@@ -605,9 +627,9 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             "locality_id":(locationArray.object(at: 0) as! NSDictionary).object(forKey: "locality_id") as! String,
             "promo_value":"",
             "promo_id":"",
-            "tickets":"{tickets:[\((levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String):\(quantityTotal)]}",
-            "user_email":"",
-            "user_mobile":UserDefaults.standard.object(forKey: "userMobile") as? String ?? "" ,
+            "tickets":ticket,
+            "user_email":appDelegate.userData.value(forKey: "email") as? String ?? "",
+            "user_mobile":appDelegate.userData.value(forKey: "contact_no") as? String ?? "" ,
             "txnid":paymentTxtId,
             "user_id":userId()
             ] as [String : Any]
@@ -624,6 +646,56 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             {
                 AFWrapperClass.showToast(title: "Payment Successfully Done. Thank you.", view: self.view)
 //                self.alertSuccessView(text: "Payment Successfully Done. Thank you.")
+                self.isGuest = false
+                
+                self.isCoupon = false
+                self.isPromo = false
+                self.backBtnAction(self)
+            }
+            else
+            {
+                self.alertView(text: "Something went wrong. Please, try again later.")
+            }
+        }) { (error) in
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            self.alertView(text: error.localizedDescription)
+        }
+    }
+    
+    func freeBookingPaymentSuccessApiHitting(paymentTxtId: String, transactionId: String, guest: Int)
+    {
+        ticket = String(format: "{\"tickets\":[{\"level_id\":\"%@\",\"tickets\":\"%d\"}]}", (levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String, quantityTotal)
+        
+        let baseURL  = String(format:"%@razorPaySuccess",Constants.mainURL)
+        let innerParams  = [
+            "amount":self.grandTotal,  // Total paid amount
+            "bg_txnid":transactionId, // Braingroom  transactionId
+            "book_type":1, //
+            "class_id":dataDict.object(forKey: "id") as! String, // class id
+            "coupon_value":"0.0", // applied coupon amount
+            "is_guest":guest,  // guest booking 1 normal booking 0
+            "locality_id":(locationArray.object(at: 0) as! NSDictionary).object(forKey: "locality_id") as! String, // location id
+            "promo_value":"1.0", // promo amount
+            "promo_id":"testzero", // promo code
+            "txnid":"", // razor pay transaction id
+            "tickets":ticket, // booked class levels and number of tickets
+            "user_email":appDelegate.userData.value(forKey: "email") as? String ?? "", // user email id
+            "user_id":userId(), // user id
+            "user_mobile":appDelegate.userData.value(forKey: "contact_no") as? String ?? "" //user mobile number
+            ] as [String : Any]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+        AFWrapperClass.requestPOSTURL(baseURL, params: params, success: { (responseDict) in
+            print("DDD: \(responseDict)")
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "braingroom") as! NSArray).count != 0
+            {
+                AFWrapperClass.showToast(title: "Payment Successfully Done. Thank you.", view: self.view)
+                //                self.alertSuccessView(text: "Payment Successfully Done. Thank you.")
                 self.isGuest = false
                 
                 self.isCoupon = false

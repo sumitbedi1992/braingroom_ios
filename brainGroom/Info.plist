@@ -39,14 +39,6 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>1036645765552-h3t4c43bc36el12f7ia996e80vgud37t.apps.googleusercontent.com</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>com.braingroom</string>
 			<key>CFBundleURLSchemes</key>

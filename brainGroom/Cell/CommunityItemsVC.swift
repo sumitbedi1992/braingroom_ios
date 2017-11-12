@@ -242,7 +242,16 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             cell.descripitionLbl.text = String.init(format: "%@", dict.object(forKey: "class_topic") as! String)
             if self.isOnline == false
             {
-                cell.onlineLbl.text = String.init(format: "%@", ((dict.object(forKey: "vendorClasseLocationDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as! String)
+                if let locationArr : NSArray = dict.object(forKey: "vendorClasseLocationDetail") as? NSArray
+                {
+                    if locationArr.count != 0
+                    {
+                        if let locationDict : NSDictionary = locationArr.object(at: 0) as? NSDictionary
+                        {
+                            cell.onlineLbl.text = String.init(format: "%@", locationDict.value(forKey: "locality") as! String)
+                        }
+                    }
+                }
             }
             else
             {
@@ -274,7 +283,16 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             cell.descripitionLbl.text = String.init(format: "%@",  dict.object(forKey: "class_topic") as! String)
             if self.isOnline == false
             {
-                cell.onlineLbl.text = String.init(format: "%@", ((dict.object(forKey: "vendorClasseLocationDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as! String)
+                if let locationArr : NSArray = dict.object(forKey: "vendorClasseLocationDetail") as? NSArray
+                {
+                    if locationArr.count != 0
+                    {
+                        if let locationDict : NSDictionary = locationArr.object(at: 0) as? NSDictionary
+                        {
+                            cell.onlineLbl.text = String.init(format: "%@", locationDict.value(forKey: "locality") as! String)
+                        }
+                    }
+                }
             }
             else
             {

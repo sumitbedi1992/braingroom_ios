@@ -331,24 +331,21 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
 //            self.navigationController?.pushViewController(vc, animated: true)
         case 4:
             
-            if let login_type = appDelegate.userData.value(forKey: "login_type")
+            if appDelegate.isSocialLogin() == false
             {
-                if (login_type as! String) == "direct"
-                {
-                    self.searchBtn.isHidden = true
-                    self.notificationBtn.isHidden = true
-                    let view1 = self.childViewControllers.last
-                    
-                    view1?.willMove(toParentViewController: nil)
-                    view1?.view.removeFromSuperview()
-                    view1?.removeFromParentViewController()
-                    
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
-                    self.addChildViewController(vc)
-                    vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
-                    self.container.addSubview((vc.view)!)
-                    vc.didMove(toParentViewController: self)
-                }
+                self.searchBtn.isHidden = true
+                self.notificationBtn.isHidden = true
+                let view1 = self.childViewControllers.last
+                
+                view1?.willMove(toParentViewController: nil)
+                view1?.view.removeFromSuperview()
+                view1?.removeFromParentViewController()
+                
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "ChangePasswordVC") as! ChangePasswordVC
+                self.addChildViewController(vc)
+                vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
+                self.container.addSubview((vc.view)!)
+                vc.didMove(toParentViewController: self)
             }
             else
             {
@@ -359,40 +356,43 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 alert.dismissOnOutsideTouch = false
                 alert.delegate = self
                 alert.makeAlertTypeCaution()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
+                alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
             }
 
         case 5:
             
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeCaution()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle:nil, andButtons: nil)
-            alert.hideDoneButton = true
+            DispatchQueue.main.async {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeCaution()
+                alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true
+                
+                alert.addButton("Yes", withActionBlock: {
+                    
+                    UserDefaults.standard.set("", forKey: "user_id")
+                    self.appDelegate.userId = ""
+                    self.viewWillAppear(false)
+                    
+                    self.searchBtn.isHidden = false
+                    self.notificationBtn.isHidden = false
+                    let view = self.childViewControllers.last
+                    view?.removeFromParentViewController()
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
+                    self.addChildViewController(vc)
+                    vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
+                    self.container.addSubview((vc.view)!)
+                    vc.didMove(toParentViewController: self)
+                    
+                })
+                alert.addButton("No, Thanks", withActionBlock: {
+                })
+            }
             
-            alert.addButton("Yes", withActionBlock: {
-                
-                UserDefaults.standard.set("", forKey: "user_id")
-                self.appDelegate.userId = ""
-                self.viewWillAppear(false)
-                
-                self.searchBtn.isHidden = false
-                self.notificationBtn.isHidden = false
-                let view = self.childViewControllers.last
-                view?.removeFromParentViewController()
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
-                self.addChildViewController(vc)
-                vc.view.frame = CGRect(x: 10, y: 0, width: self.container.frame.size.width-20, height: self.container.frame.size.height)
-                self.container.addSubview((vc.view)!)
-                vc.didMove(toParentViewController: self)
-                
-            })
-            alert.addButton("No, Thanks", withActionBlock: {
-            })
         case 6:
             self.searchBtn.isHidden = true
             self.notificationBtn.isHidden = true
