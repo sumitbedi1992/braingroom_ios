@@ -7983,7 +7983,7 @@ Cg
                                         <rect key="frame" x="10" y="109" width="80" height="25.5"/>
                                         <color key="backgroundColor" red="0.092671034558044485" green="0.66878615977680433" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="E3n-Uj-14F"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="E3n-Uj-14F"/>
                                         </constraints>
                                         <state key="normal" title="EDIT">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -8049,7 +8049,7 @@ Cg
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Evx-lI-4ze">
                                         <rect key="frame" x="98" y="109" width="60" height="25.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="ih1-1n-ndq"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="ih1-1n-ndq"/>
                                         </constraints>
                                         <attributedString key="attributedText">
                                             <fragment content="4">
@@ -8078,7 +8078,7 @@ Cg
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Vzg-ZI-D1b">
                                         <rect key="frame" x="162" y="109.5" width="69.5" height="25.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="69.5" id="CE8-eF-gJx"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="69.5" id="CE8-eF-gJx"/>
                                         </constraints>
                                         <attributedString key="attributedText">
                                             <fragment content="5">
@@ -8106,7 +8106,7 @@ Cg
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="7Vc-ac-VIg">
                                         <rect key="frame" x="235.5" y="109.5" width="76.5" height="25.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="76.5" id="UaG-qc-IG0"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="76.5" id="UaG-qc-IG0"/>
                                         </constraints>
                                         <attributedString key="attributedText">
                                             <fragment content="4">
