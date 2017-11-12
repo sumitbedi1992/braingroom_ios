@@ -31,7 +31,6 @@ class ProfileFeedViewController: UIViewController {
         
         userImage.layer.cornerRadius = userImage.frame.size.height/2
         userImage.layer.masksToBounds = true
-        onUpdateLoggedInUserData()
         profileTable.estimatedRowHeight = 330
         profileTable.rowHeight = UITableViewAutomaticDimension
     }
@@ -39,10 +38,12 @@ class ProfileFeedViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated) // No need for semicolon
         postsApiHitting(major: "learners_forum", minor: "tips_tricks")
+        onUpdateLoggedInUserData()
     }
 
     func onUpdateLoggedInUserData()
     {
+        print(appDelegate.userData)
         userNameLbl.text = (appDelegate.userData.value(forKey:"name") as? String)?.capitalized
         
         if appDelegate.userData.value(forKey:"profile_image") != nil {
@@ -52,9 +53,10 @@ class ProfileFeedViewController: UIViewController {
             userImage.setImage(UIImage.init(named: "imm"), for: .normal)
         }
         
-        categoryLbl.text = (appDelegate.userData.value(forKey:"category_name") as? String)
+        collegeLbl.text = (appDelegate.userData.value(forKey:"institution_name1") as? String)
+        categoryLbl.text = appDelegate.getLoginUserCategory()
         localityLbl.text = (appDelegate.userData.value(forKey:"locality") as? String)
-        collegeLbl.text = (appDelegate.userData.value(forKey:"institute_name1") as? String)
+        
     }
     
     @IBAction func clickToEditProfile(_ sender: Any)

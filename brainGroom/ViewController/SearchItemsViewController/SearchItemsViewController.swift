@@ -110,6 +110,11 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
                 "city_id": id
             ]
         }
+        else if keyForApi == "interest"
+        {
+            strr = "getCategory"
+            innerParams = [:]
+        }
         
 //        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
         
@@ -225,6 +230,17 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
                 self.navigationController?.popViewController(animated: true)
             }
         }
+        else if keyForApi == "interest"
+        {
+            if appDelegate.SignUpInterests == ""
+            {
+                
+            }
+            else
+            {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     
     }
     @IBAction func clearBtn(_ sender: Any)
@@ -256,7 +272,11 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
             appDelegate.SignUpLocation = ""
             appDelegate.SignUpLocationID = ""
         }
-        
+        else if keyForApi == "interest"
+        {
+            appDelegate.SignUpInterests = ""
+            appDelegate.SignUpInterestsID = ""
+        }
     }
 
     @IBAction func backBtnAction(_ sender: Any)
@@ -284,6 +304,10 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
         if keyForApi == "college"
         {
             name = ((resulrArray[indexPath.row] as! NSDictionary).value(forKey: "college_name") as? String)!
+        }
+        else if keyForApi == "interest"
+        {
+            name = ((filteredArray[indexPath.row] as! NSDictionary).value(forKey: "category_name") as? String)!
         }
         else
         {
@@ -330,6 +354,13 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
             self.view.endEditing(true)
             appDelegate.SignUpLocationID = (filteredArray[indexPath.row] as! NSDictionary).value(forKey: "id") as! NSString
             appDelegate.SignUpLocation = (filteredArray[indexPath.row] as! NSDictionary).value(forKey: "name") as! NSString
+        }
+        else if keyForApi == "interest"
+        {
+            selectedItemsLbl.text = (filteredArray[indexPath.row] as! NSDictionary).value(forKey: "category_name") as? String
+            self.view.endEditing(true)
+            appDelegate.SignUpInterests = (filteredArray[indexPath.row] as! NSDictionary).value(forKey: "category_name") as! NSString
+            appDelegate.SignUpInterestsID = (filteredArray[indexPath.row] as! NSDictionary).value(forKey: "id") as! NSString
         }
         
     }

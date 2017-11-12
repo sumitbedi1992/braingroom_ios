@@ -268,6 +268,7 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                         let userId = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "id") as! String
                         UserDefaults.standard.set(userId , forKey: "user_id")
                         UserDefaults.standard.set(self.emailStringSocial , forKey: "user_email")
+                        self.appDelegate.setSocialLogin(isSocial: true)
                         self.appDelegate.userId = userId as NSString
                         self.appDelegate.userData = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).mutableCopy() as! NSMutableDictionary
                         
@@ -367,6 +368,7 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                         let mobile = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "mobile") as! String
                         UserDefaults.standard.set(userId , forKey: "user_id")
                         UserDefaults.standard.set(mobile, forKey: "userMobile")
+                        self.appDelegate.setSocialLogin(isSocial: false)
                         self.appDelegate.userId = userId as NSString
                         self.appDelegate.userData = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).mutableCopy() as! NSMutableDictionary
                         

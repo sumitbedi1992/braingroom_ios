@@ -103,17 +103,19 @@ class MyProfileViewController: UIViewController,FCAlertViewDelegate, UICollectio
             {
                 if((dic.object(forKey: "braingroom")) as! NSArray).count > 0
                 {
-                    self.imageview.sd_setImage(with: URL(string:((((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "profile_image") as? String)!), placeholderImage: UIImage.init(named: "imm"))
-                    self.classesArray = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "classes") as! NSArray
-                    self.reviewArray = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "review") as! NSArray
-                    self.nameTF.text = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "name") as? String
-                    self.localityTF.text = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "locality") as? String
-                    self.cityTF.text = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "city") as? String
-                    self.interestsTF.text = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "interest") as? String
-                    self.institutionTF.text = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "institution") as? String
-                    self.expertiseTF.text = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "expertise_area") as? String
-                    self.addressTF.text = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "address") as? String
-                    self.descriptionTF.text = (((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "description") as? String
+                    let dict : NSDictionary = ((dic.object(forKey: "braingroom")) as! NSArray).object(at: 0) as! NSDictionary
+                    
+                    self.imageview.sd_setImage(with: URL(string:(dict.value(forKey: "profile_image") as? String)!)!, placeholderImage: UIImage.init(named: "imm"))
+                    self.classesArray = dict.value(forKey: "classes") as! NSArray
+                    self.reviewArray = dict.value(forKey: "review") as! NSArray
+                    self.nameTF.text = dict.value(forKey: "name") as? String
+                    self.localityTF.text = dict.value(forKey: "locality") as? String
+                    self.cityTF.text = dict.value(forKey: "city") as? String
+                    self.interestsTF.text = dict.value(forKey: "interest") as? String
+                    self.institutionTF.text = dict.value(forKey: "institution") as? String
+                    self.expertiseTF.text = dict.value(forKey: "expertise_area") as? String
+                    self.addressTF.text = dict.value(forKey: "address") as? String
+                    self.descriptionTF.text = dict.value(forKey: "description") as? String
                 }
                 else
                 {

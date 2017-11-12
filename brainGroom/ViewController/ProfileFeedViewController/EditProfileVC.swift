@@ -48,6 +48,9 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         dobPicker.datePickerMode = UIDatePickerMode.date
         dobPicker.maximumDate = Date()
         dobPicker.addTarget(self, action: #selector(handleDatePicker(_:)), for: UIControlEvents.valueChanged)
+        
+        _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(setDataValue), userInfo: nil, repeats: false)
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -91,7 +94,14 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         {
             collegeNameLBL.text = appDelegate.signUpUGCollege as String
         }
-        setDataValue()
+        if appDelegate.SignUpInterests == ""
+        {
+            interestLBL.text = "Select Item"
+        }
+        else
+        {
+            interestLBL.text = appDelegate.SignUpInterests as String
+        }
     }
     
     func handleDatePicker(_ sender: UIDatePicker)
@@ -124,11 +134,44 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
             genderLBL.text = "Select Gender"
             gender = "1"
         }
-        countryLBL.text = appDelegate.userData.object(forKey: "country_id") as? String
-        stateLBL.text = appDelegate.userData.object(forKey:"state_id") as? String
-        cityLBL.text = appDelegate.userData.object(forKey:"city") as? String
-        locationLBL.text = appDelegate.userData.object(forKey:"locality") as? String
         
+        appDelegate.signUpCountryID = appDelegate.userData.object(forKey: "country_id") as! NSString
+        if appDelegate.getLoginUserCountry() != ""
+        {
+            countryLBL.text = appDelegate.getLoginUserCountry()
+            appDelegate.signUpCountry = countryLBL.text! as NSString
+        }
+        else if appDelegate.signUpCountryID != ""
+        {
+            //find country
+            getCountryList(countyId: appDelegate.signUpCountryID as String)
+        }
+
+        appDelegate.signUpStateID = appDelegate.userData.object(forKey: "state_id") as! NSString
+        if appDelegate.getLoginUserState() != ""
+        {
+            stateLBL.text = appDelegate.getLoginUserState()
+            appDelegate.signUpState = stateLBL.text! as NSString
+        }
+        else
+        {
+            //find state
+            getStateList(countyId: appDelegate.signUpStateID as String)
+        }
+        
+        appDelegate.signUpCityID = appDelegate.userData.object(forKey: "city_id") as! NSString
+        if appDelegate.getLoginUserCity() != ""
+        {
+            cityLBL.text = appDelegate.getLoginUserCity()
+            appDelegate.signUpCity = cityLBL.text! as NSString
+        }
+        else
+        {
+            //find country
+        }
+        
+        locationLBL.text = appDelegate.userData.object(forKey:"locality") as? String
+        passoutYearTF.text = appDelegate.userData.object(forKey: "institute_poy1") as? String
     }
     
     @IBAction func clickToBack(_ sender: Any)
@@ -156,6 +199,9 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
             genderView.isHidden = false
             animateView.isHidden = false
         case 3:
+            let vc = appDelegate.mainStoryboard().instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+            vc.keyForApi = "interest"
+            self.navigationController?.pushViewController(vc, animated: true)
             break
         case 4:
             let vc = appDelegate.mainStoryboard().instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
@@ -171,7 +217,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
                 alert.dismissOnOutsideTouch = false
                 alert.delegate = self
                 alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select Country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                alert.showAlert(in: appDelegate.window, withTitle: "Braingroom", withSubtitle: "Please select Country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
             else
             {
@@ -190,7 +236,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
                 alert.dismissOnOutsideTouch = false
                 alert.delegate = self
                 alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select State", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                alert.showAlert(in: appDelegate.window, withTitle: "Braingroom", withSubtitle: "Please select State", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
             else
             {
@@ -208,7 +254,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
                 alert.dismissOnOutsideTouch = false
                 alert.delegate = self
                 alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                alert.showAlert(in: appDelegate.window, withTitle: "Braingroom", withSubtitle: "Please select country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
             else
             {
@@ -274,8 +320,6 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
     {
         self.view.endEditing(true)
         
-        
-        
         AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
         
         let baseURL: String  = String(format:"%@updateProfile",Constants.mainURL)
@@ -283,10 +327,10 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         let innerParams : [String: String] = [
             "address":locationLBL.text!,
             "area_of_expertise":appDelegate.userData.value(forKey:"area_of_expertise") as? String ?? "",
-            "category_id":appDelegate.userData.value(forKey:"category_id") as? String ?? "",
-            "city_id":appDelegate.signUpCityID as String,
+            "category_id":appDelegate.SignUpInterestsID as String,
+            "city_id":appDelegate.signUpCityID as? String ?? "",
             "community_id":appDelegate.userData.value(forKey:"community_id") as? String ?? "",
-            "country_id":appDelegate.signUpCountryID as String,
+            "country_id":appDelegate.signUpCountryID as? String ?? "",
             "description":appDelegate.userData.value(forKey:"description") as? String ?? "",
             "dob":dobTxt.text!,
             "email":emailTF.text!,
@@ -294,7 +338,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
             "first_name":fullNameTF.text!,
             "gender":gender,
             "institution_name":collegeNameLBL.text!,
-            "locality_id":appDelegate.SignUpLocationID as String,
+            "locality_id":appDelegate.SignUpLocationID as? String ?? "",
             "mobile":mobileNumberTF.text!,
             "official_reg_id":appDelegate.userData.value(forKey:"official_reg_id") as? String ?? "",
             "primary_verification_media1":appDelegate.userData.value(forKey:"primary_verification_media1") as? String ?? "",
@@ -304,8 +348,8 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
             "secoundary_verification_media1":appDelegate.userData.value(forKey:"secoundary_verification_media1") as? String ?? "",
             "secoundary_verification_media2":appDelegate.userData.value(forKey:"secoundary_verification_media2") as? String ?? "",
             "secoundary_verification_media3":appDelegate.userData.value(forKey:"secoundary_verification_media3") as? String ?? "",
-            "state_id":appDelegate.signUpStateID as String,
-            "institute_poy1":appDelegate.userData.value(forKey:"institute_poy1") as? String ?? "",
+            "state_id":appDelegate.signUpStateID as? String ?? "",
+            "institute_poy1":passoutYearTF.text!,
             "uuid":appDelegate.userData.value(forKey:"uuid") as? String ?? ""
         ]
         
@@ -320,6 +364,11 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
+                self.appDelegate.signUpPassout = (self.passoutYearTF.text as? NSString)!
+                self.appDelegate.setLoginUserCountry(value: self.appDelegate.signUpCountry as String)
+                self.appDelegate.setLoginUserState(value: self.appDelegate.signUpState as String)
+                self.appDelegate.setLoginUserCity(value: self.appDelegate.signUpCity as String)
+                self.appDelegate.setLoginUserCategory(value: self.appDelegate.SignUpInterests as String)
                 self.appDelegate.getUserProfile()
                 AFWrapperClass.showToast(title: "Profile update successfully", view: self.appDelegate.window!)
                 self.navigationController?.popViewController(animated: true)
@@ -343,6 +392,89 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         }
     }
     
+    func getCountryList(countyId : String)
+    {
+        var innerParams = [String: String]()
+        innerParams = [:]
+        
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        let baseURL: String  = String(format:"%@getCountry",Constants.mainURL)
+        print(params)
+        AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            
+            let dic:NSDictionary = responseDict as NSDictionary
+            
+            if (dic.object(forKey: "braingroom") as! NSArray).count > 0
+            {
+                let resulrArray : NSArray = dic.object(forKey: "braingroom") as! NSArray
+                for i in 0..<resulrArray.count
+                {
+                    let dict : NSDictionary = resulrArray[i] as! NSDictionary
+                    if dict.value(forKey: "id") as! String == countyId
+                    {
+                        self.appDelegate.signUpCountryID = dict.value(forKey: "id") as! NSString
+                        self.appDelegate.signUpCountry = dict.value(forKey: "name") as! NSString
+                        self.appDelegate.setLoginUserCountry(value: self.appDelegate.signUpCountry as String)
+                        self.countryLBL.text = self.appDelegate.getLoginUserCountry()
+                        break
+                    }
+                }
+            }
+            else
+            {
+                print(dic.object(forKey: "res_msg"))
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
+    func getStateList(countyId : String)
+    {
+        var innerParams = [String: String]()
+        innerParams = [:]
+        
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        let baseURL: String  = String(format:"%@getState",Constants.mainURL)
+        print(params)
+        AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            
+            let dic:NSDictionary = responseDict as NSDictionary
+            
+            if (dic.object(forKey: "braingroom") as! NSArray).count > 0
+            {
+                let resulrArray : NSArray = dic.object(forKey: "braingroom") as! NSArray
+                for i in 0..<resulrArray.count
+                {
+                    let dict : NSDictionary = resulrArray[i] as! NSDictionary
+                    if dict.value(forKey: "id") as! String == countyId
+                    {
+                        self.appDelegate.signUpStateID = dict.value(forKey: "id") as! NSString
+                        self.appDelegate.signUpState = dict.value(forKey: "name") as! NSString
+                        self.appDelegate.setLoginUserState(value: self.appDelegate.signUpState as String)
+                        self.stateLBL.text = self.appDelegate.getLoginUserState()
+                        break
+                    }
+                }
+            }
+            else
+            {
+                print(dic.object(forKey: "res_msg"))
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
