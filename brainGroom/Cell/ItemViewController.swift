@@ -47,6 +47,9 @@ class subCell : UICollectionViewCell
 class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate
 {
     @IBOutlet weak var btnList: UIButton!
+    @IBOutlet weak var itemCollectionView: UICollectionView!
+    @IBOutlet weak var subCollectionView: UICollectionView!
+    @IBOutlet weak var imgListGrid: UIImageView!
     @IBAction func backBtnAction(_ sender: Any)
     {
         self.navigationController?.popViewController(animated: true)
@@ -74,10 +77,6 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     var pageNumber : Int = 1
     var isNextPage : Bool = false    
     
-    @IBOutlet weak var itemCollectionView: UICollectionView!
-    @IBOutlet weak var subCollectionView: UICollectionView!
-    
-    @IBOutlet weak var imgListGrid: UIImageView!
     override func viewDidLoad()
     {
         super.viewDidLoad()
