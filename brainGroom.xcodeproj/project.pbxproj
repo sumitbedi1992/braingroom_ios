@@ -76,6 +76,9 @@
 		3DF50A131F3DDCD2007D288B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DF50A111F3DDCD2007D288B /* LaunchScreen.storyboard */; };
 		612A1D091FAF2D78008CF9BA /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612A1D081FAF2CBF008CF9BA /* DatePickerDialog.swift */; };
 		61DA80D91FAA40E90058588B /* Main2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61DA80D81FAA40E90058588B /* Main2.storyboard */; };
+		62F3C8FF1FB89BE8005AF271 /* BGNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3C8FE1FB89BE7005AF271 /* BGNavController.swift */; };
+		62F3C9011FB89DC7005AF271 /* BGUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3C9001FB89DC7005AF271 /* BGUIColor.swift */; };
+		62F3C9031FB8C6A1005AF271 /* BGSocialLearningFilterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62F3C9021FB8C6A1005AF271 /* BGSocialLearningFilterVC.swift */; };
 		747D226B4804CDBDB9ACB8D7 /* Pods_brainGroom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8DD4162CC4CE9604924D8E /* Pods_brainGroom.framework */; };
 		99599B621FB782C9004982EF /* BGSocialLearningVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99599B5E1FB782C5004982EF /* BGSocialLearningVC.swift */; };
 		99599B631FB782C9004982EF /* BGSocialLearningCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99599B5F1FB782C7004982EF /* BGSocialLearningCollectionCell.swift */; };
@@ -157,6 +160,9 @@
 		4E92EE515693C508160853CE /* Pods-brainGroom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brainGroom.release.xcconfig"; path = "Pods/Target Support Files/Pods-brainGroom/Pods-brainGroom.release.xcconfig"; sourceTree = "<group>"; };
 		612A1D081FAF2CBF008CF9BA /* DatePickerDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		61DA80D81FAA40E90058588B /* Main2.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main2.storyboard; sourceTree = "<group>"; };
+		62F3C8FE1FB89BE7005AF271 /* BGNavController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGNavController.swift; sourceTree = "<group>"; };
+		62F3C9001FB89DC7005AF271 /* BGUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGUIColor.swift; sourceTree = "<group>"; };
+		62F3C9021FB8C6A1005AF271 /* BGSocialLearningFilterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGSocialLearningFilterVC.swift; sourceTree = "<group>"; };
 		99599B5E1FB782C5004982EF /* BGSocialLearningVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGSocialLearningVC.swift; sourceTree = "<group>"; };
 		99599B5F1FB782C7004982EF /* BGSocialLearningCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BGSocialLearningCollectionCell.swift; sourceTree = "<group>"; };
 		99599B601FB782C8004982EF /* BGSocialLearningCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BGSocialLearningCollectionCell.xib; sourceTree = "<group>"; };
@@ -340,11 +346,13 @@
 		2FA48F611F9FC5D400096643 /* SocialLearningViewController */ = {
 			isa = PBXGroup;
 			children = (
+				99599B5E1FB782C5004982EF /* BGSocialLearningVC.swift */,
+				62F3C8FE1FB89BE7005AF271 /* BGNavController.swift */,
 				99599B5F1FB782C7004982EF /* BGSocialLearningCollectionCell.swift */,
 				99599B601FB782C8004982EF /* BGSocialLearningCollectionCell.xib */,
 				99599B611FB782C9004982EF /* BGSocialLearningTableCell.swift */,
-				99599B5E1FB782C5004982EF /* BGSocialLearningVC.swift */,
 				2FA48F621F9FC5D400096643 /* SocialLearningVC.swift */,
+				62F3C9021FB8C6A1005AF271 /* BGSocialLearningFilterVC.swift */,
 			);
 			path = SocialLearningViewController;
 			sourceTree = "<group>";
@@ -422,6 +430,7 @@
 			children = (
 				2F5298D81FB0C121003687C8 /* AlertController */,
 				2FA48F8A1F9FC72A00096643 /* UITextFieldX.swift */,
+				62F3C9001FB89DC7005AF271 /* BGUIColor.swift */,
 				2FA48F8B1F9FC72A00096643 /* UIButtonX.swift */,
 				2FA48F8C1F9FC72A00096643 /* UILabelX.swift */,
 				2FA48F8D1F9FC72A00096643 /* ACFloatingTextfield.swift */,
@@ -755,6 +764,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FA48F7B1F9FC5D400096643 /* BookmarksViewController.swift in Sources */,
+				62F3C9031FB8C6A1005AF271 /* BGSocialLearningFilterVC.swift in Sources */,
 				2FA48FAA1F9FC8A700096643 /* BuyAndSellVC.swift in Sources */,
 				2FD3B82E1FA4CEF900EBEEF8 /* FacebookHelper.swift in Sources */,
 				2FA48F7C1F9FC5D400096643 /* MapVC.swift in Sources */,
@@ -771,6 +781,7 @@
 				2FA48F731F9FC5D400096643 /* WishListViewController.swift in Sources */,
 				2FA48F7A1F9FC5D400096643 /* HeadingViewController.swift in Sources */,
 				2FC024401FA4792700545BDF /* ProfilePostTVCell.swift in Sources */,
+				62F3C8FF1FB89BE8005AF271 /* BGNavController.swift in Sources */,
 				2FA48F991F9FC82400096643 /* FilterViewController.swift in Sources */,
 				2FA48F901F9FC72B00096643 /* UITextFieldX.swift in Sources */,
 				3D1BEAAC1F3EC55D00A28BA9 /* Constants.swift in Sources */,
@@ -793,6 +804,7 @@
 				2FA48F871F9FC5D400096643 /* LoginVC.swift in Sources */,
 				2FA48FB01F9FC8A700096643 /* DiscussionVC.swift in Sources */,
 				2FA48F781F9FC5D400096643 /* ReplyCommentsVC.swift in Sources */,
+				62F3C9011FB89DC7005AF271 /* BGUIColor.swift in Sources */,
 				2FA48F741F9FC5D400096643 /* FAQViewController.swift in Sources */,
 				2FA48F821F9FC5D400096643 /* MyProfileViewController.swift in Sources */,
 				99599B621FB782C9004982EF /* BGSocialLearningVC.swift in Sources */,
@@ -944,7 +956,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KB26MGJ7LV;
+				DEVELOPMENT_TEAM = E6WB3Q9BUP;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -971,7 +983,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = KB26MGJ7LV;
+				DEVELOPMENT_TEAM = E6WB3Q9BUP;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
