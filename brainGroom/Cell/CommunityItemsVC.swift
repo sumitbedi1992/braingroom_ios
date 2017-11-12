@@ -335,7 +335,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
         {
             //TODO: Vignedh
             //return CGSize(width: 167, height:258);
-            return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.9) > 258 ? itemCollectionView.bounds.size.height/2:258);
+            return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.9) > 260 ? itemCollectionView.bounds.size.height/2:260);
         }
         else
         {

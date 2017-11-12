@@ -449,7 +449,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             {
                 //TODO: Vignedh
                 //return CGSize(width: 167, height:258);
-                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 258 ? itemCollectionView.bounds.size.height/1.8:258);
+                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 260 ? itemCollectionView.bounds.size.height/1.8:260);
             }
             else
             {

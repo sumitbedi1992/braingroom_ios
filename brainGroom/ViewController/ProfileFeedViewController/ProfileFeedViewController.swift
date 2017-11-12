@@ -31,7 +31,7 @@ class ProfileFeedViewController: UIViewController {
         
         userImage.layer.cornerRadius = userImage.frame.size.height/2
         userImage.layer.masksToBounds = true
-        profileTable.estimatedRowHeight = 330
+        profileTable.estimatedRowHeight = 324
         profileTable.rowHeight = UITableViewAutomaticDimension
     }
     
@@ -174,6 +174,12 @@ extension ProfileFeedViewController : UITableViewDataSource, UITableViewDelegate
         cell.userImage.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "vendor_image") as! String), placeholderImage: nil)
         
         cell.postImage.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_image") as! String), placeholderImage: nil)
+        if let _ = cell.postImage.image {
+            cell.postImage.isHidden = false
+        }
+        else {
+            cell.postImage.isHidden = true
+        }
         
         
         cell.likeCountbtn.tag = indexPath.row
@@ -191,13 +197,10 @@ extension ProfileFeedViewController : UITableViewDataSource, UITableViewDelegate
         
         return cell
     }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
-    {
-        return 330
-    }
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
+
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableViewAutomaticDimension
+//    }
     
     func timeStampToDate(time: String) -> String
     {
