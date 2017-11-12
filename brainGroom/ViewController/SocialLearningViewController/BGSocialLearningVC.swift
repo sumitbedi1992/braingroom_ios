@@ -17,7 +17,9 @@ let BuyAndSell = ("group_post",LearnerForum)
 let FindLearningPartners = ("activity_request",LearnerForum)
 let TuTorArticles = ("vendor_article",TutorsTalk)
 let DiscussionForum = ("user_post",TutorsTalk)
-var currentScreen : (key: String, val: String)? = nil
+var currenMinorForum : String!
+var currenMajorForum : String!
+
 
 class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,FCAlertViewDelegate {
  
@@ -41,7 +43,9 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         super.viewDidLoad()
         self.collectionView.register(UINib(nibName: "BGSocialLearningCollectionCell", bundle: nil), forCellWithReuseIdentifier: "socialLearningCell")
         
-       // fetchWebServiceCall(with: KnowledgeNugget.0, and: KnowledgeNugget.1)
+        fetchWebServiceCall(with: KnowledgeNugget.0, and: KnowledgeNugget.1)
+        currenMinorForum = KnowledgeNugget.0
+        currenMajorForum = KnowledgeNugget.1
        
         arrCollectionViewData = ["Post Of the day","Knowledge & Nugget","Buy & Sell","Find learning Partners","Tutors Article","Discuss & Decide"]
      
@@ -52,7 +56,7 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: COllectionView Delegates
+    //MARK: CollectionView Delegates
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arrCollectionViewData.count
@@ -64,14 +68,17 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         let cell : BGSocialLearningCollectionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "socialLearningCell", for: indexPath) as! BGSocialLearningCollectionCell
         
-        cell.backgroundColor = UIColor.red
+        cell.backgroundColor = UIColor.BGGreen
         cell.lblCelltext.text = arrCollectionViewData[indexPath.row]
+        cell.lblCelltext.textColor = UIColor.white
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
     
+        pageCount = 0
+        
         switch indexPath.row {
         case 1:
             fetchWebServiceCall(with: KnowledgeNugget.0, and: KnowledgeNugget.1)
@@ -97,8 +104,9 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     func fetchWebServiceCall(with minorCategory : String, and majorcategory: String)
         {
-            currentScreen?.0 = minorCategory
-            currentScreen?.1 = majorcategory
+            
+            currenMinorForum = minorCategory
+            currenMajorForum = majorcategory
             let baseURL: String  = String(format:"%@getConnectFeedsData",Constants.mainURL)
             let innerParams : [String: Any] = [
                 "author_id":"",
@@ -134,22 +142,23 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
                 let dic:NSDictionary = responseDict as NSDictionary
                 if (dic.object(forKey: "res_code")) as! String == "1"
                 {
+                     self.dataArray.removeAllObjects()
                     // here "jsonData" is the dictionary encoded
-                    if self.isLike == true
-                    {
-                        self.dataArray.removeAllObjects()
+//                    if self.isLike == true
+//                    {
+                    
                         let array = dic["braingroom"] as! NSArray
                         self.dataArray.addObjects(from: array as! [Any])
                         self.indexOfPageToRequest = String(format:"%lu",dic.object(forKey: "next_page") as! Int)
                         self.tblview.reloadData()
-                    }
-                    else
-                    {
-                        let array = dic["braingroom"] as! NSArray
-                        self.dataArray.addObjects(from: array as! [Any])
-                        self.indexOfPageToRequest = String(format:"%lu",dic.object(forKey: "next_page") as! Int)
-                       self.tblview.reloadData()
-                    }
+//                    }
+//                    else
+//                    {
+//                        let array = dic["braingroom"] as! NSArray
+//                        self.dataArray.addObjects(from: array as! [Any])
+//                        self.indexOfPageToRequest = String(format:"%lu",dic.object(forKey: "next_page") as! Int)
+//                       self.tblview.reloadData()
+//                    }
                 }
                 else
                 {
@@ -204,7 +213,8 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
                 }
                 else
                 {
-                    self.alert(text: dic.object(forKey: "res_msg") as! String)
+                   // self.alert(text: dic.object(forKey: "res_msg") as! String)
+                    print("\(String(describing: dic.object(forKey: "res_msg")))")
                 }
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)
@@ -215,19 +225,19 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
     
         func scrollViewDidScroll(_ scrollView: UIScrollView)
         {
-            pageCount += 1
-            let offsetY = scrollView.contentOffset.y
-            let contentHeight = scrollView.contentSize.height
+          
+            let offsetY = tblview.contentOffset.y
+            let contentHeight = tblview.contentSize.height
             
-            if offsetY > contentHeight - scrollView.frame.size.height
+            if offsetY > contentHeight - tblview.frame.size.height
             {
+                pageCount += 1
                 print("IndexPage--->\(self.indexOfPageToRequest),PageCount--->\(self.pageCount)")
                 if self.indexOfPageToRequest == String(format:"%d",pageCount)
                 {
-                    fetchNextSetOfData(with: currentScreen!.0, and: currentScreen!.1, indexOfPageToRequest)
-                   // nextPagePostsApiHitting(page:indexOfPageToRequest)
+                    fetchNextSetOfData(with: currenMinorForum, and: currenMajorForum, indexOfPageToRequest)
                 }
-               self.tblview.reloadData()
+             
             }
         }
         //MARK: ------------------------ TV Delegates & DataSource ---------------------------
@@ -248,34 +258,34 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.lblCategory.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "segment_name") as? String
             let timeStamp = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "date") as? String
             cell.lblDate.text = timeStampToDate(time: timeStamp!)
-            
-            
-            //        cell.dateLbl.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "date") as? String
+ 
             cell.lblSubCategory.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_type") as? String
             cell.lblDescription.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "title") as? String
-//            cell.likeCountLbl.text = String(format:"%lu",(self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "num_likes") as! Int)
-//            cell.commentsCountLbl.text = String(format:"%lu comments",(self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "num_comments") as! Int)
+            cell.lblLikedCount.text = String(format:"%lu",(self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "num_likes") as! Int)
+            cell.lblCommentedCount.text = String(format:"%lu comments",(self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "num_comments") as! Int)
             cell.userImage.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "vendor_image") as! String), for: .normal,placeholderImage: nil)
-//
-//            cell.postImage.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_image") as! String), placeholderImage: nil)
-//
-//            if (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "liked") as! Int == 1 {
-//                cell.likeLbl.text = "liked"
-//            }else {
-//                cell.likeLbl.text = "like"
-//            }
+
+            cell.imgPost.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_image") as! String), placeholderImage: nil)
+
+            if (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "liked") as! Int == 1 {
+                cell.lblLike.text = "liked"
+                cell.lblLike.textColor = UIColor.blue
+            }else {
+               cell.lblLike.text = "like"
+               cell.lblLike.textColor = UIColor.black
+            }
             
-            //        cell.likeBtn.tag = indexPath.row
-            //        cell.likeBtn.addTarget(self, action: #selector(self.likeUnlikeBtnAction(_:)), for: .touchUpInside)
-            //        cell.commentBtn.tag = indexPath.row
-            //        cell.commentBtn.addTarget(self, action: #selector(self.commentBtnAction(_:)), for: .touchUpInside)
-//            cell.shareBtn.tag = indexPath.row
-//            cell.shareBtn.addTarget(self, action: #selector(self.shareBtnAction(_:)), for: .touchUpInside)
-//            
-//
-//            cell.likeBtn.tag = indexPath.row
-//            cell.commentBtn.tag = indexPath.row
-//
+            cell.lblLike.tag = indexPath.row
+            cell.btnLikeAction.addTarget(self, action: #selector(self.likeUnlikeBtnAction(_:)), for: .touchUpInside)
+            cell.btnCommentAction.tag = indexPath.row
+            cell.btnCommentAction.addTarget(self, action: #selector(self.commentBtnAction(_:)), for: .touchUpInside)
+            cell.btnShareAction.tag = indexPath.row
+            cell.btnShareAction.addTarget(self, action: #selector(self.shareBtnAction(_:)), for: .touchUpInside)
+            
+
+            cell.btnLikeAction.tag = indexPath.row
+            cell.btnCommentAction.tag = indexPath.row
+
 //            cell.onlikeTapped = {(likeid) -> Void in
 //                let strID = (self.dataArray.object(at: likeid) as! NSDictionary).object(forKey: "id") as! String
 //                self.likeWebService(strID)
@@ -285,7 +295,7 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
 //                let strID = (self.dataArray.object(at: commentid) as! NSDictionary).object(forKey: "id") as! String
 //                self.commentWebService(strID)
 //            }
-//
+
             return cell
             
             
@@ -307,13 +317,13 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
     
     
-   /*     func likeUnlikeBtnAction(_ sender: UIButton)
+        func likeUnlikeBtnAction(_ sender: UIButton)
         {
             if userId() != ""
             {
                 selectedIndex = IndexPath(row: sender.tag, section: 0)
      
-                let cell = self.tblview.dequeueReusableCell(withIdentifier: "PostTVCell", for: selectedIndex) as! PostTVCell
+                 let cell = tblview.dequeueReusableCell(withIdentifier: "BGSocialLearningTableCell") as! BGSocialLearningTableCell
      
                 let baseURL: String  = String(format:"%@likeUnlike",Constants.mainURL)
      
@@ -334,18 +344,18 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
                         let dataArray = dic["braingroom"] as! NSArray
                         if (dataArray.object(at:0) as! NSDictionary).object(forKey: "liked") as? String == "1"
                         {
-                            cell.likeLbl.text = "liked"
+                            cell.lblLike.text = "liked"
                             self.tblview.reloadRows(at: [self.selectedIndex], with: .automatic)
                             self.isLike = true
-                            self.postsApiHitting()
+                            self.fetchWebServiceCall(with: currenMinorForum, and: currenMajorForum)
                             print("------>like<------")
                         }
                         else
                         {
-                            cell.likeLbl.text = "Like"
+                            cell.lblLike.text = "Like"
                             self.tblview.reloadRows(at: [self.selectedIndex], with: .automatic)
                             self.isLike = true
-                            self.postsApiHitting()
+                            self.fetchWebServiceCall(with: currenMinorForum, and: currenMajorForum)
                             print("------>unlike<------")
                         }
                         self.tblview.reloadData()
@@ -374,7 +384,7 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
             activityViewController.excludedActivityTypes = [ UIActivityType.airDrop]
             self.present(activityViewController, animated: true, completion: nil)
         }
-        */
+ 
     
         @IBAction func postBtnAction(_ sender: Any)
         {
@@ -446,7 +456,9 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
     @IBAction func btnSearchAction(_ sender: Any) {
         
         
-        
+        let filterVC = self.storyboard?.instantiateViewController(withIdentifier: "BGSocialLearningFilterVC") as! BGSocialLearningFilterVC
+        self.navigationController?.pushViewController(filterVC, animated: true)
+       // self.present(filterVC, animated: true, completion: nil)
         
     }
     
@@ -460,6 +472,9 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         self.present(newPostObj, animated: true, completion: nil)
         
     }
+    
+    
+    
 }
 
 
