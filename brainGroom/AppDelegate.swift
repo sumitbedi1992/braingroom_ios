@@ -42,11 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     var SignUpLocation = NSString()
     var SignUpLocationID = NSString()
     var SignUpInterests = NSString()
+    var SignUpInterestsID = NSString()
     var tempUser = NSString()
-    
-    
-
-    
     
     var userId = NSString()
     var userUUID = NSString()
@@ -56,9 +53,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     {
         IQKeyboardManager.sharedManager().enable = true
         IQKeyboardManager.sharedManager().enableAutoToolbar = true
+        
         GMSPlacesClient.provideAPIKey("AIzaSyALR0632alLB7CfRKlG6GEqz8HlVGhZTGA")
         GMSServices.provideAPIKey("AIzaSyALR0632alLB7CfRKlG6GEqz8HlVGhZTGA")
         GIDSignIn.sharedInstance().delegate = self
+        
+        
+        BITHockeyManager.shared().configure(withIdentifier: "287fa86dfde34d3ea8a29f2a078c0402")
+        // Do some additional configuration if needed here
+        BITHockeyManager.shared().start()
+        BITHockeyManager.shared().authenticator.authenticateInstallation()
+
+        GIDSignIn.sharedInstance().clientID = "1036645765552-h3t4c43bc36el12f7ia996e80vgud37t.apps.googleusercontent.com"
         
          signUpFullName = ""
          signUpEmail = ""
@@ -140,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        if !url.absoluteString.contains("594294434292581")
+        if url.absoluteString.contains("com.googleusercontent.apps.1036645765552-h3t4c43bc36el12f7ia996e80vgud37t")
         {
             return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }else{
@@ -153,6 +159,143 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         // Perform any operations when the user disconnects from app here.
         // ...
     }
+    
+    func mainStoryboard() -> UIStoryboard
+    {
+        return UIStoryboard(name: "Main", bundle: nil)
+    }
+    
+    func profileStoryboard() -> UIStoryboard
+    {
+        return UIStoryboard(name: "Profile", bundle: nil)
+    }
+    
+    func setSocialLogin(isSocial : Bool)
+    {
+        UserDefaults.standard.set(isSocial, forKey: "isSocialLogin")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func isSocialLogin() -> Bool
+    {
+        return UserDefaults.standard.bool(forKey: "isSocialLogin")
+    }
+    
+    func setLoginUserCountry(value : String)
+    {
+        UserDefaults.standard.set(value, forKey: "user_country")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getLoginUserCountry() -> String
+    {
+        if let value = UserDefaults.standard.value(forKey: "user_country")
+        {
+            return value as! String
+        }
+        else
+        {
+            return ""
+        }
+    }
+    
+    func setLoginUserState(value : String)
+    {
+        UserDefaults.standard.set(value, forKey: "user_state")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getLoginUserState() -> String
+    {
+        if let value = UserDefaults.standard.value(forKey: "user_state")
+        {
+            return value as! String
+        }
+        else
+        {
+            return ""
+        }
+    }
+    
+    func setLoginUserCity(value : String)
+    {
+        UserDefaults.standard.set(value, forKey: "user_city")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getLoginUserCategory() -> String
+    {
+        if let value = UserDefaults.standard.value(forKey: "user_category")
+        {
+            return value as! String
+        }
+        else
+        {
+            return ""
+        }
+    }
+    
+    func setLoginUserCategory(value : String)
+    {
+        UserDefaults.standard.set(value, forKey: "user_category")
+        UserDefaults.standard.synchronize()
+    }
+    
+    func getLoginUserCity() -> String
+    {
+        if let value = UserDefaults.standard.value(forKey: "user_city")
+        {
+            return value as! String
+        }
+        else
+        {
+            return ""
+        }
+    }
+    
+    func getUserProfile()
+    {
+        if UserDefaults.standard.value(forKey: "user_id") == nil || UserDefaults.standard.value(forKey: "user_id") as! String == ""
+        {
+            return
+        }
+        let baseURL: String  = String(format:"%@getProfile",Constants.mainURL)
+        
+        let innerParams : [String: String] = [
+            "id":UserDefaults.standard.value(forKey: "user_id") as! String
+        ]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        
+        AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "braingroom") as! NSArray).count > 0
+            {
+                let dictData = (dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary
+                print(dictData)
+                self.userData = NSMutableDictionary(dictionary: dictData)
+                for key in self.userData.allKeys
+                {
+                    if (self.userData[key] is NSNull)
+                    { // NSNull is a singleton, so this check is sufficient
+                        self.userData.setValue("", forKey: key as! String)
+                    }
+                }
+
+                UserDefaults.standard.set(self.userData, forKey: "userData")
+                UserDefaults.standard.synchronize()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
+            }
+            
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
     
     func applicationWillResignActive(_ application: UIApplication) {
         
@@ -219,6 +362,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func timeStampToDate(time: String) -> String
+    {
+        let date = NSDate(timeIntervalSince1970: Double(time)!)
+        
+        let dayTimePeriodFormatter =
+            
+            DateFormatter()
+        dayTimePeriodFormatter.dateFormat = "dd/MMM/yyyy"
+        
+        let dateString = dayTimePeriodFormatter.string(from: date as Date)
+        return dateString
+    }
+    
 }
 

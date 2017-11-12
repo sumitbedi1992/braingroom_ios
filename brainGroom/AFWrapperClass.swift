@@ -405,6 +405,24 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         SVProgressHUD.dismiss();
         view.view.isUserInteractionEnabled = true;
     }
+    
+    class func showToast(title:String,view:UIView) -> Void
+    {
+        view.makeToast(title)
+    }
+    
+    class func displaySubViewtoParentView(_ parentview: UIView! , subview: UIView!)
+    {
+        subview.translatesAutoresizingMaskIntoConstraints = false
+        parentview.addSubview(subview);
+        parentview.addConstraint(NSLayoutConstraint(item: subview, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: parentview, attribute: NSLayoutAttribute.top, multiplier: 1.0, constant: 0.0))
+        parentview.addConstraint(NSLayoutConstraint(item: subview, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: parentview, attribute: NSLayoutAttribute.leading, multiplier: 1.0, constant: 0.0))
+        parentview.addConstraint(NSLayoutConstraint(item: subview, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: parentview, attribute: NSLayoutAttribute.bottom, multiplier: 1.0, constant: 0.0))
+        parentview.addConstraint(NSLayoutConstraint(item: subview, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: parentview, attribute: NSLayoutAttribute.trailing, multiplier: 1.0, constant: 0.0))
+        parentview.layoutIfNeeded()
+        
+    }
+    
     class func viewSlideInFromRightToLeft(view:UIView) -> Void
     {
         let transition:CATransition = CATransition()
