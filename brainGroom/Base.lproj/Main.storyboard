@@ -4772,7 +4772,7 @@ Sunday - Closed</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hs-ye-C0K">
                                         <rect key="frame" x="0.0" y="5" width="320" height="136.5"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="find classes" translatesAutoresizingMaskIntoConstraints="NO" id="vx3-Ho-25h">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="find classes" translatesAutoresizingMaskIntoConstraints="NO" id="vx3-Ho-25h">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="136.5"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bu2-Ap-QYc">
@@ -4813,7 +4813,7 @@ Sunday - Closed</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Eo-h6-WTV">
                                         <rect key="frame" x="0.0" y="146.5" width="320" height="136.5"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="catelougeImg" translatesAutoresizingMaskIntoConstraints="NO" id="DZv-Ck-zHq">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="catelougeImg" translatesAutoresizingMaskIntoConstraints="NO" id="DZv-Ck-zHq">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="136.5"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPw-7n-wvs">
@@ -4854,8 +4854,8 @@ Sunday - Closed</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEV-u2-30k">
                                         <rect key="frame" x="0.0" y="288" width="320" height="136.5"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social learning" translatesAutoresizingMaskIntoConstraints="NO" id="TUw-35-Q8Q">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="136.5"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social learning" translatesAutoresizingMaskIntoConstraints="NO" id="TUw-35-Q8Q">
+                                                <rect key="frame" x="-0.5" y="0.0" width="320" height="136.5"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M2z-FZ-lxA">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="136.5"/>
@@ -4895,7 +4895,7 @@ Sunday - Closed</string>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DLx-9r-5bY">
                                         <rect key="frame" x="0.0" y="429.5" width="320" height="137"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="explore" translatesAutoresizingMaskIntoConstraints="NO" id="eLJ-Nt-K5G">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="explore" translatesAutoresizingMaskIntoConstraints="NO" id="eLJ-Nt-K5G">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="135"/>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7dr-Wz-bVS">
@@ -4998,7 +4998,7 @@ Sunday - Closed</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcp-uu-Zha">
-                                        <rect key="frame" x="261" y="20" width="44" height="44"/>
+                                        <rect key="frame" x="266" y="20" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="WMB-j9-1Pu"/>
                                             <constraint firstAttribute="width" constant="44" id="ZqV-55-6GY"/>
@@ -5009,7 +5009,7 @@ Sunday - Closed</string>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnT-ce-pBB">
-                                        <rect key="frame" x="217" y="20" width="44" height="44"/>
+                                        <rect key="frame" x="222" y="20" width="44" height="44"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="Lhn-bN-jyc"/>
                                             <constraint firstAttribute="width" constant="44" id="WAp-2u-7xs"/>
@@ -5032,7 +5032,7 @@ Sunday - Closed</string>
                                     <constraint firstItem="cnT-ce-pBB" firstAttribute="centerY" secondItem="AVh-a1-4Ew" secondAttribute="centerY" constant="10" id="Itg-GT-BbN"/>
                                     <constraint firstItem="F3X-hc-bMR" firstAttribute="centerY" secondItem="AVh-a1-4Ew" secondAttribute="centerY" constant="10" id="MQ3-oX-nHs"/>
                                     <constraint firstItem="F3X-hc-bMR" firstAttribute="leading" secondItem="AVh-a1-4Ew" secondAttribute="leading" constant="10" id="Mho-Lk-25s"/>
-                                    <constraint firstAttribute="trailing" secondItem="hcp-uu-Zha" secondAttribute="trailing" constant="15" id="XY4-Nm-dQf"/>
+                                    <constraint firstAttribute="trailing" secondItem="hcp-uu-Zha" secondAttribute="trailing" constant="10" id="XY4-Nm-dQf"/>
                                     <constraint firstItem="hcp-uu-Zha" firstAttribute="centerY" secondItem="AVh-a1-4Ew" secondAttribute="centerY" constant="10" id="Xa7-gr-Xl1"/>
                                     <constraint firstItem="hcp-uu-Zha" firstAttribute="leading" secondItem="cnT-ce-pBB" secondAttribute="trailing" id="Ybf-gj-hb5"/>
                                     <constraint firstItem="0f5-dm-Pq2" firstAttribute="centerY" secondItem="AVh-a1-4Ew" secondAttribute="centerY" constant="10" id="jlM-bp-3tt"/>
@@ -7100,7 +7100,7 @@ Cg
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sinumeric 808 Operating Turning Adult 20 Hours" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3T-Ea-OWZ">
-                                                    <rect key="frame" x="5" y="160" width="157" height="31.5"/>
+                                                    <rect key="frame" x="8" y="160" width="154" height="31.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="31.5" id="9vq-Lu-eeh"/>
                                                     </constraints>
@@ -7109,20 +7109,20 @@ Cg
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pinPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="any-fk-daZ">
-                                                    <rect key="frame" x="10" y="197.5" width="9" height="13"/>
+                                                    <rect key="frame" x="13" y="197.5" width="9" height="13"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="13" id="Y0Z-vn-bd8"/>
                                                         <constraint firstAttribute="width" constant="9" id="zHW-Jt-4v7"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="online" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAw-WB-gHK">
-                                                    <rect key="frame" x="27" y="196" width="36.5" height="16"/>
+                                                    <rect key="frame" x="30" y="196" width="36.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rs 699" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T11-BV-lIu">
-                                                    <rect key="frame" x="10" y="216" width="52" height="20"/>
+                                                    <rect key="frame" x="13" y="216" width="52" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.35286855700000003" green="0.72357559199999999" blue="0.39016151430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -7132,7 +7132,7 @@ Cg
                                                     <state key="normal" title="Flexible"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Sessions, 3 Hours" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISx-tI-yBj">
-                                                    <rect key="frame" x="10" y="240" width="149" height="16"/>
+                                                    <rect key="frame" x="13" y="240" width="146" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -7148,7 +7148,7 @@ Cg
                                             <constraint firstItem="JYQ-3F-JNg" firstAttribute="leading" secondItem="h4R-nw-veS" secondAttribute="leading" constant="8" id="F8m-dG-u2G"/>
                                             <constraint firstItem="ISx-tI-yBj" firstAttribute="top" secondItem="T11-BV-lIu" secondAttribute="bottom" constant="4" id="GxG-oP-unL"/>
                                             <constraint firstItem="aIf-IV-x8N" firstAttribute="centerY" secondItem="T11-BV-lIu" secondAttribute="centerY" id="LzJ-an-MBa"/>
-                                            <constraint firstItem="a3T-Ea-OWZ" firstAttribute="leading" secondItem="h4R-nw-veS" secondAttribute="leading" constant="5" id="MO3-CX-ee2"/>
+                                            <constraint firstItem="a3T-Ea-OWZ" firstAttribute="leading" secondItem="h4R-nw-veS" secondAttribute="leading" constant="8" id="MO3-CX-ee2"/>
                                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ISx-tI-yBj" secondAttribute="bottom" constant="2" id="P2M-4m-wA6"/>
                                             <constraint firstAttribute="trailing" secondItem="JYQ-3F-JNg" secondAttribute="trailing" constant="8" id="QnE-xv-zqE"/>
                                             <constraint firstItem="T11-BV-lIu" firstAttribute="leading" secondItem="any-fk-daZ" secondAttribute="leading" id="Sc3-gE-3WK"/>
@@ -17162,7 +17162,7 @@ Cg
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sinumeric 808 Operating Turning Adult 20 Hours" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1n-7W-deK">
-                                                    <rect key="frame" x="5" y="160" width="157" height="31.5"/>
+                                                    <rect key="frame" x="8" y="160" width="154" height="31.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="31.5" id="SVl-jE-tNb"/>
                                                     </constraints>
@@ -17171,20 +17171,20 @@ Cg
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pinPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="uTG-61-gVP">
-                                                    <rect key="frame" x="10" y="197.5" width="9" height="13"/>
+                                                    <rect key="frame" x="13" y="197.5" width="9" height="13"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="13" id="h1k-vB-kFI"/>
                                                         <constraint firstAttribute="width" constant="9" id="t4K-yH-WjD"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="online" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDD-tE-Whe">
-                                                    <rect key="frame" x="27" y="196" width="36.5" height="16"/>
+                                                    <rect key="frame" x="30" y="196" width="36.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rs 699" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfj-ec-mcf">
-                                                    <rect key="frame" x="10" y="216" width="52" height="20"/>
+                                                    <rect key="frame" x="13" y="216" width="52" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.35286855700000003" green="0.72357559199999999" blue="0.39016151430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -17194,7 +17194,7 @@ Cg
                                                     <state key="normal" title="Flexible"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 Sessions, 3 Hours" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iYJ-gB-wUF">
-                                                    <rect key="frame" x="10" y="240" width="149" height="16"/>
+                                                    <rect key="frame" x="13" y="240" width="146" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -17202,7 +17202,7 @@ Cg
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="D1n-7W-deK" firstAttribute="leading" secondItem="sEN-R6-bDN" secondAttribute="leading" constant="5" id="0yt-9C-v3O"/>
+                                            <constraint firstItem="D1n-7W-deK" firstAttribute="leading" secondItem="sEN-R6-bDN" secondAttribute="leading" constant="8" id="0yt-9C-v3O"/>
                                             <constraint firstItem="yfj-ec-mcf" firstAttribute="leading" secondItem="uTG-61-gVP" secondAttribute="leading" id="23B-j1-QXl"/>
                                             <constraint firstItem="iYJ-gB-wUF" firstAttribute="leading" secondItem="yfj-ec-mcf" secondAttribute="leading" id="7Gc-UJ-3Tt"/>
                                             <constraint firstItem="iYJ-gB-wUF" firstAttribute="top" secondItem="yfj-ec-mcf" secondAttribute="bottom" constant="4" id="BAY-di-4dR"/>
