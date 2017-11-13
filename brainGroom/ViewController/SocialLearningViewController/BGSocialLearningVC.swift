@@ -8,6 +8,7 @@
 
 import UIKit
 import FCAlertView
+import YouTubePlayer
 
 let LearnerForum = "learners_forum"
 let TutorsTalk = "tutors_talk"
@@ -23,6 +24,7 @@ var currenMajorForum : String!
 
 class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,FCAlertViewDelegate {
  
+   
     @IBOutlet weak var tblview: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -43,7 +45,7 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         super.viewDidLoad()
         self.collectionView.register(UINib(nibName: "BGSocialLearningCollectionCell", bundle: nil), forCellWithReuseIdentifier: "socialLearningCell")
         
-        fetchWebServiceCall(with: KnowledgeNugget.0, and: KnowledgeNugget.1)
+       // fetchWebServiceCall(with: KnowledgeNugget.0, and: KnowledgeNugget.1)
         currenMinorForum = KnowledgeNugget.0
         currenMajorForum = KnowledgeNugget.1
        
@@ -265,8 +267,15 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.lblCommentedCount.text = String(format:"%lu comments",(self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "num_comments") as! Int)
             cell.userImage.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "vendor_image") as! String), for: .normal,placeholderImage: nil)
 
+            cell.videoPlayerYoutube.isHidden = true
             cell.imgPost.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_image") as! String), placeholderImage: nil)
-
+            
+            if cell.imgPost.sd_imageURL() == nil &&  (((self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_video") as? String) != nil) {
+                 cell.videoPlayerYoutube.isHidden = false
+                let myVideoUrl = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_video") as? String
+              cell.videoPlayerYoutube.loadVideoID(self.extractYoutubeIdFromLink(link:myVideoUrl!)!)
+            }
+   
             if (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "liked") as! Int == 1 {
                 cell.lblLike.text = "liked"
                 cell.lblLike.textColor = UIColor.blue
@@ -439,7 +448,7 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print("Knowledge Post Response:---> \(responseDict)")
                 self.isLike = true
                 AFWrapperClass.svprogressHudDismiss(view: self)
-                self.fetchWebServiceCall(with: "<#T##String#>", and: "<#T##String#>")
+                self.fetchWebServiceCall(with: currenMinorForum, and: currenMajorForum)
                 
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)
@@ -473,7 +482,21 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
     
-    
+    // Get Video ID from URL
+    func extractYoutubeIdFromLink(link: String) -> String? {
+        let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
+        guard let regExp = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else {
+            return nil
+        }
+        let nsLink = link as NSString
+        let options = NSRegularExpression.MatchingOptions(rawValue: 0)
+        let range = NSRange(location: 0, length: nsLink.length)
+        let matches = regExp.matches(in: link as String, options:options, range:range)
+        if let firstMatch = matches.first {
+            return nsLink.substring(with: firstMatch.range)
+        }
+        return nil
+    }
     
 }
 
