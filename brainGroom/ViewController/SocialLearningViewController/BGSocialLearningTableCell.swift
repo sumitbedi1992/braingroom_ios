@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YouTubePlayer
 
 class BGSocialLearningTableCell: UITableViewCell {
 
@@ -34,6 +35,7 @@ class BGSocialLearningTableCell: UITableViewCell {
     
     @IBOutlet weak var lblComment: UILabel!
     
+    @IBOutlet weak var videoPlayerYoutube: YouTubePlayerView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

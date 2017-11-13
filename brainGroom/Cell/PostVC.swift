@@ -810,7 +810,8 @@ class PostVC: UIViewController,UIImagePickerControllerDelegate,UINavigationContr
     
     @IBAction func backBtnAction(_ sender: Any)
     {
-        _=self.navigationController?.popViewController(animated: true)
+       // _=self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func alert(text: String)
