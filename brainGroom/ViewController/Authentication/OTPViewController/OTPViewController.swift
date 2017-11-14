@@ -281,8 +281,8 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                         }
                         
                         print(self.appDelegate.userData)
+                        self.appDelegate.setLoginUserData()
                         
-                        UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
                         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                         self.navigationController?.pushViewController(viewController, animated: true)
                     })
@@ -381,7 +381,7 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                         }
                         
                         UserDefaults.standard.set(self.appDelegate.signUpEmail, forKey: "user_email")
-                        UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
+                        self.appDelegate.setLoginUserData()
                         
         
                         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC

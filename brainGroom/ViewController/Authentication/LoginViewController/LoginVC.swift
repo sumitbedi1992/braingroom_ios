@@ -131,7 +131,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                                 
                                 print(self.appDelegate.userData)
                                 
-                                UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
+                                self.appDelegate.setLoginUserData()
                                 
                                 //appDelegate.getUserProfile()
                                 
@@ -385,8 +385,8 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                                             }
                     
                                             print(self.appDelegate.userData)
-                    
-                                            UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
+                                            self.appDelegate.setLoginUserData()
+                                            
                                             //appDelegate.getUserProfile()
                                             let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                                             self.navigationController?.pushViewController(viewController, animated: true)

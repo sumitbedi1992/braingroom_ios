@@ -23,7 +23,7 @@ class itemCell3 : UICollectionViewCell
 
 class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate {
     
-    var itemsArray = NSArray()
+    var itemsArray = NSMutableArray()
     
     @IBOutlet weak var itemCollectionView: UICollectionView!
     
@@ -31,6 +31,9 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
     
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     var fromSocial = Bool()
+    
+    var pageNumber = 1
+    var isNextPage : Bool = false
     
     @IBAction func backBtnAction(_ sender: Any)
     {
@@ -40,6 +43,9 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        self.itemCollectionView.delegate = self
+        self.itemCollectionView.dataSource = self
         
         dataFromServer()
     }
@@ -64,12 +70,30 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
-                self.itemsArray = dic.object(forKey: "braingroom") as! NSArray
-                if(self.itemsArray.count > 0)
+                if (dic.object(forKey: "braingroom") as! NSArray).count > 0
                 {
-                    self.itemCollectionView.delegate = self
-                    self.itemCollectionView.dataSource = self
+                    let tempArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
+                    if self.pageNumber == 1
+                    {
+                        self.itemsArray = tempArray
+                    }
+                    else
+                    {
+                        self.itemsArray.addObjects(from: tempArray as! [Any])
+                    }
+                    
                     self.itemCollectionView.reloadData()
+                    
+                    self.pageNumber = self.pageNumber + 1
+                    
+                    if tempArray.count == 10
+                    {
+                        self.isNextPage = true
+                    }
+                    else
+                    {
+                        self.isNextPage = false
+                    }
                 }
                 else
                 {
@@ -157,7 +181,14 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
             {
                 if let amountDict : NSDictionary = amountArr.object(at: 0) as? NSDictionary
                 {
-                    cell.amountLbl.text = String.init(format: "Rs.%@",amountDict.value(forKey: "price") as! String)
+                    if let price : String = amountDict.value(forKey: "price") as? String
+                    {
+                        if price != "" && price != "0"
+                        {
+                            cell.amountLbl.text = String.init(format: "Rs.%@",price)
+                        }
+                        
+                    }
                 }
             }
         }        
@@ -180,6 +211,13 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
         return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/2.1) > 260 ? itemCollectionView.bounds.size.height/2.1:260);
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == itemsArray.count - 1 && isNextPage == true
+        {
+            dataFromServer()
+        }
     }
     
 }

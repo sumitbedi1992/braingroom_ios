@@ -8,6 +8,7 @@
 
 import UIKit
 import FCAlertView
+import YouTubePlayer
 
 let LearnerForum = "learners_forum"
 let TutorsTalk = "tutors_talk"
@@ -23,6 +24,7 @@ var currenMajorForum : String!
 
 class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,FCAlertViewDelegate {
  
+   
     @IBOutlet weak var tblview: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -43,7 +45,7 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         super.viewDidLoad()
         self.collectionView.register(UINib(nibName: "BGSocialLearningCollectionCell", bundle: nil), forCellWithReuseIdentifier: "socialLearningCell")
         
-        fetchWebServiceCall(with: KnowledgeNugget.0, and: KnowledgeNugget.1)
+       // fetchWebServiceCall(with: KnowledgeNugget.0, and: KnowledgeNugget.1)
         currenMinorForum = KnowledgeNugget.0
         currenMajorForum = KnowledgeNugget.1
        
@@ -252,22 +254,31 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "BGSocialLearningTableCell") as! BGSocialLearningTableCell
             
-            cell.lblUserName.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "vendor_name") as? String
-            cell.lblCollegeName.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "institute_name") as? String
+            let dict : NSDictionary = self.dataArray.object(at: indexPath.row) as! NSDictionary
             
-            cell.lblCategory.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "segment_name") as? String
-            let timeStamp = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "date") as? String
+            cell.lblUserName.text = dict.object(forKey: "vendor_name") as? String
+            cell.lblCollegeName.text = dict.object(forKey: "institute_name") as? String
+            
+            cell.lblCategory.text = dict.object(forKey: "segment_name") as? String
+            let timeStamp = dict.object(forKey: "date") as? String
             cell.lblDate.text = timeStampToDate(time: timeStamp!)
  
-            cell.lblSubCategory.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_type") as? String
-            cell.lblDescription.text = (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "title") as? String
-            cell.lblLikedCount.text = String(format:"%lu",(self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "num_likes") as! Int)
-            cell.lblCommentedCount.text = String(format:"%lu comments",(self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "num_comments") as! Int)
-            cell.userImage.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "vendor_image") as! String), for: .normal,placeholderImage: nil)
+            cell.lblSubCategory.text = dict.object(forKey: "post_type") as? String
+            cell.lblDescription.text = dict.object(forKey: "title") as? String
+            cell.lblLikedCount.text = String(format:"%lu",dict.object(forKey: "num_likes") as! Int)
+            cell.lblCommentedCount.text = String(format:"%lu comments",dict.object(forKey: "num_comments") as! Int)
+            cell.userImage.sd_setImage(with: URL(string: dict.object(forKey: "vendor_image") as! String), for: .normal,placeholderImage: nil)
 
-            cell.imgPost.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_image") as! String), placeholderImage: nil)
-
-            if (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "liked") as! Int == 1 {
+            cell.videoPlayerYoutube.isHidden = true
+            cell.imgPost.sd_setImage(with: URL(string: dict.object(forKey: "post_image") as! String), placeholderImage: nil)
+            
+            if cell.imgPost.sd_imageURL() == nil &&  ((dict.object(forKey: "post_video") as? String) != nil) {
+                 cell.videoPlayerYoutube.isHidden = false
+                let myVideoUrl = dict.object(forKey: "post_video") as? String
+              cell.videoPlayerYoutube.loadVideoID(self.extractYoutubeIdFromLink(link:myVideoUrl!)!)
+            }
+   
+            if dict.object(forKey: "liked") as! Int == 1 {
                 cell.lblLike.text = "liked"
                 cell.lblLike.textColor = UIColor.blue
             }else {
@@ -281,6 +292,8 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.btnCommentAction.addTarget(self, action: #selector(self.commentBtnAction(_:)), for: .touchUpInside)
             cell.btnShareAction.tag = indexPath.row
             cell.btnShareAction.addTarget(self, action: #selector(self.shareBtnAction(_:)), for: .touchUpInside)
+            cell.reportBtn.tag = indexPath.row
+            cell.reportBtn.addTarget(self, action: #selector(self.reportBtnAction(_:)), for: .touchUpInside)
             
 
             cell.btnLikeAction.tag = indexPath.row
@@ -385,6 +398,72 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
             self.present(activityViewController, animated: true, completion: nil)
         }
  
+        func reportBtnAction(_ sender: UIButton)
+        {
+            let button : UIButton = (self.view.viewWithTag(sender.tag) as? UIButton)!
+            let dropDown = DropDown()
+            dropDown.anchorView = button
+            dropDown.bottomOffset = CGPoint(x: 0, y: button.bounds.height)
+            dropDown.dataSource = [
+                "Report"
+            ]
+            dropDown.selectionAction = { [unowned self] (index, item) in
+                let strItem = item
+                
+                if index == 0 {
+                    if userId() != ""
+                    {
+                        self.selectedIndex = IndexPath(row: sender.tag, section: 0)
+                        let dict : NSDictionary = self.dataArray.object(at: self.selectedIndex.row) as! NSDictionary
+                        if dict.object(forKey: "reported") as! Int == 1
+                        {
+                            AFWrapperClass.showToast(title: "Already reported", view: self.view)
+                            return
+                        }
+                        
+                        let baseURL: String  = String(format:"%@report",Constants.mainURL)
+                        
+                        let innerParams : [String: String] = [
+                            "user_id": "\(userId())",
+                            "post_id": "\(dict.object(forKey: "id") as! String)"
+                        ]
+                        let params : [String: AnyObject] = [
+                            "braingroom": innerParams as AnyObject
+                        ]
+                        print(params)
+                        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
+                        AFWrapperClass.requestPOSTURL(baseURL, params: params, success: { (responseDict) in
+                            AFWrapperClass.svprogressHudDismiss(view: self)
+                            let dic:NSDictionary = responseDict as NSDictionary
+                            if (dic.object(forKey: "res_code")) as! String == "1"
+                            {
+                                let dataArray = dic["braingroom"] as! NSArray
+                                if (dataArray.object(at:0) as! NSDictionary).object(forKey: "reported") as? Int == 1
+                                {
+                                    let newDict : NSMutableDictionary = NSMutableDictionary(dictionary: dict).mutableCopy() as! NSMutableDictionary
+                                    newDict.setValue(1, forKey: "reported")
+                                    
+                                    self.dataArray.replaceObject(at: self.selectedIndex.row, with: newDict)
+                                    
+                                    AFWrapperClass.showToast(title: "Reported", view: self.view)
+                                }
+                                else
+                                {
+                                    
+                                }
+                                self.tblview.reloadData()
+                            }
+                        }) { (error) in
+                        }
+                    }
+                    else
+                    {
+                        self.alert(text: "Please,login to like this post.")
+                    }
+                }
+            }
+            dropDown.show()
+        }
     
         @IBAction func postBtnAction(_ sender: Any)
         {
@@ -439,7 +518,7 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
                 print("Knowledge Post Response:---> \(responseDict)")
                 self.isLike = true
                 AFWrapperClass.svprogressHudDismiss(view: self)
-                self.fetchWebServiceCall(with: "<#T##String#>", and: "<#T##String#>")
+                self.fetchWebServiceCall(with: currenMinorForum, and: currenMajorForum)
                 
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)
@@ -473,7 +552,21 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
     
-    
+    // Get Video ID from URL
+    func extractYoutubeIdFromLink(link: String) -> String? {
+        let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
+        guard let regExp = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else {
+            return nil
+        }
+        let nsLink = link as NSString
+        let options = NSRegularExpression.MatchingOptions(rawValue: 0)
+        let range = NSRange(location: 0, length: nsLink.length)
+        let matches = regExp.matches(in: link as String, options:options, range:range)
+        if let firstMatch = matches.first {
+            return nsLink.substring(with: firstMatch.range)
+        }
+        return nil
+    }
     
 }
 

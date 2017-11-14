@@ -746,10 +746,10 @@ class PostVC: UIViewController,UIImagePickerControllerDelegate,UINavigationContr
             }
             
             let baseURL: String  = String(format:"%@addPost",Constants.mainURL)
-            let dic = UserDefaults.standard.object(forKey: "userData") as? NSDictionary
+            let dic = appDelegate.getLoginUserData()
         
         var innerParams : [String: String] = [
-                "uuid" : (dic?.object(forKey: "uuid") as? String)!,
+            "uuid" : (dic.object(forKey: "uuid") as? String)!,
                 "post_type" : postStr,
                 "post_title" : topicTF.text!,
                 "post_summary" : descriptionTextView.text!,
@@ -810,7 +810,8 @@ class PostVC: UIViewController,UIImagePickerControllerDelegate,UINavigationContr
     
     @IBAction func backBtnAction(_ sender: Any)
     {
-        _=self.navigationController?.popViewController(animated: true)
+       // _=self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func alert(text: String)
