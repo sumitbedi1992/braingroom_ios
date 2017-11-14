@@ -746,10 +746,10 @@ class PostVC: UIViewController,UIImagePickerControllerDelegate,UINavigationContr
             }
             
             let baseURL: String  = String(format:"%@addPost",Constants.mainURL)
-            let dic = UserDefaults.standard.object(forKey: "userData") as? NSDictionary
+            let dic = appDelegate.getLoginUserData()
         
         var innerParams : [String: String] = [
-                "uuid" : (dic?.object(forKey: "uuid") as? String)!,
+            "uuid" : (dic.object(forKey: "uuid") as? String)!,
                 "post_type" : postStr,
                 "post_title" : topicTF.text!,
                 "post_summary" : descriptionTextView.text!,

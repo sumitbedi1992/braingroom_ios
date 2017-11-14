@@ -30,6 +30,10 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     var fromSocial = Bool()
     var fromLoad = Bool()
+    
+    var pageNumber = 1
+    var isNextPage : Bool = false
+    
     @IBAction func backBtnAction(_ sender: Any)
     {
         _=self.navigationController?.popViewController(animated:true)
@@ -63,6 +67,7 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
         if dict["isWishlist"] as! Int == 1
         {
             fromLoad = true
+            pageNumber = 1
             dataFromServer()
         }
         else
@@ -86,7 +91,7 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func dataFromServer()
     {
-        let baseURL: String  = String(format:"%@getAllWishList",Constants.mainURL)
+        let baseURL: String  = String(format:"%@getAllWishList/%d",Constants.mainURL,pageNumber)
         
         let innerParams : [String: String] = [
             "uuid": (appDelegate.userData as NSDictionary).value(forKey: "uuid") as! String,
@@ -105,19 +110,29 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
                 if (dic.object(forKey: "braingroom") as! NSArray).count > 0 {
-                    if self.fromLoad == true {
-                        self.fromLoad = false
-                        self.itemsArray.removeAllObjects()
-                        
-
-                        self.itemsArray.addObjects(from:(dic.object(forKey: "braingroom") as? Array<Any>)!)
-                        
-//                        self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
-                    }else
+                    
+                    let tempArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
+                    if self.pageNumber == 1
                     {
-                        self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
+                        self.itemsArray = tempArray
                     }
+                    else
+                    {
+                        self.itemsArray.addObjects(from: tempArray as! [Any])
+                    }
+            
                     self.itemCollectionView.reloadData()
+                    
+                    self.pageNumber = self.pageNumber + 1
+                    
+                    if tempArray.count == 10
+                    {
+                        self.isNextPage = true
+                    }
+                    else
+                    {
+                        self.isNextPage = false
+                    }
 
                 }else {
                     let alert = FCAlertView()
@@ -132,7 +147,7 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                     alert.addButton("OK", withActionBlock: {
                         self.itemCollectionView .reloadData()
                     })
-
+                    self.isNextPage = false
                 }
             }
             else
@@ -229,6 +244,14 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
         //vc.price = (dict.object(forKey: "price") as? String)!
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == itemsArray.count - 1 && isNextPage == true
+        {
+            dataFromServer()
+        }
+    }
+    
     func wishlistAction(sender : UIButton)
     {
         let button = sender

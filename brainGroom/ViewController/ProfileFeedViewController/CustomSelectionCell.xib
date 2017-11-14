@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomSelectionCell" id="KGk-i7-Jjw" customClass="CustomSelectionCell" customModule="brainGroom" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTF-Gs-ael">
+                        <rect key="frame" x="10" y="11" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Kru-cf-Kba"/>
+                            <constraint firstAttribute="width" constant="20" id="yuz-Ys-p5W"/>
+                        </constraints>
+                        <state key="normal" image="radio-off"/>
+                        <state key="selected" image="radio-on-button"/>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKF-lc-y7q">
+                        <rect key="frame" x="49" y="3" width="261" height="33.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="LKF-lc-y7q" firstAttribute="leading" secondItem="aTF-Gs-ael" secondAttribute="trailing" constant="19" id="1gX-F7-HgZ"/>
+                    <constraint firstAttribute="bottom" secondItem="LKF-lc-y7q" secondAttribute="bottom" constant="7" id="3qJ-lx-ftf"/>
+                    <constraint firstItem="aTF-Gs-ael" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="c3Z-DZ-fsT"/>
+                    <constraint firstAttribute="trailing" secondItem="LKF-lc-y7q" secondAttribute="trailing" constant="10" id="dUF-qg-rfj"/>
+                    <constraint firstItem="aTF-Gs-ael" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="gmu-sN-vZL"/>
+                    <constraint firstItem="LKF-lc-y7q" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="uE1-zT-n3v"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="radioBtn" destination="aTF-Gs-ael" id="Nu6-cb-i3S"/>
+                <outlet property="titleLbl" destination="LKF-lc-y7q" id="sQF-HW-Rno"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="radio-off" width="32" height="32"/>
+        <image name="radio-on-button" width="32" height="32"/>
+    </resources>
+</document>

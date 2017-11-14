@@ -35,6 +35,8 @@ class BGSocialLearningTableCell: UITableViewCell {
     
     @IBOutlet weak var lblComment: UILabel!
     
+    @IBOutlet weak var reportBtn: UIButton!
+    
     @IBOutlet weak var videoPlayerYoutube: YouTubePlayerView!
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -49,6 +51,7 @@ class BGSocialLearningTableCell: UITableViewCell {
     
     var onlikeTapped : ((_ indexTapped : Int) -> Void)? = nil
     var onCommentTapped : ((_ indexTapped : Int) -> Void)? = nil
+    var onReportTapped : ((_ indexTapped : Int) -> Void)? = nil
     
 //    @IBAction func liveClicked(_ sender: UIButton) {
 //        if let onlikeTapped = self.onlikeTapped {

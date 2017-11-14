@@ -9,7 +9,7 @@
 import UIKit
 import FCAlertView
 
-class EditProfileVC: UIViewController, FCAlertViewDelegate {
+class EditProfileVC: UIViewController, FCAlertViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var fullNameTF: UITextField!
     @IBOutlet weak var emailTF: UITextField!
@@ -34,11 +34,16 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
     @IBOutlet weak var dobPicker: UIDatePicker!
     @IBOutlet weak var doneView: UIView!
     
+    @IBOutlet var interestContainerView: UIView!
+    @IBOutlet weak var interestTblView: UITableView!
+    @IBOutlet weak var constraintHeightIntersetTblView: NSLayoutConstraint!
     
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var gender  = String()
     var dob  = String()
     var datePicker : UIDatePicker!
+    var interestArray = NSArray()
+    var selectedInterestArray = NSMutableArray()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +56,12 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         
         _ = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(setDataValue), userInfo: nil, repeats: false)
         
+        interestTblView.delegate = self
+        interestTblView.dataSource = self
+        interestTblView.register(UINib.init(nibName: "CustomSelectionCell", bundle: nil), forCellReuseIdentifier: "CustomSelectionCell")
+        interestArray = NSArray()
+        selectedInterestArray = NSMutableArray()
+        serverCalledForInterest()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -114,6 +125,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
     
     func setDataValue()
     {
+        appDelegate.userData = appDelegate.getLoginUserData()
         print(appDelegate.userData)
         fullNameTF.text = appDelegate.userData.value(forKey:"name") as? String
         emailTF.text = appDelegate.userData.value(forKey:"email") as? String
@@ -172,6 +184,27 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         
         locationLBL.text = appDelegate.userData.object(forKey:"locality") as? String
         passoutYearTF.text = appDelegate.userData.object(forKey: "institute_poy1") as? String
+        
+        appDelegate.signUpUGCollege = appDelegate.userData.object(forKey: "category_name") as! NSString
+        appDelegate.signUpUGCollegeID = appDelegate.userData.object(forKey: "category_id") as! NSString
+        interestLBL.text = appDelegate.signUpUGCollege as String
+        
+        let tempArr : NSArray = appDelegate.signUpUGCollegeID.components(separatedBy: ",") as NSArray
+        
+        for i in 0..<tempArr.count
+        {
+            let intersetID : String = (tempArr[i] as? String)!
+            for i in 0..<interestArray.count
+            {
+                let dict : NSDictionary = interestArray[i] as! NSDictionary
+                if dict["id"] as! String == intersetID
+                {
+                    selectedInterestArray.add(dict)
+                    break
+                }
+            }
+        }
+        
     }
     
     @IBAction func clickToBack(_ sender: Any)
@@ -199,9 +232,12 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
             genderView.isHidden = false
             animateView.isHidden = false
         case 3:
-            let vc = appDelegate.mainStoryboard().instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
-            vc.keyForApi = "interest"
-            self.navigationController?.pushViewController(vc, animated: true)
+            interestTblView.reloadData()
+            constraintHeightIntersetTblView.constant = interestTblView.contentSize.height + 80
+            AFWrapperClass.displaySubViewtoParentView(self.view, subview: interestContainerView)
+//            let vc = appDelegate.mainStoryboard().instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
+//            vc.keyForApi = "interest"
+//            self.navigationController?.pushViewController(vc, animated: true)
             break
         case 4:
             let vc = appDelegate.mainStoryboard().instantiateViewController(withIdentifier: "SearchItemsViewController") as! SearchItemsViewController
@@ -305,7 +341,15 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         //        {
         if gender.characters.count > 0
         {
-            self.genderLBL.text = gender
+            if gender == "1"
+            {
+                self.genderLBL.text = "Male"
+            }
+            else
+            {
+                self.genderLBL.text = "Female"
+            }
+            
         }
         else
         {
@@ -316,9 +360,46 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         //        }
     }
     
+    @IBAction func clickToDone(_ sender: Any)
+    {
+        var tempStr : String = ""
+        for i in 0..<selectedInterestArray.count
+        {
+            let dict : NSDictionary = interestArray[i] as! NSDictionary
+            if tempStr == ""
+            {
+                tempStr = (dict.value(forKey: "category_name") as? String)!
+            }
+            else
+            {
+                tempStr = tempStr + "," + (dict.value(forKey: "category_name") as? String)!
+            }
+        }
+        
+        if tempStr == ""
+        {
+            appDelegate.SignUpInterests = ""
+            interestLBL.text = "Select Item"
+        }
+        else
+        {
+            appDelegate.SignUpInterests = tempStr as NSString
+            interestLBL.text = appDelegate.SignUpInterests as String
+        }
+        
+        interestContainerView.removeFromSuperview()
+    }
+    
     @IBAction func clickToSave(_ sender: Any)
     {
         self.view.endEditing(true)
+        let tempArr : NSMutableArray = NSMutableArray()
+        for i in 0..<selectedInterestArray.count
+        {
+            let dict : NSDictionary = interestArray[i] as! NSDictionary
+            tempArr.add(dict["id"])
+        }
+        let interstIDs : String = tempArr.componentsJoined(by: ",")
         
         AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
         
@@ -327,7 +408,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         let innerParams : [String: String] = [
             "address":locationLBL.text!,
             "area_of_expertise":appDelegate.userData.value(forKey:"area_of_expertise") as? String ?? "",
-            "category_id":appDelegate.SignUpInterestsID as String,
+            "category_id":interstIDs,
             "city_id":appDelegate.signUpCityID as? String ?? "",
             "community_id":appDelegate.userData.value(forKey:"community_id") as? String ?? "",
             "country_id":appDelegate.signUpCountryID as? String ?? "",
@@ -337,7 +418,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
             "expertise_area":appDelegate.userData.value(forKey:"expertise_area") as? String ?? "",
             "first_name":fullNameTF.text!,
             "gender":gender,
-            "institution_name":collegeNameLBL.text!,
+            "institute_name1":collegeNameLBL.text!,
             "locality_id":appDelegate.SignUpLocationID as? String ?? "",
             "mobile":mobileNumberTF.text!,
             "official_reg_id":appDelegate.userData.value(forKey:"official_reg_id") as? String ?? "",
@@ -369,7 +450,8 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
                 self.appDelegate.setLoginUserState(value: self.appDelegate.signUpState as String)
                 self.appDelegate.setLoginUserCity(value: self.appDelegate.signUpCity as String)
                 self.appDelegate.setLoginUserCategory(value: self.appDelegate.SignUpInterests as String)
-                self.appDelegate.getUserProfile()
+                self.appDelegate.setLoginUserCollage(value: self.appDelegate.signUpUGCollege as String)
+                //self.appDelegate.getUserProfile()
                 AFWrapperClass.showToast(title: "Profile update successfully", view: self.appDelegate.window!)
                 self.navigationController?.popViewController(animated: true)
                 
@@ -476,6 +558,78 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate {
         }
     }
    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return interestArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 44
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell : CustomSelectionCell = interestTblView.dequeueReusableCell(withIdentifier: "CustomSelectionCell") as! CustomSelectionCell
+        let dict : NSDictionary = interestArray[indexPath.row] as! NSDictionary
+        cell.titleLbl?.text = (dict.value(forKey: "category_name") as? String)!
+        if selectedInterestArray.contains(dict) == true
+        {
+            cell.radioBtn.isSelected = true
+        }
+        else
+        {
+            cell.radioBtn.isSelected = false
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        let dict : NSDictionary = interestArray[indexPath.row] as! NSDictionary
+        if selectedInterestArray.contains(dict) == false
+        {
+            selectedInterestArray.add(dict)
+        }
+        else
+        {
+            selectedInterestArray.remove(dict)
+        }
+        
+        interestTblView.reloadData()
+    }
+    func serverCalledForInterest()
+    {
+        let innerParams = [String: String]()
+        
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        
+        let baseURL: String  = String(format:"%@getCategory",Constants.mainURL)
+        
+        print(params)
+        
+        AFWrapperClass.requestPOSTURL(baseURL, params: params as [String : AnyObject]?, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "braingroom") as! NSArray).count > 0
+            {
+                self.interestArray = (dic.object(forKey: "braingroom") as! NSArray)
+                self.interestTblView.reloadData()
+            }
+            else
+            {
+            
+            }
+            
+        }) { (error) in
+            
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
