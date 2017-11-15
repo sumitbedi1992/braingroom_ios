@@ -20,7 +20,7 @@ class ProfileFeedViewController: UIViewController {
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var collegeLbl: UILabel!
     @IBOutlet weak var categoryLbl: UILabel!
-    //@IBOutlet weak var localityLbl: UILabel!
+    @IBOutlet weak var localityLbl: UILabel!
     
     @IBOutlet weak var followingCountLbl: UILabel!
     @IBOutlet weak var followersCountLbl: UILabel!
@@ -28,18 +28,17 @@ class ProfileFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(onUpdateLoggedInUserData), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
+        
         userImage.layer.cornerRadius = userImage.frame.size.height/2
         userImage.layer.masksToBounds = true
-        profileTable.estimatedRowHeight = 324
+        profileTable.estimatedRowHeight = 330
         profileTable.rowHeight = UITableViewAutomaticDimension
-        onUpdateLoggedInUserData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated) // No need for semicolon
         postsApiHitting(major: "learners_forum", minor: "tips_tricks")
-        appDelegate.getUserProfile()
+        onUpdateLoggedInUserData()
     }
 
     func onUpdateLoggedInUserData()
@@ -54,9 +53,9 @@ class ProfileFeedViewController: UIViewController {
             userImage.setImage(UIImage.init(named: "imm"), for: .normal)
         }
         
-        collegeLbl.text = appDelegate.getLoginUserCollage()
+        collegeLbl.text = (appDelegate.userData.value(forKey:"institution_name1") as? String)
         categoryLbl.text = appDelegate.getLoginUserCategory()
-        //localityLbl.text = (appDelegate.userData.value(forKey:"locality") as? String)
+        localityLbl.text = (appDelegate.userData.value(forKey:"locality") as? String)
         
     }
     
@@ -175,12 +174,6 @@ extension ProfileFeedViewController : UITableViewDataSource, UITableViewDelegate
         cell.userImage.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "vendor_image") as! String), placeholderImage: nil)
         
         cell.postImage.sd_setImage(with: URL(string: (self.dataArray.object(at: indexPath.row) as! NSDictionary).object(forKey: "post_image") as! String), placeholderImage: nil)
-        if let _ = cell.postImage.image {
-            cell.postImage.isHidden = false
-        }
-        else {
-            cell.postImage.isHidden = true
-        }
         
         
         cell.likeCountbtn.tag = indexPath.row
@@ -198,10 +191,13 @@ extension ProfileFeedViewController : UITableViewDataSource, UITableViewDelegate
         
         return cell
     }
-
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 330
+    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     
     func timeStampToDate(time: String) -> String
     {

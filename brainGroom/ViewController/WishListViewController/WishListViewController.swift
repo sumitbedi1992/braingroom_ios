@@ -31,8 +31,7 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
     var fromSocial = Bool()
     var fromLoad = Bool()
     
-    var pageNumber = 1
-    var isNextPage : Bool = false
+    let alert = FCAlertView()
     
     @IBAction func backBtnAction(_ sender: Any)
     {
@@ -43,6 +42,10 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(onUpdateWishlistData), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_WISHLIST_CLASS), object: nil)
+        
+        setAlertViewData(alert)
+        alert.delegate = self
+
         
         fromLoad = true
         self.itemCollectionView.delegate = self
@@ -67,7 +70,6 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
         if dict["isWishlist"] as! Int == 1
         {
             fromLoad = true
-            pageNumber = 1
             dataFromServer()
         }
         else
@@ -91,7 +93,7 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func dataFromServer()
     {
-        let baseURL: String  = String(format:"%@getAllWishList/%d",Constants.mainURL,pageNumber)
+        let baseURL: String  = String(format:"%@getAllWishList",Constants.mainURL)
         
         let innerParams : [String: String] = [
             "uuid": (appDelegate.userData as NSDictionary).value(forKey: "uuid") as! String,
@@ -110,73 +112,45 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
                 if (dic.object(forKey: "braingroom") as! NSArray).count > 0 {
-                    
-                    let tempArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
-                    if self.pageNumber == 1
+                    if self.fromLoad == true {
+                        self.fromLoad = false
+                        self.itemsArray.removeAllObjects()
+                        
+
+                        self.itemsArray.addObjects(from:(dic.object(forKey: "braingroom") as? Array<Any>)!)
+                        
+//                        self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
+                    }else
                     {
-                        self.itemsArray = tempArray
+                        self.itemsArray = self.itemsArray.addingObjects(from: dic.object(forKey: "braingroom") as! [Any]) as! NSMutableArray
                     }
-                    else
-                    {
-                        self.itemsArray.addObjects(from: tempArray as! [Any])
-                    }
-            
                     self.itemCollectionView.reloadData()
-                    
-                    self.pageNumber = self.pageNumber + 1
-                    
-                    if tempArray.count == 10
-                    {
-                        self.isNextPage = true
-                    }
-                    else
-                    {
-                        self.isNextPage = false
-                    }
 
                 }else {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
+                    self.alert.makeAlertTypeWarning()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    self.alert.hideDoneButton = true;
+                    self.alert.addButton("OK", withActionBlock: {
                         self.itemCollectionView .reloadData()
                     })
-                    self.isNextPage = false
+
                 }
             }
             else
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                self.alert.hideDoneButton = true;
+                self.alert.addButton("OK", withActionBlock: {
                 })
                 
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            self.alert.hideDoneButton = true;
+            self.alert.addButton("OK", withActionBlock: {
             })
         }
     }
@@ -213,22 +187,7 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             {
                 if let amountDict : NSDictionary = amountArr.object(at: 0) as? NSDictionary
                 {
-                    var strPrice : String = ""
-                    if (amountDict.value(forKey: "price") is Int)
-                    {
-                        strPrice = String(format: "%d", (amountDict.value(forKey: "price") as? Int)!)
-                    }
-                    else
-                    {
-                        strPrice = (amountDict.value(forKey: "price") as? String)!
-                    }
-                    
-                    if strPrice != "" && strPrice != "0"
-                    {
-                        cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
-                    }else{
-                        cell.amountLbl.text = "Free"
-                    }
+                    cell.amountLbl.text = String.init(format: "Rs.%@",amountDict.value(forKey: "price") as! String)
                 }
             }
         }
@@ -259,14 +218,6 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
         //vc.price = (dict.object(forKey: "price") as? String)!
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == itemsArray.count - 1 && isNextPage == true
-        {
-            dataFromServer()
-        }
-    }
-    
     func wishlistAction(sender : UIButton)
     {
         let button = sender
@@ -295,38 +246,26 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                 }
                 else
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
+                     self.alert.makeAlertTypeWarning()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    self.alert.hideDoneButton = true;
+                    self.alert.addButton("OK", withActionBlock: {
                         
                     })
                     
                 }
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                self.alert.hideDoneButton = true;
+                self.alert.addButton("OK", withActionBlock: {
                 })
             }
     }
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
-            return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/2.1) > 264 ? itemCollectionView.bounds.size.height/2.1:264);
+            return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: itemCollectionView.bounds.size.height/1.8)
     }
 
 }

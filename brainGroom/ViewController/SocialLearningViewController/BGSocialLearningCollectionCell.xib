@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find Learning Partners" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJi-WS-Lcb">
-                        <rect key="frame" x="8" y="8" width="84" height="64"/>
+                        <rect key="frame" x="10" y="20" width="80" height="40"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -28,10 +28,10 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="lJi-WS-Lcb" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="7i4-4c-G10"/>
-                <constraint firstAttribute="bottom" secondItem="lJi-WS-Lcb" secondAttribute="bottom" constant="8" id="f2g-ni-JKb"/>
-                <constraint firstItem="lJi-WS-Lcb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="pA0-Rp-Gvt"/>
-                <constraint firstAttribute="trailing" secondItem="lJi-WS-Lcb" secondAttribute="trailing" constant="8" id="vvP-n9-rfq"/>
+                <constraint firstItem="lJi-WS-Lcb" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="7i4-4c-G10"/>
+                <constraint firstAttribute="bottom" secondItem="lJi-WS-Lcb" secondAttribute="bottom" constant="20" id="f2g-ni-JKb"/>
+                <constraint firstItem="lJi-WS-Lcb" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="pA0-Rp-Gvt"/>
+                <constraint firstAttribute="trailing" secondItem="lJi-WS-Lcb" secondAttribute="trailing" constant="10" id="vvP-n9-rfq"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="242" height="119"/>

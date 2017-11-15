@@ -44,8 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     var SignUpInterests = NSString()
     var SignUpInterestsID = NSString()
     var tempUser = NSString()
-    var PRICE_SYMBOLE = "&#8377;"
-    var PRICE_CODE = "INR"
     
     var userId = NSString()
     var userUUID = NSString()
@@ -56,17 +54,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         IQKeyboardManager.sharedManager().enable = true
         IQKeyboardManager.sharedManager().enableAutoToolbar = true
         
-        GMSPlacesClient.provideAPIKey(Constants.GMS_PLACE_KEY)
-        GMSServices.provideAPIKey(Constants.GMS_SERVICE_KEY)
+        GMSPlacesClient.provideAPIKey("AIzaSyALR0632alLB7CfRKlG6GEqz8HlVGhZTGA")
+        GMSServices.provideAPIKey("AIzaSyALR0632alLB7CfRKlG6GEqz8HlVGhZTGA")
         GIDSignIn.sharedInstance().delegate = self
         
         
-        BITHockeyManager.shared().configure(withIdentifier: Constants.HOCKEY_ID)
+        BITHockeyManager.shared().configure(withIdentifier: "287fa86dfde34d3ea8a29f2a078c0402")
         // Do some additional configuration if needed here
         BITHockeyManager.shared().start()
         BITHockeyManager.shared().authenticator.authenticateInstallation()
 
-        GIDSignIn.sharedInstance().clientID = Constants.GOOGLE_CLIENT_ID
+        GIDSignIn.sharedInstance().clientID = "1036645765552-h3t4c43bc36el12f7ia996e80vgud37t.apps.googleusercontent.com"
         
          signUpFullName = ""
          signUpEmail = ""
@@ -89,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         }
         else
         {
-            userData = getLoginUserData()
+            userData = UserDefaults.standard.object(forKey: "userData") as! NSMutableDictionary
             userId = str! as NSString
         }
 
@@ -148,7 +146,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        if url.absoluteString.contains(Constants.GOOGLE_REVERSED_CLIENT_ID)
+        if url.absoluteString.contains("com.googleusercontent.apps.1036645765552-h3t4c43bc36el12f7ia996e80vgud37t")
         {
             return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String!, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         }else{
@@ -174,42 +172,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     
     func setSocialLogin(isSocial : Bool)
     {
-        UserDefaults.standard.set(isSocial, forKey: PREFERENCE.IS_SOCIAL_LOGIN)
+        UserDefaults.standard.set(isSocial, forKey: "isSocialLogin")
         UserDefaults.standard.synchronize()
     }
     
     func isSocialLogin() -> Bool
     {
-        return UserDefaults.standard.bool(forKey: PREFERENCE.IS_SOCIAL_LOGIN)
-    }
-    
-    func setLoginUserData()
-    {
-        UserDefaults.standard.set(self.userData, forKey: PREFERENCE.USER_DATA)
-        UserDefaults.standard.synchronize()
-    }
-    
-    func getLoginUserData() -> NSMutableDictionary
-    {
-        if let value = UserDefaults.standard.value(forKey: PREFERENCE.USER_DATA)
-        {
-            return value as! NSMutableDictionary
-        }
-        else
-        {
-            return NSMutableDictionary()
-        }
+        return UserDefaults.standard.bool(forKey: "isSocialLogin")
     }
     
     func setLoginUserCountry(value : String)
     {
-        UserDefaults.standard.set(value, forKey: PREFERENCE.USER_COUNTRY)
+        UserDefaults.standard.set(value, forKey: "user_country")
         UserDefaults.standard.synchronize()
     }
     
     func getLoginUserCountry() -> String
     {
-        if let value = UserDefaults.standard.value(forKey: PREFERENCE.USER_COUNTRY)
+        if let value = UserDefaults.standard.value(forKey: "user_country")
         {
             return value as! String
         }
@@ -221,13 +201,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     
     func setLoginUserState(value : String)
     {
-        UserDefaults.standard.set(value, forKey: PREFERENCE.USER_STATE)
+        UserDefaults.standard.set(value, forKey: "user_state")
         UserDefaults.standard.synchronize()
     }
     
     func getLoginUserState() -> String
     {
-        if let value = UserDefaults.standard.value(forKey: PREFERENCE.USER_STATE)
+        if let value = UserDefaults.standard.value(forKey: "user_state")
         {
             return value as! String
         }
@@ -239,25 +219,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     
     func setLoginUserCity(value : String)
     {
-        UserDefaults.standard.set(value, forKey: PREFERENCE.USER_CITY)
+        UserDefaults.standard.set(value, forKey: "user_city")
         UserDefaults.standard.synchronize()
-    }
-    
-    func getLoginUserCity() -> String
-    {
-        if let value = UserDefaults.standard.value(forKey: PREFERENCE.USER_CITY)
-        {
-            return value as! String
-        }
-        else
-        {
-            return ""
-        }
     }
     
     func getLoginUserCategory() -> String
     {
-        if let value = UserDefaults.standard.value(forKey: PREFERENCE.USER_CATEGORY)
+        if let value = UserDefaults.standard.value(forKey: "user_category")
         {
             return value as! String
         }
@@ -269,13 +237,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
     
     func setLoginUserCategory(value : String)
     {
-        UserDefaults.standard.set(value, forKey: PREFERENCE.USER_CATEGORY)
+        UserDefaults.standard.set(value, forKey: "user_category")
         UserDefaults.standard.synchronize()
     }
     
-    func getLoginUserCollage() -> String
+    func getLoginUserCity() -> String
     {
-        if let value = UserDefaults.standard.value(forKey: PREFERENCE.USER_COLLAGE)
+        if let value = UserDefaults.standard.value(forKey: "user_city")
         {
             return value as! String
         }
@@ -285,20 +253,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         }
     }
     
-    func setLoginUserCollage(value : String)
-    {
-        UserDefaults.standard.set(value, forKey: PREFERENCE.USER_COLLAGE)
-        UserDefaults.standard.synchronize()
-    }
-    
     func getUserProfile()
     {
         if UserDefaults.standard.value(forKey: "user_id") == nil || UserDefaults.standard.value(forKey: "user_id") as! String == ""
         {
             return
         }
-        //let baseURL: String  = String(format:"%@getProfile",Constants.mainURL)
-        let baseURL: String  = API.GET_PROFILE
+        let baseURL: String  = String(format:"%@getProfile",Constants.mainURL)
         
         let innerParams : [String: String] = [
             "id":UserDefaults.standard.value(forKey: "user_id") as! String
@@ -325,7 +286,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
                     }
                 }
 
-                self.setLoginUserData()
                 UserDefaults.standard.set(self.userData, forKey: "userData")
                 UserDefaults.standard.synchronize()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
@@ -335,7 +295,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
             print(error.localizedDescription)
         }
     }
-    
     
     
     func applicationWillResignActive(_ application: UIApplication) {

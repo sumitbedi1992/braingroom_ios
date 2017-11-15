@@ -89,6 +89,7 @@ class ArticlesVC: UIViewController,UITableViewDelegate,UITableViewDataSource,FCA
     
     var indexOfPageToRequest = String()
     var pageCount = 1
+    let alert = FCAlertView()
     
     override func viewDidLoad()
     {
@@ -96,6 +97,9 @@ class ArticlesVC: UIViewController,UITableViewDelegate,UITableViewDataSource,FCA
         
         NotificationCenter.default.addObserver(self, selector: #selector(onUpdateLoggedInUserData), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
         
+        setAlertViewData(alert)
+        alert.delegate = self
+
         if appDelegate.userId == ""
         {
             menuArray = ["Home","Login","Register","FAQ","Terms and Conditions","Contact Us"]
@@ -418,24 +422,12 @@ class ArticlesVC: UIViewController,UITableViewDelegate,UITableViewDataSource,FCA
                     }
                     else
                     {
-                        let alert = FCAlertView()
-                        alert.blurBackground = false
-                        alert.cornerRadius = 15
-                        alert.bounceAnimations = true
-                        alert.dismissOnOutsideTouch = false
-                        alert.delegate = self
                         alert.makeAlertTypeCaution()
                         alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
                     }
                     
                 case 5:
                     
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
                     alert.makeAlertTypeCaution()
                     alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
                     alert.hideDoneButton = true
@@ -567,12 +559,6 @@ class ArticlesVC: UIViewController,UITableViewDelegate,UITableViewDataSource,FCA
     
     func alert(text: String)
     {
-        let alert = FCAlertView()
-        alert.blurBackground = false
-        alert.cornerRadius = 15
-        alert.bounceAnimations = true
-        alert.dismissOnOutsideTouch = false
-        alert.delegate = self
         alert.makeAlertTypeWarning()
         alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;

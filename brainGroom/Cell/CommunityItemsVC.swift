@@ -51,7 +51,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     var vendorId = String()
     var startDate = String()
     var endDate = String()
-    var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let alert = FCAlertView()
     
     @IBOutlet weak var itemCollectionView: UICollectionView!
     
@@ -60,6 +60,9 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(filterClass), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: nil)
         
+        setAlertViewData(alert)
+        alert.delegate = self
+
         isTable = false
         
         self.dataFromServer()
@@ -116,8 +119,6 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
                 "logged_in_userid":"",
                 "search_seg_id": segmentId as String,
                 "price_sort_status":"",
-                "price_symbol": appDelegate.PRICE_SYMBOLE,
-                "price_code": appDelegate.PRICE_CODE,
                 "sort_by_latest":"",
                 "start_date": startDate as String
             ]
@@ -141,8 +142,6 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
                     "logged_in_userid":"",
                     "search_seg_id": segmentId as String,
                     "price_sort_status":"",
-                    "price_symbol": appDelegate.PRICE_SYMBOLE,
-                    "price_code": appDelegate.PRICE_CODE,
                     "sort_by_latest":"",
                     "start_date": startDate as String
                 ]
@@ -162,8 +161,6 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             "logged_in_userid":"",
             "search_seg_id": segmentId as String,
             "price_sort_status":"",
-            "price_symbol": appDelegate.PRICE_SYMBOLE,
-            "price_code": appDelegate.PRICE_CODE,
             "sort_by_latest":"",
             "start_date": startDate as String
         ]
@@ -238,23 +235,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCVCell", for: indexPath as IndexPath) as! itemCVCell
             let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
             
-            var strPrice : String = ""
-            if (dict.object(forKey: "price") is Int)
-            {
-                strPrice = String(format: "%d", (dict.value(forKey: "price") as? Int)!)
-            }
-            else
-            {
-                strPrice = (dict.object(forKey: "price") as? String)!
-            }
-            
-            if strPrice != "" && strPrice != "0"
-            {
-                cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
-            }else{
-                cell.amountLbl.text = "Free"
-            }
-            
+            cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
             if let pic = (dict.object(forKey: "pic_name"))
             {
                 if (pic is String) && (pic as! String) != "0"
@@ -298,26 +279,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
                 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCVCell2", for: indexPath as IndexPath) as! itemCVCell2
             let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
-            
-            
-            var strPrice : String = ""
-            if (dict.object(forKey: "price") is Int)
-            {
-                strPrice = String(format: "%d", dict.value(forKey: "price") as! Int)
-            }
-            else
-            {
-                strPrice = (dict.object(forKey: "price") as? String)!
-            }
-            
-            if strPrice != "" && strPrice != "0"
-            {
-                cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
-            }else{
-                cell.amountLbl.text = "Free"
-            }
-            
-            
+            cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
             if (dict.object(forKey: "pic_name")) as! String != "0"
             {
                 cell.imgView.sd_setImage(with: URL(string: dict.object(forKey: "pic_name") as! String), placeholderImage: nil)
@@ -372,16 +334,14 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
-        
-        if isTable == false
+         if isTable == false
         {
             //TODO: Vignedh
-            //return CGSize(width: 167, height:258);
-            return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.9) > 260 ? itemCollectionView.bounds.size.height/2:260);
+            return CGSize(width: 167, height:258);
         }
         else
         {
-            return CGSize(width: itemCollectionView.bounds.size.width-10, height: 127);
+            return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 258 ? itemCollectionView.bounds.size.height/1.8:258);
         }
     }
 
@@ -451,8 +411,6 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             "logged_in_userid":"",
             "search_seg_id":"",
             "price_sort_status": str,
-            "price_symbol": appDelegate.PRICE_SYMBOLE,
-            "price_code": appDelegate.PRICE_CODE,
             "sort_by_latest":"",
             "start_date":""
         ]
@@ -514,12 +472,6 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
 //MARK: ----------------------- Alert ----------------------
     func alertView(text: String)
     {
-        let alert = FCAlertView()
-        alert.blurBackground = false
-        alert.cornerRadius = 15
-        alert.bounceAnimations = true
-        alert.dismissOnOutsideTouch = false
-        alert.delegate = self
         alert.makeAlertTypeWarning()
         alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;

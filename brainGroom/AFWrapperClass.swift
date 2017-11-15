@@ -10,6 +10,9 @@ import UIKit
 import Alamofire
 import QuartzCore
 import SVProgressHUD
+import FCAlertView
+
+
 class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimationDelegate
 {
     var view = UIView()
@@ -423,16 +426,6 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         
     }
     
-    class func setButtonBackgroundImageFromUrl(_ button : UIButton, strUrl : String)
-    {
-        button.sd_setBackgroundImage(with: URL(string: strUrl), for: .normal, completed: { (image, error, SDImageCacheType, url) in
-            if error == nil
-            {
-                button.setBackgroundImage(image, for: .normal)
-            }
-        })
-    }
-    
     class func viewSlideInFromRightToLeft(view:UIView) -> Void
     {
         let transition:CATransition = CATransition()
@@ -469,7 +462,12 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         transition.subtype = kCATransitionFromTop
         view.layer.add(transition, forKey: kCATransition)
     }
-    
-    
-    
+}
+
+func setAlertViewData(_ alert : FCAlertView)
+{
+    alert.blurBackground = false
+    alert.cornerRadius = 15
+    alert.bounceAnimations = true
+    alert.dismissOnOutsideTouch = false
 }
