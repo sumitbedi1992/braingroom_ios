@@ -25,10 +25,15 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
     var fromFilter = Bool()
     var id = String()
     
+    let alert = FCAlertView()
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
+        setAlertViewData(alert)
+        alert.delegate = self
+        
         selectedItemsLbl.text = "Selected Item"
         searchBar.delegate = self
         // Do any additional setup after loading the view.
@@ -145,28 +150,16 @@ class SearchItemsViewController: UIViewController, UITableViewDelegate, UITableV
             }
             else
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
             
         }) { (error) in
 //            AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            self.alert.hideDoneButton = true;
+            self.alert.addButton("OK", withActionBlock: {
             })
         }
     }

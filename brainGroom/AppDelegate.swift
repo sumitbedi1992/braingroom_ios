@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         }
         else
         {
-            userData = getLoginUserData()
+            userData = UserDefaults.standard.object(forKey: "userData") as! NSMutableDictionary
             userId = str! as NSString
         }
 
@@ -181,24 +181,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         return UserDefaults.standard.bool(forKey: "isSocialLogin")
     }
     
-    func setLoginUserData()
-    {
-        UserDefaults.standard.set(self.userData, forKey: "user_data")
-        UserDefaults.standard.synchronize()
-    }
-    
-    func getLoginUserData() -> NSMutableDictionary
-    {
-        if let value = UserDefaults.standard.value(forKey: "user_data")
-        {
-            return value as! NSMutableDictionary
-        }
-        else
-        {
-            return NSMutableDictionary()
-        }
-    }
-    
     func setLoginUserCountry(value : String)
     {
         UserDefaults.standard.set(value, forKey: "user_country")
@@ -259,24 +241,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         UserDefaults.standard.synchronize()
     }
     
-    func getLoginUserCollage() -> String
-    {
-        if let value = UserDefaults.standard.value(forKey: "user_collage")
-        {
-            return value as! String
-        }
-        else
-        {
-            return ""
-        }
-    }
-    
-    func setLoginUserCollage(value : String)
-    {
-        UserDefaults.standard.set(value, forKey: "user_collage")
-        UserDefaults.standard.synchronize()
-    }
-    
     func getLoginUserCity() -> String
     {
         if let value = UserDefaults.standard.value(forKey: "user_city")
@@ -322,7 +286,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
                     }
                 }
 
-                self.setLoginUserData()
                 UserDefaults.standard.set(self.userData, forKey: "userData")
                 UserDefaults.standard.synchronize()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
@@ -332,7 +295,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
             print(error.localizedDescription)
         }
     }
-    
     
     
     func applicationWillResignActive(_ application: UIApplication) {

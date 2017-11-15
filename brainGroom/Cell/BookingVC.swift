@@ -85,6 +85,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     var transactionId = String()
     
+    let alert = FCAlertView()
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -97,15 +98,10 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         
         if isOnline != true
         {
-            if let location = dataDict["location"]
-            {
-                locationArray = location as! NSArray
-            }
-            
+            locationArray = dataDict["location"] as! NSArray
         }
         levelArray = dataDict["vendorClasseLevelDetail"] as! NSArray
         
-        print(getTicketValue())
         self.topImage.sd_setImage(with: URL(string: (self.dataDict.value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
         self.descLbl.text = self.dataDict.value(forKey: "class_topic") as? String
         self.TVHeightConstraint.constant = CGFloat(levelArray.count) * 60.0
@@ -121,6 +117,9 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         else{
             total = 0
         }
+        
+        setAlertViewData(alert)
+        alert.delegate = self
     }
     
     override func viewDidDisappear(_ animated: Bool)
@@ -492,43 +491,11 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             _ = self.navigationController!.popViewController(animated:true)
         }
     }
-    
-    func getTicketValue() -> String
-    {
-        var tempArr : [AnyObject] = [AnyObject] ()
-        for i in 0..<levelArray.count
-        {
-            let dict : [String : AnyObject] = levelArray[i] as! [String : AnyObject]
-            var tempDict : [String : AnyObject] = [String : AnyObject] ()
-            tempDict["level_id"] = dict["level_id"]
-            tempDict["tickets"] = quantityTotal as AnyObject
-            tempArr.append(tempDict as AnyObject)
-        }
-        var ticketDict : [String : AnyObject] = [String : AnyObject]()
-        ticketDict["tickets"] = tempArr as AnyObject
-        
-//        var jsonData: NSData = NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted, error: &error)!
-//        if error == nil {
-//            return NSString(data: jsonData, encoding: NSUTF8StringEncoding)! as String
-//        }
-        
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: ticketDict, options: .prettyPrinted)
-            // here "jsonData" is the dictionary encoded in JSON data
-            
-            return String(data: jsonData, encoding: String.Encoding.utf8)!
-        } catch {
-            print(error.localizedDescription)
-            return ""
-        }
-    }
-    
-    
 //MARK: ----------------------- API Hitting -----------------------------
     
     func promoCodeApiHitting(guest: Int, codeText: String)
     {
-        ticket = getTicketValue()
+        ticket = String(format: "{\"tickets\":[{\"level_id\":\"%@\",\"tickets\":\"%d\"}]}", (levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String, quantityTotal)
         let baseURL  = String(format:"%@verifyPromoCode",Constants.mainURL)
         let innerParams  = [
             "class_id":dataDict.object(forKey: "id") as! String,
@@ -652,7 +619,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func paymentSuccessApiHitting(paymentTxtId: String, transactionId: String, guest: Int)
     {
-        ticket = getTicketValue()
+        ticket = String(format: "{\"tickets\":[{\"level_id\":\"%@\",\"tickets\":\"%d\"}]}", (levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String, quantityTotal)
         let baseURL  = String(format:"%@getBookNowPageDetails",Constants.mainURL)
         let innerParams  = [
             "amount":self.grandTotal,
@@ -701,7 +668,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func freeBookingPaymentSuccessApiHitting(paymentTxtId: String, transactionId: String, guest: Int)
     {
-        ticket = getTicketValue()
+        ticket = String(format: "{\"tickets\":[{\"level_id\":\"%@\",\"tickets\":\"%d\"}]}", (levelArray.object(at: 0) as! NSDictionary).object(forKey: "level_id") as! String, quantityTotal)
         
         let baseURL  = String(format:"%@razorPaySuccess",Constants.mainURL)
         let innerParams  = [
@@ -731,25 +698,13 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "braingroom") as! NSArray).count != 0
             {
-                //AFWrapperClass.showToast(title: "Payment Successfully Done. Thank you.", view: self.view)
+                AFWrapperClass.showToast(title: "Payment Successfully Done. Thank you.", view: self.view)
                 //                self.alertSuccessView(text: "Payment Successfully Done. Thank you.")
                 self.isGuest = false
                 
                 self.isCoupon = false
                 self.isPromo = false
-                
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeSuccess()
-                alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Successfully booked" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
-                    self.backBtnAction(self)
-                })
+                self.backBtnAction(self)
             }
             else
             {
@@ -783,31 +738,19 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func alertView(text: String)
     {
-        let alert = FCAlertView()
-        alert.blurBackground = false
-        alert.cornerRadius = 15
-        alert.bounceAnimations = true
-        alert.dismissOnOutsideTouch = false
-        alert.delegate = self
-        alert.makeAlertTypeWarning()
-        alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-        alert.hideDoneButton = true;
-        alert.addButton("OK", withActionBlock: {
+        self.alert.makeAlertTypeWarning()
+        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+        self.alert.hideDoneButton = true;
+        self.alert.addButton("OK", withActionBlock: {
         })
     }
     
     func alertSuccessView(text: String)
     {
-        let alert = FCAlertView()
-        alert.blurBackground = false
-        alert.cornerRadius = 15
-        alert.bounceAnimations = true
-        alert.dismissOnOutsideTouch = false
-        alert.delegate = self
-        alert.makeAlertTypeSuccess()
-        alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-        alert.hideDoneButton = true;
-        alert.addButton("OK", withActionBlock: {
+        self.alert.makeAlertTypeSuccess()
+        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+        self.alert.hideDoneButton = true;
+        self.alert.addButton("OK", withActionBlock: {
         })
     }
     

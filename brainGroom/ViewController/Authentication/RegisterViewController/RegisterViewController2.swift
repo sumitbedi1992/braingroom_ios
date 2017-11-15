@@ -31,13 +31,15 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
     @IBOutlet weak var doneView: UIView!
     var gender  = String()
     var dob  = String()
-    
+    let alert = FCAlertView()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         gender = ""
-        
+        setAlertViewData(alert)
+        alert.delegate = self
         dobPicker.datePickerMode = UIDatePickerMode.date
         dobPicker.maximumDate = Date()
         dobPicker.addTarget(self, action: #selector(handleDatePicker(_:)), for: UIControlEvents.valueChanged)
@@ -124,12 +126,6 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
         case 5:
             if appDelegate.signUpCountryID == ""
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
                 alert.makeAlertTypeWarning()
                 alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select Country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
@@ -143,12 +139,6 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
         case 6:
             if appDelegate.signUpStateID == ""
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
                 alert.makeAlertTypeWarning()
                 alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select State", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
@@ -161,12 +151,6 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
         case 7:
             if appDelegate.signUpCityID == ""
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
                 alert.makeAlertTypeWarning()
                 alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please select country", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
@@ -227,16 +211,10 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
             {
                 if (dic.object(forKey: "braingroom") as! NSArray).count > 0
                 {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeSuccess()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Registration Successful, Please verify your Mobile Number", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
+                self.alert.makeAlertTypeSuccess()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "Registration Successful, Please verify your Mobile Number", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                self.alert.hideDoneButton = true;
+                self.alert.addButton("OK", withActionBlock: {
                     self.appDelegate.tempUser = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "user_id") as! String as NSString
                     let viewController = self.storyboard?.instantiateViewController(withIdentifier: "OTPViewController") as! OTPViewController
                     self.navigationController?.pushViewController(viewController, animated: true)
@@ -244,37 +222,19 @@ class RegisterViewController2: UIViewController, FCAlertViewDelegate {
                 }
                 else
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                    self.alert.makeAlertTypeWarning()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                 }
             }
             else
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
         }
         
     }

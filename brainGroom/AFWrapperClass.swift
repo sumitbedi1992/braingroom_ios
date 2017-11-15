@@ -10,6 +10,9 @@ import UIKit
 import Alamofire
 import QuartzCore
 import SVProgressHUD
+import FCAlertView
+
+
 class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimationDelegate
 {
     var view = UIView()
@@ -459,7 +462,12 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         transition.subtype = kCATransitionFromTop
         view.layer.add(transition, forKey: kCATransition)
     }
-    
-    
-    
+}
+
+func setAlertViewData(_ alert : FCAlertView)
+{
+    alert.blurBackground = false
+    alert.cornerRadius = 15
+    alert.bounceAnimations = true
+    alert.dismissOnOutsideTouch = false
 }

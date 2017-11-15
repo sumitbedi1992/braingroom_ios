@@ -47,9 +47,6 @@ class subCell : UICollectionViewCell
 class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate
 {
     @IBOutlet weak var btnList: UIButton!
-    @IBOutlet weak var itemCollectionView: UICollectionView!
-    @IBOutlet weak var subCollectionView: UICollectionView!
-    @IBOutlet weak var imgListGrid: UIImageView!
     @IBAction func backBtnAction(_ sender: Any)
     {
         self.navigationController?.popViewController(animated: true)
@@ -76,12 +73,20 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     var isFilterData : Bool = false
     var pageNumber : Int = 1
     var isNextPage : Bool = false    
+    let alert = FCAlertView()
     
+    @IBOutlet weak var itemCollectionView: UICollectionView!
+    @IBOutlet weak var subCollectionView: UICollectionView!
+    
+    @IBOutlet weak var imgListGrid: UIImageView!
     override func viewDidLoad()
     {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(filterClass), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: nil)
         
+        setAlertViewData(alert)
+        alert.delegate = self
+
         isTable = false
         self.subCollectionView.delegate = self
         self.subCollectionView.dataSource = self
@@ -449,7 +454,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             {
                 //TODO: Vignedh
                 //return CGSize(width: 167, height:258);
-                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 260 ? itemCollectionView.bounds.size.height/1.8:260);
+                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 258 ? itemCollectionView.bounds.size.height/1.8:258);
             }
             else
             {
@@ -583,12 +588,6 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     //MARK: ----------------------- Alert ----------------------
     func alertView(text: String)
     {
-        let alert = FCAlertView()
-        alert.blurBackground = false
-        alert.cornerRadius = 15
-        alert.bounceAnimations = true
-        alert.dismissOnOutsideTouch = false
-        alert.delegate = self
         alert.makeAlertTypeWarning()
         alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;

@@ -21,10 +21,15 @@ class NotificationsViewController: UIViewController, UITableViewDelegate, UITabl
     @IBOutlet weak var notificationsTable: UITableView!
     
     var notificationsArray = NSArray()
+    let alert = FCAlertView()
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setAlertViewData(alert)
+        alert.delegate = self
+        
        dataFromServer()
         
         // Along with auto layout, these are the keys for enabling variable cell height
@@ -63,45 +68,27 @@ class NotificationsViewController: UIViewController, UITableViewDelegate, UITabl
                 }
                 else
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
+                    self.alert.makeAlertTypeWarning()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    self.alert.hideDoneButton = true;
+                    self.alert.addButton("OK", withActionBlock: {
                     })
                 }
             }
             else
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                self.alert.hideDoneButton = true;
+                self.alert.addButton("OK", withActionBlock: {
                 })
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            self.alert.hideDoneButton = true;
+            self.alert.addButton("OK", withActionBlock: {
             })
         }
     }

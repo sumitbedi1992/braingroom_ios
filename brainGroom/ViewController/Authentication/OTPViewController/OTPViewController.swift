@@ -24,6 +24,10 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
     
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     var fromSocial = Bool()
+    
+    let alert = FCAlertView()
+
+    
     @IBAction func backBtnAction(_ sender: Any)
     {
         _=self.navigationController?.popViewController(animated:true)
@@ -33,6 +37,9 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
     {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        setAlertViewData(alert)
+        alert.delegate = self
         
         if fromSocial == true
         {
@@ -90,42 +97,24 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
 
                 if (dic.object(forKey: "braingroom") as! NSArray).count > 0
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeSuccess()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
+                    self.alert.makeAlertTypeSuccess()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    self.alert.hideDoneButton = true;
+                    self.alert.addButton("OK", withActionBlock: {
                     })
                 }
                 else
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                    self.alert.makeAlertTypeWarning()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                 }
 
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            self.alert.hideDoneButton = true;
+            self.alert.addButton("OK", withActionBlock: {
             })
         }
     }
@@ -155,16 +144,10 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
 //                {
                     if (dic.object(forKey: "braingroom") as! NSArray).count > 0
                     {
-                        let alert = FCAlertView()
-                        alert.blurBackground = false
-                        alert.cornerRadius = 15
-                        alert.bounceAnimations = true
-                        alert.dismissOnOutsideTouch = false
-                        alert.delegate = self
-                        alert.makeAlertTypeSuccess()
-                        alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                        alert.hideDoneButton = true;
-                        alert.addButton("OK", withActionBlock: {
+                        self.alert.makeAlertTypeSuccess()
+                        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                        self.alert.hideDoneButton = true;
+                        self.alert.addButton("OK", withActionBlock: {
                             
                             if self.isSocial == true
                             {
@@ -178,43 +161,25 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                     }
                     else
                     {
-                        let alert = FCAlertView()
-                        alert.blurBackground = false
-                        alert.cornerRadius = 15
-                        alert.bounceAnimations = true
-                        alert.dismissOnOutsideTouch = false
-                        alert.delegate = self
-                        alert.makeAlertTypeWarning()
-                        alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                        self.alert.makeAlertTypeWarning()
+                        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                     }
 
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                self.alert.hideDoneButton = true;
+                self.alert.addButton("OK", withActionBlock: {
                 })
             }
         }
         else
         {
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter a valid OTP", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter a valid OTP", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            self.alert.hideDoneButton = true;
+            self.alert.addButton("OK", withActionBlock: {
             })
         }
     }
@@ -254,16 +219,10 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
             {
                 if ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "is_mobile_verified") as! Int == 1
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeSuccess()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
+                    self.alert.makeAlertTypeSuccess()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    self.alert.hideDoneButton = true;
+                    self.alert.addButton("OK", withActionBlock: {
                         
                         let userId = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "id") as! String
                         UserDefaults.standard.set(userId , forKey: "user_id")
@@ -281,45 +240,27 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                         }
                         
                         print(self.appDelegate.userData)
-                        self.appDelegate.setLoginUserData()
                         
+                        UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
                         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                         self.navigationController?.pushViewController(viewController, animated: true)
                     })
                 }
                 else
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                    self.alert.makeAlertTypeWarning()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                 }
             }
             else
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
         }
     }
     
@@ -353,16 +294,10 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                 {
                 if ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "is_mobile_verified") as! Int == 1
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeSuccess()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
+                    self.alert.makeAlertTypeSuccess()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    self.alert.hideDoneButton = true;
+                    self.alert.addButton("OK", withActionBlock: {
                         
                         let userId = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "id") as! String
                         let mobile = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "mobile") as! String
@@ -381,7 +316,7 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                         }
                         
                         UserDefaults.standard.set(self.appDelegate.signUpEmail, forKey: "user_email")
-                        self.appDelegate.setLoginUserData()
+                        UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
                         
         
                         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
@@ -390,14 +325,8 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
                 }
                 else
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeSuccess()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "OTP Not verified, Please try again", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                    self.alert.makeAlertTypeSuccess()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "OTP Not verified, Please try again", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                 }
 //                }
 //                else
@@ -414,32 +343,20 @@ class OTPViewController: UIViewController,FCAlertViewDelegate {
             }
             else
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                self.alert.hideDoneButton = true;
+                self.alert.addButton("OK", withActionBlock: {
                 self.navigationController?.popViewController(animated: true)
                 })
                 
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            self.alert.hideDoneButton = true;
+            self.alert.addButton("OK", withActionBlock: {
                 self.navigationController?.popViewController(animated: true)
             })
         }

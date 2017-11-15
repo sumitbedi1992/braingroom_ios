@@ -33,10 +33,15 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var postId = String()
     var dataArray = NSArray()
+    let alert = FCAlertView()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         TV.transform = CGAffineTransform(rotationAngle: -(CGFloat)(M_PI))
+        
+        setAlertViewData(alert)
+        alert.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -183,16 +188,10 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func alert(text: String)
     {
-        let alert = FCAlertView()
-        alert.blurBackground = false
-        alert.cornerRadius = 15
-        alert.bounceAnimations = true
-        alert.dismissOnOutsideTouch = false
-        alert.delegate = self
-        alert.makeAlertTypeWarning()
-        alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-        alert.hideDoneButton = true;
-        alert.addButton("OK", withActionBlock: {
+        self.alert.makeAlertTypeWarning()
+        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+        self.alert.hideDoneButton = true;
+        self.alert.addButton("OK", withActionBlock: {
         })
     }
     

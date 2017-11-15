@@ -21,9 +21,8 @@ class itemCell1 : UICollectionViewCell
 class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate {
 
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
-
-    
     var itemsArray = NSArray()
+    let alert = FCAlertView()
     
     @IBOutlet weak var itemCollectionView: UICollectionView!
     
@@ -32,6 +31,9 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        
+        setAlertViewData(alert)
+        alert.delegate = self
         self.dataFromServer()
     }
     
@@ -61,46 +63,28 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
                 }
                 else
                 {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
+                    self.alert.makeAlertTypeWarning()
+                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    self.alert.hideDoneButton = true;
+                    self.alert.addButton("OK", withActionBlock: {
                     })
                 }
             }
             else
             {
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
+                self.alert.makeAlertTypeWarning()
+                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                self.alert.hideDoneButton = true;
+                self.alert.addButton("OK", withActionBlock: {
                 })
                 
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
+            self.alert.makeAlertTypeWarning()
+            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            self.alert.hideDoneButton = true;
+            self.alert.addButton("OK", withActionBlock: {
             })
         }
     }
@@ -143,12 +127,6 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
     {
         if appDelegate.userId == ""
         {
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
             alert.makeAlertTypeCaution()
             alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please login to see your Notifications", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
         }

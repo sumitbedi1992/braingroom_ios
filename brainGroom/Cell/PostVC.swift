@@ -101,7 +101,8 @@ class PostVC: UIViewController,UIImagePickerControllerDelegate,UINavigationContr
     var postStr = String()
     
     let picker = UIImagePickerController()
-
+    let alert = FCAlertView()
+    
     @IBAction func btnDateToTap(_ sender: Any) {
         print("dateto")
         self.isRecdateTap = true
@@ -164,6 +165,9 @@ class PostVC: UIViewController,UIImagePickerControllerDelegate,UINavigationContr
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        setAlertViewData(alert)
+        alert.delegate = self
         
         picker.delegate = self
         
@@ -746,10 +750,10 @@ class PostVC: UIViewController,UIImagePickerControllerDelegate,UINavigationContr
             }
             
             let baseURL: String  = String(format:"%@addPost",Constants.mainURL)
-            let dic = appDelegate.getLoginUserData()
+            let dic = UserDefaults.standard.object(forKey: "userData") as? NSDictionary
         
         var innerParams : [String: String] = [
-            "uuid" : (dic.object(forKey: "uuid") as? String)!,
+                "uuid" : (dic?.object(forKey: "uuid") as? String)!,
                 "post_type" : postStr,
                 "post_title" : topicTF.text!,
                 "post_summary" : descriptionTextView.text!,
@@ -810,18 +814,11 @@ class PostVC: UIViewController,UIImagePickerControllerDelegate,UINavigationContr
     
     @IBAction func backBtnAction(_ sender: Any)
     {
-       // _=self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true, completion: nil)
+        _=self.navigationController?.popViewController(animated: true)
     }
     
     func alert(text: String)
     {
-        let alert = FCAlertView()
-        alert.blurBackground = false
-        alert.cornerRadius = 15
-        alert.bounceAnimations = true
-        alert.dismissOnOutsideTouch = false
-        alert.delegate = self
         alert.makeAlertTypeSuccess()
         alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;
