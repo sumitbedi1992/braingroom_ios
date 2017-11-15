@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YouTubePlayer
 
 class BGSocialLearningTableCell: UITableViewCell {
 
@@ -20,6 +21,23 @@ class BGSocialLearningTableCell: UITableViewCell {
     
     @IBOutlet weak var userImage: UIButtonX!
     
+    @IBOutlet weak var btnLiked: UIButton!
+    
+    @IBOutlet weak var lblLikedCount: UILabel!
+    
+    @IBOutlet weak var btnCommentedcount: UIButton!
+    @IBOutlet weak var lblCommentedCount: UILabel!
+    
+    @IBOutlet weak var btnShareAction: UIButton!
+    @IBOutlet weak var btnLikeAction: UIButton!
+    @IBOutlet weak var btnCommentAction: UIButton!
+    @IBOutlet weak var lblLike: UILabel!
+    
+    @IBOutlet weak var lblComment: UILabel!
+    
+    @IBOutlet weak var reportBtn: UIButton!
+    
+    @IBOutlet weak var videoPlayerYoutube: YouTubePlayerView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -30,5 +48,22 @@ class BGSocialLearningTableCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    var onlikeTapped : ((_ indexTapped : Int) -> Void)? = nil
+    var onCommentTapped : ((_ indexTapped : Int) -> Void)? = nil
+    var onReportTapped : ((_ indexTapped : Int) -> Void)? = nil
+    
+//    @IBAction func liveClicked(_ sender: UIButton) {
+//        if let onlikeTapped = self.onlikeTapped {
+//            onlikeTapped(sender.tag)
+//        }
+//    }
+//    
+//    @IBAction func commentClicked(_ sender: UIButton) {
+//        if let onCommentTapped = self.onCommentTapped {
+//            onCommentTapped(sender.tag)
+//        }
+//    }
+//    
 
 }

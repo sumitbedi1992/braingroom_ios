@@ -47,6 +47,9 @@ class subCell : UICollectionViewCell
 class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate
 {
     @IBOutlet weak var btnList: UIButton!
+    @IBOutlet weak var itemCollectionView: UICollectionView!
+    @IBOutlet weak var subCollectionView: UICollectionView!
+    @IBOutlet weak var imgListGrid: UIImageView!
     @IBAction func backBtnAction(_ sender: Any)
     {
         self.navigationController?.popViewController(animated: true)
@@ -73,20 +76,13 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     var isFilterData : Bool = false
     var pageNumber : Int = 1
     var isNextPage : Bool = false    
-    let alert = FCAlertView()
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    @IBOutlet weak var itemCollectionView: UICollectionView!
-    @IBOutlet weak var subCollectionView: UICollectionView!
-    
-    @IBOutlet weak var imgListGrid: UIImageView!
     override func viewDidLoad()
     {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(filterClass), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: nil)
         
-        setAlertViewData(alert)
-        alert.delegate = self
-
         isTable = false
         self.subCollectionView.delegate = self
         self.subCollectionView.dataSource = self
@@ -222,6 +218,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             "logged_in_userid":"",
             "search_seg_id": segmentId as String,
             "price_sort_status":"",
+            "price_symbol": appDelegate.PRICE_SYMBOLE,
+            "price_code": appDelegate.PRICE_CODE,
             "sort_by_latest":"",
             "start_date": startDate as String]
 
@@ -315,9 +313,21 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
                 let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
-                if (dict.object(forKey: "price") as! String) != ""
+                cell.amountLbl.text = "Free"
+                
+                var strPrice : String = ""
+                if (dict["price"] is Int)
                 {
-                    cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
+                    strPrice = String(format: "%d", (dict.value(forKey: "price") as? Int)!)
+                }
+                else
+                {
+                    strPrice = (dict.value(forKey: "price") as? String)!
+                }
+                
+                if strPrice != "" && strPrice != "0"
+                {
+                    cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
                 }else{
                     cell.amountLbl.text = "Free"
                 }
@@ -354,7 +364,23 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell1", for: indexPath as IndexPath) as! itemCellTable
                 let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
                 
-                cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
+                var strPrice : String = ""
+                if (dict["price"] is Int)
+                {
+                    strPrice = String(format: "%d", (dict.value(forKey: "price") as? Int)!)
+                }
+                else
+                {
+                    strPrice = (dict.value(forKey: "price") as? String)!
+                }
+                
+                if strPrice != "" && strPrice != "0" {
+                    cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
+                }else{
+                    cell.amountLbl.text = "Free"
+                }
+                
+                
                 
                 if let image = dict["pic_name"] as? String  {
                     cell.imgView.sd_setImage(with: URL(string: image), placeholderImage: nil)
@@ -411,7 +437,15 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
             vc.catID = (dict.object(forKey: "id") as? String)!
-            vc.price = (dict.object(forKey: "price") as? String)!
+            
+            if (dict.object(forKey: "price") is Int)
+            {
+                vc.price = String(format: "%d", (dict.value(forKey: "price") as? Int)!)
+            }
+            else
+            {
+                vc.price = (dict.value(forKey: "price") as? String)!
+            }
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else
@@ -454,7 +488,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             {
                 //TODO: Vignedh
                 //return CGSize(width: 167, height:258);
-                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 258 ? itemCollectionView.bounds.size.height/1.8:258);
+                return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/1.8) > 260 ? itemCollectionView.bounds.size.height/1.8:260);
             }
             else
             {
@@ -544,6 +578,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             "logged_in_userid":"",
             "search_seg_id":"",
             "price_sort_status": str,
+            "price_symbol": appDelegate.PRICE_SYMBOLE,
+            "price_code": appDelegate.PRICE_CODE,
             "sort_by_latest":"",
             "start_date":""
         ]
@@ -588,6 +624,12 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     //MARK: ----------------------- Alert ----------------------
     func alertView(text: String)
     {
+        let alert = FCAlertView()
+        alert.blurBackground = false
+        alert.cornerRadius = 15
+        alert.bounceAnimations = true
+        alert.dismissOnOutsideTouch = false
+        alert.delegate = self
         alert.makeAlertTypeWarning()
         alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;

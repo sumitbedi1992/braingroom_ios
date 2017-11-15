@@ -37,8 +37,8 @@ class HomePageViewController: UIViewController {
     @IBAction func socialLearning(_ sender: Any)
     {
 //        AFWrapperClass.alert("Bridegroom", message: "Comming Soon...", view: self)
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarVC") as! TabBarVC
-        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "BGNavController") as! BGNavController
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func exploreBtnAction(_ sender: Any)

@@ -398,7 +398,7 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         dict["vendorId"] = vendorListIdStr as AnyObject
         dict["startDate"] = startTime as AnyObject
         dict["endDate"] = endTime as AnyObject
-        dict["classTypeLbl"] = classTypeIdStr as AnyObject
+        dict["classTypeId"] = classTypeIdStr as AnyObject
         
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: dict)
         self.navigationController?.popViewController(animated: true)

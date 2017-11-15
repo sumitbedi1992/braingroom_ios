@@ -27,14 +27,9 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
         _=self.navigationController?.popViewController(animated:true)
     }
     
-    let alert = FCAlertView()
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        setAlertViewData(alert)
-        alert.delegate = self
         
         if fromSocial == true
         {
@@ -77,11 +72,17 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
     @IBAction func changePasswordBtnAction(_ sender: Any) {
         if (oldPasswordTF.text?.characters.count)! < 6 {
             
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
             alert.makeAlertTypeWarning()
             DispatchQueue.main.async {
-                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter Old password (Min 6 charecters)" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                self.alert.hideDoneButton = true;
-                self.alert.addButton("OK", withActionBlock: {
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter Old password (Min 6 charecters)" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
                     //self.navigationController?.popViewController(animated: true)
                 })
             }
@@ -89,6 +90,12 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
             
         }
         else if (newPasswordTF.text?.characters.count)! < 6 {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
             alert.makeAlertTypeWarning()
             alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter New password (Min 6 charecters)" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
             alert.hideDoneButton = true;
@@ -96,6 +103,12 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
             })
         }
         else if (confirmPasswordTF.text?.characters.count)! < 6 {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
             alert.makeAlertTypeWarning()
             alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please confirm password (Min 6 charecters)" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
             alert.hideDoneButton = true;
@@ -103,6 +116,12 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
             })
         }
         else if newPasswordTF.text != confirmPasswordTF.text {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
             alert.makeAlertTypeWarning()
             alert.showAlert(withTitle: "Braingroom", withSubtitle: "Both new and confirm password does not matched!)" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
             alert.hideDoneButton = true;
@@ -139,10 +158,16 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
 //                {
                 
                 DispatchQueue.main.async {
-                    self.alert.makeAlertTypeSuccess()
-                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    self.alert.hideDoneButton = true;
-                    self.alert.addButton("OK", withActionBlock: {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeSuccess()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
                     })
                     
                 }
@@ -150,10 +175,16 @@ class ChangePasswordVC: UIViewController,FCAlertViewDelegate {
 //                }
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)
-                self.alert.makeAlertTypeWarning()
-                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                self.alert.hideDoneButton = true;
-                self.alert.addButton("OK", withActionBlock: {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
                 })
             }
         }

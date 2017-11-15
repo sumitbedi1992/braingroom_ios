@@ -26,9 +26,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     var clsID = String()
     var isOnline = Bool()
     var dataDic = NSDictionary()
-    let alert = FCAlertView()
     
-
     @IBOutlet weak var mapHeight: NSLayoutConstraint!
     @IBOutlet weak var videoPlayer: YouTubePlayerView!
     
@@ -36,6 +34,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     @IBOutlet weak var vidBtn: UIButton!
     @IBOutlet weak var vidImage: UIButton!
     @IBOutlet weak var shareBtn: UIButton!
+    @IBOutlet weak var bookBtn: UIButton!
     @IBOutlet weak var locationBtn: UIButton!
     @IBOutlet var headerView: UIView!
     @IBOutlet weak var sessionLbl: UILabel!
@@ -62,10 +61,6 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        setAlertViewData(alert)
-        alert.delegate = self
-        
         constraintHeightViewX.constant = 70
         mainScrollView.parallaxHeader.view = headerView
         mainScrollView.parallaxHeader.height = 200
@@ -86,6 +81,8 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
         
         self.dataFromServer()
     }
+    
+    //MARK: - Service Called
     func dataFromServer()
     {
         let baseURL: String  = String(format:"%@viewClassDetail",Constants.mainURL)
@@ -115,10 +112,22 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                     let attributedString : NSMutableAttributedString = (self.dataDic.value(forKey: "class_summary") as! String).htmlAttributedString() as! NSMutableAttributedString
                     let s = attributedString.string
                     self.aboutTheClassLbl.text = s
-                    self.providerName.text = (self.dataDic.value(forKey: "class_provided_by") as! String)
+                
+                    if let provider = self.dataDic.value(forKey: "class_provider_id")
+                    {
+                        self.vendorID = provider as? String ?? ""
+                        if let provider = self.dataDic.value(forKey: "class_provided_by")
+                        {
+                            self.providerName.text = provider as? String ?? ""
+                        }
+                        if let provider = self.dataDic.value(forKey: "class_provider_pic")
+                        {
+                            self.providerImage.sd_setImage(with: URL(string: provider as? String ?? ""), placeholderImage: UIImage.init(named: "imm"))
+                        }
+                    }
                 
                 
-                    self.providerImage.sd_setImage(with: URL(string: (self.dataDic.value(forKey: "class_provider_pic") as! String)), placeholderImage: UIImage.init(named: "imm"))
+                
                 
                     if let strUrl = self.dataDic.value(forKey: "photo")
                     {
@@ -164,27 +173,35 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                     self.clsID = (self.dataDic.value(forKey: "id") as! String)
                 
                     self.starLbl.text = String.init(format: "%d",(self.dataDic.value(forKey: "rating") as! Int))
-                    self.vendorID = (self.dataDic.value(forKey: "class_provider_id") as! String?)!
                 
                 
+                    self.bookBtn.setTitle("BOOK FOR FREE", for: .normal)
                 
-                    if let strPrice : String = ((self.dataDic.value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? String
-                    {
-                        if strPrice != "" || strPrice != "0"
-                        {
-                            self.priceLbl.text = "Rs. " + strPrice
-                            self.price = strPrice
-                        }
-                        else
-                        {
-                            self.priceLbl.text = "Free"
-                            self.price = "0"
-                        }
-                    }else{
-                        self.priceLbl.text = "Free"
-                        self.price = "0"
-                    }
+                let vendorDict : NSDictionary = (self.dataDic.value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary
                 
+                var strPrice : String = ""
+                if (vendorDict["price"] is Int)
+                {
+                    strPrice = String(format: "%d", (vendorDict.value(forKey: "price") as? Int)!)
+                }
+                else
+                {
+                    strPrice = (vendorDict.value(forKey: "price") as? String)!
+                }
+                
+                if strPrice != "0" && strPrice != ""
+                {
+                    self.priceLbl.text = "Rs. " + strPrice
+                    self.price = strPrice
+                    self.bookBtn.setTitle("BOOK NOW", for: .normal)
+                }
+                else
+                {
+                    self.priceLbl.text = "Free"
+                    self.price = "0"
+                    
+                }
+            
                     self.sessionLbl.text = String.init(format: "%@ Sessions, %@", (self.dataDic.value(forKey: "no_of_session") as! String), (self.dataDic.value(forKey: "class_duration") as! String))
                 
                 
@@ -216,6 +233,8 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                         }
                     }
                 
+                if self.dataDic.value(forKey: "wishlist") != nil
+                {
                     if Int(self.dataDic.value(forKey: "wishlist") as! String) == 1
                     {
                         self.favBtn.setImage(#imageLiteral(resourceName: "heart"), for: .normal)
@@ -224,6 +243,11 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                     {
                         self.favBtn.setImage(#imageLiteral(resourceName: "heartEmpty"), for: .normal)
                     }
+                }
+                else
+                {
+                    self.favBtn.setImage(#imageLiteral(resourceName: "heartEmpty"), for: .normal)
+                }
                 }
             }
             else
@@ -237,7 +261,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     }
    
     
-    // Get Video ID from URL
+    //MARK: - Get Video ID from URL
     func extractYoutubeIdFromLink(link: String) -> String? {
         let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
         guard let regExp = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive) else {
@@ -253,6 +277,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
         return nil
     }
 
+    //MARK: - Button click event
     @IBAction func shareBtnAction(_ sender: Any)
     {
         if let shareUrl = dataDic.value(forKey: "detail_class_link")
@@ -476,27 +501,45 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 }
                 else
                 {
-                    self.alert.makeAlertTypeWarning()
-                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    self.alert.hideDoneButton = true;
-                    self.alert.addButton("OK", withActionBlock: {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
                     })
                 }
             }
             else
             {
-                self.alert.makeAlertTypeWarning()
-                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                self.alert.hideDoneButton = true;
-                self.alert.addButton("OK", withActionBlock: {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
                 })
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alert.makeAlertTypeWarning()
-            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            self.alert.hideDoneButton = true;
-            self.alert.addButton("OK", withActionBlock: {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            alert.hideDoneButton = true;
+            alert.addButton("OK", withActionBlock: {
             })
         }
     }
@@ -546,6 +589,12 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     
     func alert(text: String)
     {
+        let alert = FCAlertView()
+        alert.blurBackground = false
+        alert.cornerRadius = 15
+        alert.bounceAnimations = true
+        alert.dismissOnOutsideTouch = false
+        alert.delegate = self
         alert.makeAlertTypeWarning()
         alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;
@@ -555,6 +604,12 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     
     func alertSuccessView(text: String)
     {
+        let alert = FCAlertView()
+        alert.blurBackground = false
+        alert.cornerRadius = 15
+        alert.bounceAnimations = true
+        alert.dismissOnOutsideTouch = false
+        alert.delegate = self
         alert.makeAlertTypeSuccess()
         alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;

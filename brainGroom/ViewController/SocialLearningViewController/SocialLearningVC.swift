@@ -48,8 +48,6 @@ class PostTVCell: UITableViewCell
     @IBOutlet weak var likeCountbtn: UIButton!
     @IBOutlet weak var commentsCountbtn: UIButton!
     
-    
-
     override func awakeFromNib()
     {
         super.awakeFromNib()
@@ -97,16 +95,11 @@ class SocialLearningVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     var indexOfPageToRequest = String()
     var pageCount = 1
     
-    let alert = FCAlertView()
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(onUpdateLoggedInUserData), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
-        
-        setAlertViewData(alert)
-        alert.delegate = self
         
         if appDelegate.userId == ""
         {
@@ -420,12 +413,24 @@ class SocialLearningVC: UIViewController, UITableViewDelegate, UITableViewDataSo
             }
             else
             {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
                 alert.makeAlertTypeCaution()
                 alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
             }
             
         case 5:
             
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
             alert.makeAlertTypeCaution()
             alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
             alert.hideDoneButton = true
@@ -576,6 +581,12 @@ class SocialLearningVC: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     func alert(text: String)
     {
+        let alert = FCAlertView()
+        alert.blurBackground = false
+        alert.cornerRadius = 15
+        alert.bounceAnimations = true
+        alert.dismissOnOutsideTouch = false
+        alert.delegate = self
         alert.makeAlertTypeWarning()
         alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;
