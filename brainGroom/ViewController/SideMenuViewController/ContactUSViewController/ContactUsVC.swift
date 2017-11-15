@@ -13,9 +13,6 @@ import MessageUI
 class ContactUsVC: UIViewController,MFMailComposeViewControllerDelegate {
     
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
-    
-    
-    
     var fromSocial = Bool()
     @IBAction func backBtnAction(_ sender: Any)
     {

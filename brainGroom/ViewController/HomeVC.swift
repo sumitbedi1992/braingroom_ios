@@ -51,13 +51,9 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
     @IBOutlet weak var searchBtn: UIButton!
     
     @IBOutlet weak var container: UIView!
-    let alert = FCAlertView()
     
     override func viewDidLoad()
     {
-        setAlertViewData(alert)
-        alert.delegate = self
-
 //        appDelegate.userId = "111"
         NotificationCenter.default.addObserver(self, selector: #selector(onUpdateLoggedInUserData), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_LOGIN_USER_PROFILE), object: nil)
         
@@ -353,6 +349,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             }
             else
             {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
                 alert.makeAlertTypeCaution()
                 alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
             }
@@ -360,11 +362,17 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
         case 5:
             
             DispatchQueue.main.async {
-                self.alert.makeAlertTypeCaution()
-                self.alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                self.alert.hideDoneButton = true
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeCaution()
+                alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true
                 
-                self.alert.addButton("Yes", withActionBlock: {
+                alert.addButton("Yes", withActionBlock: {
                     
                     UserDefaults.standard.set("", forKey: "user_id")
                     self.appDelegate.userId = ""
@@ -381,7 +389,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                     vc.didMove(toParentViewController: self)
                     
                 })
-                self.alert.addButton("No, Thanks", withActionBlock: {
+                alert.addButton("No, Thanks", withActionBlock: {
                 })
             }
             
@@ -458,6 +466,12 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
     {
         if appDelegate.userId == ""
         {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
             alert.makeAlertTypeCaution()
             alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please login to see your Notifications", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
         }

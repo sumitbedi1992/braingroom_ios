@@ -90,7 +90,6 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
     
     var indexOfPageToRequest = String()
     var pageCount = 1
-    let alert = FCAlertView()
     
     override func viewDidLoad()
     {
@@ -125,8 +124,6 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
         
         sideMenuCloseBtn.isHidden = false
         
-        setAlertViewData(alert)
-        alert.delegate = self
         
         
     }
@@ -419,17 +416,29 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                     }
                     else
                     {
-                        self.alert.makeAlertTypeCaution()
-                        self.alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
+                        alert.makeAlertTypeCaution()
+                        alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "You are logged in with Social Login", withCustomImage: nil, withDoneButtonTitle:"OK", andButtons: nil)
                     }
                     
                 case 5:
                     
-                    self.alert.makeAlertTypeCaution()
-                    self.alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    self.alert.hideDoneButton = true
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeCaution()
+                    alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Are you sure, you want to Logout?", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true
                     
-                    self.alert.addButton("Yes", withActionBlock: {
+                    alert.addButton("Yes", withActionBlock: {
                         
                         UserDefaults.standard.set("", forKey: "user_id")
                         self.appDelegate.userId = ""
@@ -438,7 +447,7 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
                         self.navigationController?.pushViewController(vc, animated: true)
                     })
-                    self.alert.addButton("No, Thanks", withActionBlock: {
+                    alert.addButton("No, Thanks", withActionBlock: {
                     })
                 case 6:
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController
@@ -556,6 +565,12 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
     
     func alert(text: String)
     {
+        let alert = FCAlertView()
+        alert.blurBackground = false
+        alert.cornerRadius = 15
+        alert.bounceAnimations = true
+        alert.dismissOnOutsideTouch = false
+        alert.delegate = self
         alert.makeAlertTypeWarning()
         alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
         alert.hideDoneButton = true;

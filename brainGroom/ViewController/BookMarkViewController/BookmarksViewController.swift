@@ -23,16 +23,17 @@ class itemCell3 : UICollectionViewCell
 
 class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate {
     
-    var itemsArray = NSArray()
-    let alert = FCAlertView()
-
-
+    var itemsArray = NSMutableArray()
+    
     @IBOutlet weak var itemCollectionView: UICollectionView!
     
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
     var fromSocial = Bool()
+    
+    var pageNumber = 1
+    var isNextPage : Bool = false
     
     @IBAction func backBtnAction(_ sender: Any)
     {
@@ -42,8 +43,10 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        setAlertViewData(alert)
-        alert.delegate = self
+        
+        self.itemCollectionView.delegate = self
+        self.itemCollectionView.dataSource = self
+        
         dataFromServer()
     }
 
@@ -67,37 +70,73 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
             let dic:NSDictionary = responseDict as NSDictionary
             if (dic.object(forKey: "res_code")) as! String == "1"
             {
-                self.itemsArray = dic.object(forKey: "braingroom") as! NSArray
-                if(self.itemsArray.count > 0)
+                if (dic.object(forKey: "braingroom") as! NSArray).count > 0
                 {
-                    self.itemCollectionView.delegate = self
-                    self.itemCollectionView.dataSource = self
+                    let tempArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
+                    if self.pageNumber == 1
+                    {
+                        self.itemsArray = tempArray
+                    }
+                    else
+                    {
+                        self.itemsArray.addObjects(from: tempArray as! [Any])
+                    }
+                    
                     self.itemCollectionView.reloadData()
+                    
+                    self.pageNumber = self.pageNumber + 1
+                    
+                    if tempArray.count == 10
+                    {
+                        self.isNextPage = true
+                    }
+                    else
+                    {
+                        self.isNextPage = false
+                    }
                 }
                 else
                 {
-                    self.alert.makeAlertTypeWarning()
-                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "No Bookings made" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    self.alert.hideDoneButton = true;
-                    self.alert.addButton("OK", withActionBlock: {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "No Bookings made" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
                     })
                 }
             }
             else
             {
-                self.alert.makeAlertTypeWarning()
-                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                self.alert.hideDoneButton = true;
-                self.alert.addButton("OK", withActionBlock: {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
                 })
                 
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alert.makeAlertTypeWarning()
-            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            self.alert.hideDoneButton = true;
-            self.alert.addButton("OK", withActionBlock: {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            alert.hideDoneButton = true;
+            alert.addButton("OK", withActionBlock: {
             })
         }
     }
@@ -142,7 +181,22 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
             {
                 if let amountDict : NSDictionary = amountArr.object(at: 0) as? NSDictionary
                 {
-                    cell.amountLbl.text = String.init(format: "Rs.%@",amountDict.value(forKey: "price") as! String)
+                    var strPrice : String = ""
+                    if (amountDict.value(forKey: "price") is Int)
+                    {
+                        strPrice = String(format: "%d", amountDict.value(forKey: "price") as! Int)
+                    }
+                    else
+                    {
+                        strPrice = (amountDict.value(forKey: "price") as? String)!
+                    }
+                    
+                    if strPrice != "" && strPrice != "0"
+                    {
+                        cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
+                    }else{
+                        cell.amountLbl.text = "Free"
+                    }
                 }
             }
         }        
@@ -164,7 +218,14 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
     
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
-        return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: itemCollectionView.bounds.size.height/1.8)
+        return CGSize(width: itemCollectionView.bounds.size.width/2-5, height: (itemCollectionView.bounds.size.height/2.1) > 260 ? itemCollectionView.bounds.size.height/2.1:260);
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == itemsArray.count - 1 && isNextPage == true
+        {
+            dataFromServer()
+        }
     }
     
 }

@@ -28,8 +28,6 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     @IBOutlet weak var CV: UICollectionView!
     @IBOutlet weak var gradientView: UIView!
     
-    let alert = FCAlertView()
-
     
     var locationManager = CLLocationManager()
     
@@ -41,9 +39,6 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        setAlertViewData(alert)
-        alert.delegate = self
-        
         self.locationManager.requestAlwaysAuthorization()
 //        if CLLocationManager.locationServicesEnabled()
 //        {
@@ -64,7 +59,7 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker)
     {
         let dic = marker.userData as? NSDictionary
-        print("Marker Info--->\(String(describing: dic))")
+        print("Marker Info--->\(dic)")
         let dvc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
         dvc.catID = (dic?.object(forKey: "class_id") as? String)!
         self.navigationController?.pushViewController(dvc, animated: true)
@@ -133,28 +128,46 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
                 }
                 else
                 {
-                    self.alert.makeAlertTypeWarning()
-                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "No results found in your location" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    self.alert.hideDoneButton = true;
-                    self.alert.addButton("OK", withActionBlock: {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "No results found in your location" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
                     })
                 }
                 
             }
             else
             {
-                self.alert.makeAlertTypeWarning()
-                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                self.alert.hideDoneButton = true;
-                self.alert.addButton("OK", withActionBlock: {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
                 })
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alert.makeAlertTypeWarning()
-            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            self.alert.hideDoneButton = true;
-            self.alert.addButton("OK", withActionBlock: {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+            alert.hideDoneButton = true;
+            alert.addButton("OK", withActionBlock: {
             })
         }
     }

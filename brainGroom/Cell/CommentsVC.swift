@@ -33,15 +33,10 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     var postId = String()
     var dataArray = NSArray()
-    let alert = FCAlertView()
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         TV.transform = CGAffineTransform(rotationAngle: -(CGFloat)(M_PI))
-        
-        setAlertViewData(alert)
-        alert.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -52,7 +47,7 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     func commentsApiHitting()
     {
-        let baseURL: String  = String(format:"%@getComments",Constants.mainURL)
+        let baseURL: String  = API.GET_COMMENT
         let innerParams : [String: Any] = [
             "user_id": userId(),
             "post_id": postId
@@ -86,7 +81,7 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func newCommentApiHitting()
     {
-        let baseURL: String  = String(format:"%@commentReply",Constants.mainURL)
+        let baseURL: String  = API.COMMENT_REPLY
         let innerParams : [String: Any] = [
             "user_id": userId(),
             "post_id": postId,
@@ -188,10 +183,16 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func alert(text: String)
     {
-        self.alert.makeAlertTypeWarning()
-        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-        self.alert.hideDoneButton = true;
-        self.alert.addButton("OK", withActionBlock: {
+        let alert = FCAlertView()
+        alert.blurBackground = false
+        alert.cornerRadius = 15
+        alert.bounceAnimations = true
+        alert.dismissOnOutsideTouch = false
+        alert.delegate = self
+        alert.makeAlertTypeWarning()
+        alert.showAlert(withTitle: "Braingroom", withSubtitle: text , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+        alert.hideDoneButton = true;
+        alert.addButton("OK", withActionBlock: {
         })
     }
     

@@ -27,8 +27,6 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
     
     var fromSocial = Bool()
 
-    let alert = FCAlertView()
-    
     @IBOutlet var headerView: UIView!
     
     override func viewDidLoad()
@@ -43,8 +41,6 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
         {
             headerView.isHidden = false
         }
-        setAlertViewData(alert)
-        alert.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool)
@@ -107,10 +103,16 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                         {
                         if ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "is_mobile_verified") as! Int == 1
                         {
-                            self.alert.makeAlertTypeSuccess()
-                            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                            self.alert.hideDoneButton = true;
-                            self.alert.addButton("OK", withActionBlock: {
+                            let alert = FCAlertView()
+                            alert.blurBackground = false
+                            alert.cornerRadius = 15
+                            alert.bounceAnimations = true
+                            alert.dismissOnOutsideTouch = false
+                            alert.delegate = self
+                            alert.makeAlertTypeSuccess()
+                            alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                            alert.hideDoneButton = true;
+                            alert.addButton("OK", withActionBlock: {
                                 
                                 let userId = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "id") as! String
                                 UserDefaults.standard.set(userId , forKey: "user_id")
@@ -129,7 +131,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                                 
                                 print(self.appDelegate.userData)
                                 
-                                UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
+                                self.appDelegate.setLoginUserData()
                                 
                                 //appDelegate.getUserProfile()
                                 
@@ -158,25 +160,49 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                     }
                     else
                     {
-                        self.alert.makeAlertTypeWarning()
-                        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
+                        alert.makeAlertTypeWarning()
+                        alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                     }
                 }) { (error) in
                     AFWrapperClass.svprogressHudDismiss(view: self)
-                    self.alert.makeAlertTypeWarning()
-                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                 }
             }
             else
             {
-                self.alert.makeAlertTypeWarning()
-                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "Password must contain minimum 6 characters", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Password must contain minimum 6 characters", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
         }
         else
         {
-            self.alert.makeAlertTypeWarning()
-            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter registered emailID", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter registered emailID", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
         }
     }
 
@@ -254,6 +280,7 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
     func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!)
     {
         self.dismiss(animated: true, completion: nil)
+//        self.navigationController?.popViewController(animated: true)
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -358,8 +385,8 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                                             }
                     
                                             print(self.appDelegate.userData)
-                    
-                                            UserDefaults.standard.set(self.appDelegate.userData, forKey: "userData")
+                                            self.appDelegate.setLoginUserData()
+                                            
                                             //appDelegate.getUserProfile()
                                             let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                                             self.navigationController?.pushViewController(viewController, animated: true)
@@ -422,14 +449,25 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
             }
             else
             {
-                
-                self.alert.makeAlertTypeWarning()
-                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alert.makeAlertTypeWarning()
-            self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
         }
     }
     
@@ -466,28 +504,46 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                     print("DDD: \(responseDict)")
                     AFWrapperClass.svprogressHudDismiss(view: self)
                     let dic:NSDictionary = responseDict as NSDictionary
-                        self.alert.makeAlertTypeCaution()
-                        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                        self.alert.hideDoneButton = true;
-                        self.alert.addButton("OK", withActionBlock:
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
+                        alert.makeAlertTypeCaution()
+                        alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                        alert.hideDoneButton = true;
+                        alert.addButton("OK", withActionBlock:
                             {
                                 self.forgotPasswordAnimationView.isHidden = true
                         })
                 }) { (error) in
                     AFWrapperClass.svprogressHudDismiss(view: self)
-                    self.alert.makeAlertTypeWarning()
-                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    self.alert.hideDoneButton = true;
-                    self.alert.addButton("OK", withActionBlock: {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                    alert.hideDoneButton = true;
+                    alert.addButton("OK", withActionBlock: {
                     })
                 }
             }
             else
             {
-                self.alert.makeAlertTypeWarning()
-                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter a valid email ID", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                self.alert.hideDoneButton = true;
-                self.alert.addButton("OK", withActionBlock: {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "Braingroom", withSubtitle: "Please enter a valid email ID", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                alert.hideDoneButton = true;
+                alert.addButton("OK", withActionBlock: {
                 })
             }
         }

@@ -21,16 +21,12 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
     @IBOutlet weak var collegeNameLBL: UILabel!
     
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let alert = FCAlertView()
-    
-    
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setAlertViewData(alert)
-        alert.delegate = self
-        
         passwordTF.isSecureTextEntry = true
         confirmPWTF.isSecureTextEntry = true
         // Do any additional setup after loading the view.
@@ -108,10 +104,16 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
                                 {
                                     if (dic.object(forKey: "braingroom") as! NSArray).count > 0
                                     {
-                                    self.alert.makeAlertTypeSuccess()
-                                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: "Registration Successful, Please verify your Mobile Number", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                                    self.alert.hideDoneButton = true;
-                                    self.alert.addButton("OK", withActionBlock: {
+                                    let alert = FCAlertView()
+                                    alert.blurBackground = false
+                                    alert.cornerRadius = 15
+                                    alert.bounceAnimations = true
+                                    alert.dismissOnOutsideTouch = false
+                                    alert.delegate = self
+                                    alert.makeAlertTypeSuccess()
+                                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "Registration Successful, Please verify your Mobile Number", withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                                    alert.hideDoneButton = true;
+                                    alert.addButton("OK", withActionBlock: {
                                         self.appDelegate.tempUser = ((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "user_id") as! String as NSString
                                         self.appDelegate.signUpEmail = self.emailTF.text! as NSString
                                         self.appDelegate.signUpPassword = self.passwordTF.text! as NSString
@@ -122,51 +124,97 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
                                     }
                                     else
                                     {
-                                        self.alert.delegate = self
-                                        self.alert.makeAlertTypeWarning()
-                                        self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                                        let alert = FCAlertView()
+                                        alert.blurBackground = false
+                                        alert.cornerRadius = 15
+                                        alert.bounceAnimations = true
+                                        alert.dismissOnOutsideTouch = false
+                                        alert.delegate = self
+                                        alert.makeAlertTypeWarning()
+                                        alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                                     }
                                 }
                                 else
                                 {
-                                    self.alert.delegate = self
-                                    self.alert.makeAlertTypeWarning()
-                                    self.alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                                    let alert = FCAlertView()
+                                    alert.blurBackground = false
+                                    alert.cornerRadius = 15
+                                    alert.bounceAnimations = true
+                                    alert.dismissOnOutsideTouch = false
+                                    alert.delegate = self
+                                    alert.makeAlertTypeWarning()
+                                    alert.showAlert(withTitle: "Braingroom", withSubtitle: dic.object(forKey: "res_msg") as! String , withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                                 }
                             }) { (error) in
                                 AFWrapperClass.svprogressHudDismiss(view: self)
-                                self.alert.makeAlertTypeWarning()
-                                self.alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                                let alert = FCAlertView()
+                                alert.blurBackground = false
+                                alert.cornerRadius = 15
+                                alert.bounceAnimations = true
+                                alert.dismissOnOutsideTouch = false
+                                alert.delegate = self
+                                alert.makeAlertTypeWarning()
+                                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                             }
                         }
                         else
                         {
-                            self.alert.makeAlertTypeWarning()
-                            self.alert.showAlert(withTitle: "CabScout", withSubtitle: "Both passwords are not matched", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                            let alert = FCAlertView()
+                            alert.blurBackground = false
+                            alert.cornerRadius = 15
+                            alert.bounceAnimations = true
+                            alert.dismissOnOutsideTouch = false
+                            alert.delegate = self
+                            alert.makeAlertTypeWarning()
+                            alert.showAlert(withTitle: "CabScout", withSubtitle: "Both passwords are not matched", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                         }
                     }
                     else
                     {
-                        self.alert.makeAlertTypeWarning()
-                        self.alert.showAlert(withTitle: "CabScout", withSubtitle: "Minimum password length should 6 characters", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
+                        alert.makeAlertTypeWarning()
+                        alert.showAlert(withTitle: "CabScout", withSubtitle: "Minimum password length should 6 characters", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                     }
                 }
                 else
                 {
-                    self.alert.makeAlertTypeWarning()
-                    self.alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter valid mobile number", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
+                    alert.makeAlertTypeWarning()
+                    alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter valid mobile number", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                 }
             }
             else
             {
-                self.alert.makeAlertTypeWarning()
-                self.alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter a valid email Id", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
+                alert.makeAlertTypeWarning()
+                alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter a valid email Id", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
         }
         else
         {
-            self.alert.makeAlertTypeWarning()
-            self.alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter Valid Name", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
+            alert.makeAlertTypeWarning()
+            alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter Valid Name", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             
         }
         
@@ -196,30 +244,60 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
                         }
                         else
                         {
+                            let alert = FCAlertView()
+                            alert.blurBackground = false
+                            alert.cornerRadius = 15
+                            alert.bounceAnimations = true
+                            alert.dismissOnOutsideTouch = false
+                            alert.delegate = self
                             alert.makeAlertTypeWarning()
                             alert.showAlert(withTitle: "CabScout", withSubtitle: "Both passwords are not matched", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                         }
                     }
                     else
                     {
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
                         alert.makeAlertTypeWarning()
                         alert.showAlert(withTitle: "CabScout", withSubtitle: "Minimum password length should 6 characters", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                     }
                 }
                 else
                 {
+                    let alert = FCAlertView()
+                    alert.blurBackground = false
+                    alert.cornerRadius = 15
+                    alert.bounceAnimations = true
+                    alert.dismissOnOutsideTouch = false
+                    alert.delegate = self
                     alert.makeAlertTypeWarning()
                     alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter valid mobile number", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                 }
             }
             else
             {
+                let alert = FCAlertView()
+                alert.blurBackground = false
+                alert.cornerRadius = 15
+                alert.bounceAnimations = true
+                alert.dismissOnOutsideTouch = false
+                alert.delegate = self
                 alert.makeAlertTypeWarning()
                 alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter a valid email Id", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             }
         }
         else
         {
+            let alert = FCAlertView()
+            alert.blurBackground = false
+            alert.cornerRadius = 15
+            alert.bounceAnimations = true
+            alert.dismissOnOutsideTouch = false
+            alert.delegate = self
             alert.makeAlertTypeWarning()
             alert.showAlert(withTitle: "CabScout", withSubtitle: "Please enter Valid Name", withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
             
