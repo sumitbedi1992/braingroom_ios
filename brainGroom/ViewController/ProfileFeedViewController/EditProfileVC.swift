@@ -136,15 +136,15 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate, UITableViewDelegate,
             genderLBL.text = "Male"
             gender = "1"
         }
-        else if appDelegate.userData.value(forKey:"gender") as? String == "1"
+        else if appDelegate.userData.value(forKey:"gender") as? String == "2"
         {
             genderLBL.text = "Female"
-            gender = "0"
+            gender = "2"
         }
         else
         {
             genderLBL.text = "Select Gender"
-            gender = "1"
+            gender = "0"
         }
         
         appDelegate.signUpCountryID = appDelegate.userData.object(forKey: "country_id") as! NSString
@@ -185,9 +185,14 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate, UITableViewDelegate,
         locationLBL.text = appDelegate.userData.object(forKey:"locality") as? String
         passoutYearTF.text = appDelegate.userData.object(forKey: "institute_poy1") as? String
         
-        appDelegate.signUpUGCollege = appDelegate.userData.object(forKey: "category_name") as! NSString
-        appDelegate.signUpUGCollegeID = appDelegate.userData.object(forKey: "category_id") as! NSString
-        interestLBL.text = appDelegate.signUpUGCollege as String
+        appDelegate.signUpUGCollege = appDelegate.userData.object(forKey: "institute_name1") as! NSString
+        appDelegate.signUpUGCollegeID = appDelegate.userData.object(forKey: "institute_poy1") as! NSString
+        collegeNameLBL.text = appDelegate.signUpUGCollege as String
+        
+        
+        appDelegate.SignUpInterests = appDelegate.userData.object(forKey: "category_name") as! NSString
+        appDelegate.SignUpInterestsID = appDelegate.userData.object(forKey: "category_id") as! NSString
+        interestLBL.text = appDelegate.SignUpInterests as String
         
         let tempArr : NSArray = appDelegate.signUpUGCollegeID.components(separatedBy: ",") as NSArray
         
@@ -326,7 +331,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate, UITableViewDelegate,
         {
             maleIMG.image = UIImage.init(named: "radio-off")
             femaleIMG.image = UIImage.init(named: "radio-on-button")
-            gender = "0"
+            gender = "2"
         }
         
     }
@@ -418,7 +423,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate, UITableViewDelegate,
             "expertise_area":appDelegate.userData.value(forKey:"expertise_area") as? String ?? "",
             "first_name":fullNameTF.text!,
             "gender":gender,
-            "institute_name1":collegeNameLBL.text!,
+            "institution_name":collegeNameLBL.text!,
             "locality_id":appDelegate.SignUpLocationID as? String ?? "",
             "mobile":mobileNumberTF.text!,
             "official_reg_id":appDelegate.userData.value(forKey:"official_reg_id") as? String ?? "",
@@ -451,7 +456,7 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate, UITableViewDelegate,
                 self.appDelegate.setLoginUserCity(value: self.appDelegate.signUpCity as String)
                 self.appDelegate.setLoginUserCategory(value: self.appDelegate.SignUpInterests as String)
                 self.appDelegate.setLoginUserCollage(value: self.appDelegate.signUpUGCollege as String)
-                //self.appDelegate.getUserProfile()
+                
                 AFWrapperClass.showToast(title: "Profile update successfully", view: self.appDelegate.window!)
                 self.navigationController?.popViewController(animated: true)
                 

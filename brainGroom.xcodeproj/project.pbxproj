@@ -27,7 +27,6 @@
 		18C78CF51FB458AC00CDFCA9 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C78CF41FB458AC00CDFCA9 /* EditProfileVC.swift */; };
 		2F5298DA1FB0C121003687C8 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5298D91FB0C121003687C8 /* AlertController.swift */; };
 		2FA48F731F9FC5D400096643 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F491F9FC5D400096643 /* WishListViewController.swift */; };
-		2FA48F741F9FC5D400096643 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */; };
 		2FA48F751F9FC5D400096643 /* TermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F4E1F9FC5D400096643 /* TermsVC.swift */; };
 		2FA48F761F9FC5D400096643 /* ContactUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F501F9FC5D400096643 /* ContactUsVC.swift */; };
 		2FA48F781F9FC5D400096643 /* ReplyCommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F541F9FC5D400096643 /* ReplyCommentsVC.swift */; };
@@ -118,7 +117,6 @@
 		18C78CF41FB458AC00CDFCA9 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		2F5298D91FB0C121003687C8 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2FA48F491F9FC5D400096643 /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
-		2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
 		2FA48F4E1F9FC5D400096643 /* TermsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsVC.swift; sourceTree = "<group>"; };
 		2FA48F501F9FC5D400096643 /* ContactUsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactUsVC.swift; sourceTree = "<group>"; };
 		2FA48F541F9FC5D400096643 /* ReplyCommentsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommentsVC.swift; sourceTree = "<group>"; };
@@ -317,20 +315,11 @@
 		2FA48F4A1F9FC5D400096643 /* SideMenuViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2FA48F4B1F9FC5D400096643 /* FAQViewController */,
 				2FA48F4D1F9FC5D400096643 /* TermsViewController */,
 				2FA48F4F1F9FC5D400096643 /* ContactUSViewController */,
 				2FA48F511F9FC5D400096643 /* ProfileViewController */,
 			);
 			path = SideMenuViewController;
-			sourceTree = "<group>";
-		};
-		2FA48F4B1F9FC5D400096643 /* FAQViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */,
-			);
-			path = FAQViewController;
 			sourceTree = "<group>";
 		};
 		2FA48F4D1F9FC5D400096643 /* TermsViewController */ = {
@@ -877,7 +866,6 @@
 				2FA48FB01F9FC8A700096643 /* DiscussionVC.swift in Sources */,
 				2FA48F781F9FC5D400096643 /* ReplyCommentsVC.swift in Sources */,
 				62F3C9011FB89DC7005AF271 /* BGUIColor.swift in Sources */,
-				2FA48F741F9FC5D400096643 /* FAQViewController.swift in Sources */,
 				2FA48F821F9FC5D400096643 /* MyProfileViewController.swift in Sources */,
 				99599B621FB782C9004982EF /* BGSocialLearningVC.swift in Sources */,
 				2FA48F971F9FC7F600096643 /* NotificationsViewController.swift in Sources */,

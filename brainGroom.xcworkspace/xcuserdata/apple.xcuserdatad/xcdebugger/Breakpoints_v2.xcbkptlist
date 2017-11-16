@@ -36,7 +36,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/ViewController/SocialLearningViewController/BGSocialLearningVC.swift"
-                  timestampString = "532447960.479764"
+                  timestampString = "532529995.395353"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "403"
@@ -51,7 +51,7 @@
                   moduleName = "brainGroom"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/ViewController/SocialLearningViewController/BGSocialLearningVC.swift"
-                  timestampString = "532447960.482856"
+                  timestampString = "532529995.398446"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "403"
@@ -67,13 +67,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "brainGroom/ViewController/ProfileFeedViewController/EditProfileVC.swift"
-            timestampString = "532445721.540869"
+            filePath = "brainGroom/Cell/BookingVC.swift"
+            timestampString = "532529994.983462"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
-            landmarkName = "clickToSave(_:)"
+            startingLineNumber = "620"
+            endingLineNumber = "620"
+            landmarkName = "showPaymentForm(total:email:phone:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/Cell/BookingVC.swift"
+            timestampString = "532529994.98503"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "611"
+            endingLineNumber = "611"
+            landmarkName = "showPaymentForm(total:email:phone:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

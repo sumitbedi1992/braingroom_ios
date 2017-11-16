@@ -52,7 +52,7 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
 
     func dataFromServer()
     {
-        let baseURL: String  = String(format:"%@bookingHistory",Constants.mainURL)
+        let baseURL: String  = String(format:"%@bookingHistory/%d",Constants.mainURL,pageNumber)
         
         let innerParams : [String: String] = [
             "id" : userId() as String
@@ -95,7 +95,7 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
                         self.isNextPage = false
                     }
                 }
-                else
+                else if self.itemsArray.count == 0
                 {
                     let alert = FCAlertView()
                     alert.blurBackground = false

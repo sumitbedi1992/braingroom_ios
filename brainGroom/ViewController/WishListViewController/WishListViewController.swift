@@ -135,19 +135,22 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                     }
 
                 }else {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
-                        self.itemCollectionView .reloadData()
-                    })
-                    self.isNextPage = false
+                    if self.itemsArray.count == 0
+                    {
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
+                        alert.makeAlertTypeWarning()
+                        alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                        alert.hideDoneButton = true;
+                        alert.addButton("OK", withActionBlock: {
+                            self.itemCollectionView .reloadData()
+                        })
+                        self.isNextPage = false
+                    }   
                 }
             }
             else

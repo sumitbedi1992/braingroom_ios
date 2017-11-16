@@ -371,13 +371,18 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                     
                 case 3:
                     
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+//                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+//                    self.navigationController?.pushViewController(vc, animated: true)
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+                    vc.fromSocial = true
+                    vc.isFaq = true
                     self.navigationController?.pushViewController(vc, animated: true)
                     
                 case 4:
                     
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
                     vc.fromSocial = true
+                    vc.isFaq = false
                     self.navigationController?.pushViewController(vc, animated: true)
                 case 5:
                     
