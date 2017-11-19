@@ -391,10 +391,25 @@ class BGSocialLearningVC: UIViewController,UITableViewDelegate,UITableViewDataSo
      
         func shareBtnAction(_ sender: UIButton)
         {
+            let cellIndexPath : IndexPath = IndexPath(row: sender.tag, section: 0)
+            
+            
             let textToShare = ["\((self.dataArray.object(at: sender.tag) as! NSDictionary).object(forKey: "share_url") as! String)"]
             let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.view
             activityViewController.excludedActivityTypes = [ UIActivityType.airDrop]
+            
+            if let popoverPresentationController = activityViewController.popoverPresentationController {
+                
+                let cell = tblview.dequeueReusableCell(withIdentifier: "BGSocialLearningTableCell", for: cellIndexPath) as! BGSocialLearningTableCell
+                let newFrame : CGRect = (cell.footerView.superview?.convert(cell.footerView.frame, to: tblview))!
+                let frm : CGRect = CGRect(x: tblview.frame.size.width - cell.btnShareAction.frame.size.width, y: newFrame.origin.y-10, width: cell.btnShareAction.frame.size.width, height: cell.btnShareAction.frame.size.height)
+                
+                popoverPresentationController.sourceView = self.view
+//                let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: sender.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+                popoverPresentationController.sourceRect = frm
+            }
+            
             self.present(activityViewController, animated: true, completion: nil)
         }
  

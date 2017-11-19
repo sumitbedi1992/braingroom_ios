@@ -19,61 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "brainGroom/ViewController/SocialLearningViewController/BGSocialLearningVC.swift"
-            timestampString = "532349673.107793"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "403"
-            endingLineNumber = "403"
-            landmarkName = "reportBtnAction(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "brainGroom.BGSocialLearningVC.reportBtnAction(__ObjC.UIButton) -&gt; ()"
-                  moduleName = "brainGroom"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/ViewController/SocialLearningViewController/BGSocialLearningVC.swift"
-                  timestampString = "532529995.395353"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "403"
-                  endingLineNumber = "403"
-                  offsetFromSymbolStart = "21">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "brainGroom.BGSocialLearningVC.reportBtnAction(__ObjC.UIButton) -&gt; ()"
-                  moduleName = "brainGroom"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Amisha/Upwork/Sumit%20Bedi/BrainGroom/Git/brainGroom/ViewController/SocialLearningViewController/BGSocialLearningVC.swift"
-                  timestampString = "532529995.398446"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "403"
-                  endingLineNumber = "403"
-                  offsetFromSymbolStart = "1456">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "brainGroom/Cell/BookingVC.swift"
-            timestampString = "532529994.983462"
+            timestampString = "532780326.291713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "620"
-            endingLineNumber = "620"
-            landmarkName = "showPaymentForm(total:email:phone:)"
+            startingLineNumber = "865"
+            endingLineNumber = "865"
+            landmarkName = "freeBookingPaymentSuccessApiHitting(paymentTxtId:transactionId:guest:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -84,13 +36,119 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "brainGroom/Cell/BookingVC.swift"
-            timestampString = "532529994.98503"
+            timestampString = "532780326.292798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "611"
-            endingLineNumber = "611"
-            landmarkName = "showPaymentForm(total:email:phone:)"
+            startingLineNumber = "888"
+            endingLineNumber = "888"
+            landmarkName = "freeBookingPaymentSuccessApiHitting(paymentTxtId:transactionId:guest:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/Cell/BookingVC.swift"
+            timestampString = "532780326.29309"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "934"
+            endingLineNumber = "934"
+            landmarkName = "onPaymentSuccess(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/Cell/BookingVC.swift"
+            timestampString = "532780326.29332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "892"
+            endingLineNumber = "892"
+            landmarkName = "freeBookingPaymentSuccessApiHitting(paymentTxtId:transactionId:guest:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/Cell/BookingVC.swift"
+            timestampString = "532780326.293499"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "924"
+            endingLineNumber = "924"
+            landmarkName = "freeBookingPaymentSuccessApiHitting(paymentTxtId:transactionId:guest:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/ViewController/Authentication/LoginViewController/LoginVC.swift"
+            timestampString = "532780326.293745"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "392"
+            endingLineNumber = "392"
+            landmarkName = "socialLoginMethod()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/Constants.swift"
+            timestampString = "532780326.294538"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "fromBooking()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "brainGroom/ViewController/Authentication/LoginViewController/LoginVC.swift"
+            timestampString = "532780326.295192"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

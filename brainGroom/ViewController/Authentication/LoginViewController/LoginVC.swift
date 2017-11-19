@@ -136,14 +136,15 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                                 //appDelegate.getUserProfile()
                                 
                                 print("From Booking ---> \(fromBooking())")
-                                if fromBooking() != true
+                                if fromBooking() == true
                                 {
-                                    let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-                                    self.navigationController?.pushViewController(viewController, animated: true)
+                                    setFromBooking(false)
+                                    _=self.navigationController?.popViewController(animated: true)
                                 }
                                 else
                                 {
-                                    _=self.navigationController?.popViewController(animated: true)
+                                    let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                                    self.navigationController?.pushViewController(viewController, animated: true)
                                 }
                                 
                             })
@@ -171,14 +172,15 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                     }
                 }) { (error) in
                     AFWrapperClass.svprogressHudDismiss(view: self)
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                    self.appDelegate.displayServerError()
+//                    let alert = FCAlertView()
+//                    alert.blurBackground = false
+//                    alert.cornerRadius = 15
+//                    alert.bounceAnimations = true
+//                    alert.dismissOnOutsideTouch = false
+//                    alert.delegate = self
+//                    alert.makeAlertTypeWarning()
+//                    alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                 }
             }
             else
@@ -386,10 +388,18 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                     
                                             print(self.appDelegate.userData)
                                             self.appDelegate.setLoginUserData()
-                                            
-                                            //appDelegate.getUserProfile()
-                                            let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-                                            self.navigationController?.pushViewController(viewController, animated: true)
+                    
+                                            if fromBooking() == true
+                                            {
+                                                setFromBooking(false)
+                                                self.navigationController?.popViewController(animated: true)
+                                            }
+                                            else{
+                                                //appDelegate.getUserProfile()
+                                                let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                                                self.navigationController?.pushViewController(viewController, animated: true)
+                                            }
+                    
                 })
                 self.present(alertController, animated: true, completion: nil)
                 
@@ -460,14 +470,15 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+            self.appDelegate.displayServerError()
+//            let alert = FCAlertView()
+//            alert.blurBackground = false
+//            alert.cornerRadius = 15
+//            alert.bounceAnimations = true
+//            alert.dismissOnOutsideTouch = false
+//            alert.delegate = self
+//            alert.makeAlertTypeWarning()
+//            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
         }
     }
     
@@ -519,17 +530,18 @@ class LoginVC: UIViewController,GIDSignInUIDelegate,GIDSignInDelegate,FCAlertVie
                         })
                 }) { (error) in
                     AFWrapperClass.svprogressHudDismiss(view: self)
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
-                    })
+                    self.appDelegate.displayServerError()
+//                    let alert = FCAlertView()
+//                    alert.blurBackground = false
+//                    alert.cornerRadius = 15
+//                    alert.bounceAnimations = true
+//                    alert.dismissOnOutsideTouch = false
+//                    alert.delegate = self
+//                    alert.makeAlertTypeWarning()
+//                    alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//                    alert.hideDoneButton = true;
+//                    alert.addButton("OK", withActionBlock: {
+//                    })
                 }
             }
             else

@@ -54,6 +54,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var itemCollectionView: UICollectionView!
+    @IBOutlet weak var sortFilterView: UIViewX!
     
     override func viewDidLoad()
     {
@@ -220,7 +221,8 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
 
@@ -413,7 +415,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     }
 
    
-    @IBAction func sortBtnAction(_ sender: Any)
+    @IBAction func sortBtnAction(_ sender: UIButton)
     {
         let actionSheetController = UIAlertController(title: nil, message: "Option to select", preferredStyle: .actionSheet)
         
@@ -431,6 +433,12 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             self.sortActionToServer(str: "1")
         }
         actionSheetController.addAction(saveActionButton)
+        
+        if let popoverPresentationController = actionSheetController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: sortFilterView.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+            popoverPresentationController.sourceRect = tempRect
+        }
         self.present(actionSheetController, animated: true, completion: nil)
     }
     
@@ -507,7 +515,8 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     

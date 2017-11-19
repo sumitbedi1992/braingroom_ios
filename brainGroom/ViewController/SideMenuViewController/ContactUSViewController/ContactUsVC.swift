@@ -47,7 +47,7 @@ class ContactUsVC: UIViewController,MFMailComposeViewControllerDelegate {
 
     }
 
-    @IBAction func phoneBtnAction(_ sender: Any)
+    @IBAction func phoneBtnAction(_ sender: UIButton)
     {
         let actionSheetController = UIAlertController(title: nil, message: "Select Number to call", preferredStyle: .actionSheet)
         
@@ -97,6 +97,13 @@ class ContactUsVC: UIViewController,MFMailComposeViewControllerDelegate {
                 }
             }        }
         actionSheetController.addAction(deleteActionButton)
+        
+        if let popoverPresentationController = actionSheetController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: sender.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+            popoverPresentationController.sourceRect = tempRect
+        }
+        
         self.present(actionSheetController, animated: true, completion: nil)
     }
     
@@ -117,7 +124,7 @@ class ContactUsVC: UIViewController,MFMailComposeViewControllerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func mailBtn(_ sender: Any)
+    @IBAction func mailBtn(_ sender: UIButton)
     {
         
         let actionSheetController = UIAlertController(title: nil, message: "Select from Options", preferredStyle: .actionSheet)
@@ -146,6 +153,13 @@ class ContactUsVC: UIViewController,MFMailComposeViewControllerDelegate {
             self.sendEmail(str: "sheela@braingroom.com")
                    }
         actionSheetController.addAction(deleteActionButton)
+        
+        if let popoverPresentationController = actionSheetController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: sender.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+            popoverPresentationController.sourceRect = tempRect
+        }
+        
         self.present(actionSheetController, animated: true, completion: nil)
     }
     

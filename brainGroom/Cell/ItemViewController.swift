@@ -46,6 +46,7 @@ class subCell : UICollectionViewCell
 
 class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate
 {
+    @IBOutlet weak var sortFilterView: UIViewX!
     @IBOutlet weak var btnList: UIButton!
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var subCollectionView: UICollectionView!
@@ -197,7 +198,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     
@@ -283,7 +285,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     
@@ -532,7 +535,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         }
         itemCollectionView.reloadData()
     }
-    @IBAction func sortBtnAction(_ sender: Any)
+    @IBAction func sortBtnAction(_ sender: UIButton)
     {
         let actionSheetController = UIAlertController(title: nil, message: "Option to select", preferredStyle: .actionSheet)
         
@@ -550,6 +553,13 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             self.sortActionToServer(str: "1")
         }
         actionSheetController.addAction(saveActionButton)
+        
+        
+        if let popoverPresentationController = actionSheetController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: sortFilterView.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+            popoverPresentationController.sourceRect = tempRect
+        }
         self.present(actionSheetController, animated: true, completion: nil)
     }
     
@@ -617,7 +627,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     

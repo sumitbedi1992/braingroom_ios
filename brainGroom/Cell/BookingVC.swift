@@ -135,7 +135,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     override func viewDidDisappear(_ animated: Bool)
     {
         super.viewDidDisappear(true)
-        UserDefaults.standard.set(false, forKey: "fromBooking")
+        //setFromBooking(false)
     }
 //MARK: ------------------------- TV Delegate & DataSource -------------------------
     
@@ -554,9 +554,10 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func goToLogin()
     {
+        popUpView.isHidden = true
+        isPopUpOpen = false
         let vc = self.storyboard?.instantiateViewController(withIdentifier:"LoginVC") as! LoginVC
-        UserDefaults.standard.set(true, forKey: "fromBooking")
-        UserDefaults.standard.synchronize()
+        setFromBooking(true)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -629,6 +630,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         }
         else
         {
+            setFromBooking(false)
             _ = self.navigationController!.popViewController(animated:true)
         }
     }
@@ -746,7 +748,8 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+            //self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
 
@@ -778,12 +781,12 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                     print("Payment Success")
                     if self.isGuest == true
                     {
-                        self.showPaymentForm(total: String(format:"%lu",self.grandTotal), email: self.emailTF.text!, phone: self.mobileTF.text!)
+                        self.showPaymentForm(total: String(format:"%lu",self.total), email: self.emailTF.text!, phone: self.mobileTF.text!)
                     }
                     else
                     {
                         self.transactionId = (((dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary).object(forKey:"txnid") as? String)!
-                        self.showPaymentForm(total: String(format:"%lu",self.grandTotal), email: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "email") as? String)!, phone: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "phone") as? String)!)
+                        self.showPaymentForm(total: String(format:"%lu",self.total), email: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "email") as? String)!, phone: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "phone") as? String)!)
                     }
                 }else
                 {
@@ -799,7 +802,8 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     
@@ -851,7 +855,8 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     
@@ -897,7 +902,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                 self.couponAmount = 0
                 
                 self.displaySuccessView()
-                
+
 //                let alert = FCAlertView()
 //                alert.blurBackground = false
 //                alert.cornerRadius = 15
@@ -917,7 +922,8 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
 

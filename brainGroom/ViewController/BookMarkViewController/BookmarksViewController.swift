@@ -127,17 +127,18 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
-            })
+            self.appDelegate.displayServerError()
+//            let alert = FCAlertView()
+//            alert.blurBackground = false
+//            alert.cornerRadius = 15
+//            alert.bounceAnimations = true
+//            alert.dismissOnOutsideTouch = false
+//            alert.delegate = self
+//            alert.makeAlertTypeWarning()
+//            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//            alert.hideDoneButton = true;
+//            alert.addButton("OK", withActionBlock: {
+//            })
         }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -151,13 +152,13 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
         
         let dict : NSDictionary = (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary
         
-        if let picture = dict.object(forKey: "pic_name")
+        cell.imgView.image = UIImage.init(named: "chocolate1Dca410A2")
+        if dict.object(forKey: "pic_name") is String
         {
-            cell.imgView.sd_setImage(with: URL(string: picture as! String), placeholderImage: UIImage.init(named: "imm"))
-        }
-        else
-        {
-            cell.imgView.image = UIImage.init(named: "chocolate1Dca410A2")
+            if let picture : String = dict.object(forKey: "pic_name") as? String
+            {
+                cell.imgView.sd_setImage(with: URL(string: picture), placeholderImage: UIImage.init(named: "imm"))
+            }
         }
         
         cell.descripitionLbl.text = String.init(format: "%@", dict.object(forKey: "class_summary") as! String)

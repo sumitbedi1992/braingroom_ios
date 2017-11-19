@@ -177,7 +177,6 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
 //                view?.removeFromParentViewController()
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
                 self.addChildViewController(vc)
-                UserDefaults.standard.set(false, forKey: "fromBooking")
                 vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
                 self.container.addSubview((vc.view)!)
                 vc.didMove(toParentViewController: self)

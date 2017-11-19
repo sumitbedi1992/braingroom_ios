@@ -170,17 +170,18 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
-            })
+            self.appDelegate.displayServerError()
+//            let alert = FCAlertView()
+//            alert.blurBackground = false
+//            alert.cornerRadius = 15
+//            alert.bounceAnimations = true
+//            alert.dismissOnOutsideTouch = false
+//            alert.delegate = self
+//            alert.makeAlertTypeWarning()
+//            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//            alert.hideDoneButton = true;
+//            alert.addButton("OK", withActionBlock: {
+//            })
         }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -314,17 +315,18 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                 }
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
-                })
+                self.appDelegate.displayServerError()
+//                let alert = FCAlertView()
+//                alert.blurBackground = false
+//                alert.cornerRadius = 15
+//                alert.bounceAnimations = true
+//                alert.dismissOnOutsideTouch = false
+//                alert.delegate = self
+//                alert.makeAlertTypeWarning()
+//                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//                alert.hideDoneButton = true;
+//                alert.addButton("OK", withActionBlock: {
+//                })
             }
     }
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize

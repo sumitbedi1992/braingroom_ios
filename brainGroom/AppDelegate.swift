@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         GMSServices.provideAPIKey(Constants.GMS_SERVICE_KEY)
         GIDSignIn.sharedInstance().delegate = self
         
-        
+        setFromBooking(false)
         BITHockeyManager.shared().configure(withIdentifier: Constants.HOCKEY_ID)
         // Do some additional configuration if needed here
         BITHockeyManager.shared().start()
@@ -336,7 +336,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         }
     }
     
-    
+    func displayServerError()
+    {
+        AFWrapperClass.showToast(title: "Please try again later.", view: self.window!)
+    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         

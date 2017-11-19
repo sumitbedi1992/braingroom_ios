@@ -21,15 +21,27 @@ class Constants {
 
 func fromBooking() -> Bool
 {
-    if UserDefaults.standard.object(forKey: "fromBooking") != nil
+    if UserDefaults.standard.bool(forKey: "fromBooking") != nil
     {
-        let kFromBooking = UserDefaults.standard.object(forKey: "fromBooking") as! Bool
-        return kFromBooking
+        if UserDefaults.standard.bool(forKey: "fromBooking") == true
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
     }
     else
     {
         return false
     }
+}
+
+func setFromBooking(_ value : Bool)
+{
+    UserDefaults.standard.set(value, forKey: "fromBooking")
+    UserDefaults.standard.synchronize()
 }
 
 func userId() -> String
