@@ -373,6 +373,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
         let bvc = self.storyboard?.instantiateViewController(withIdentifier:"BookingVC") as! BookingVC
         bvc.dataDict = self.dataDic
         bvc.price = price
+        bvc.isGiftClass = false
         if isOnline == true
         {
             bvc.isOnline = true
@@ -383,6 +384,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     {
         let bvc = self.storyboard?.instantiateViewController(withIdentifier:"BookingVC") as! BookingVC
         bvc.dataDict = self.dataDic
+        bvc.isGiftClass = true
         self.navigationController!.pushViewController(bvc, animated:true)
     }
     @IBAction func locationBtnAct(_ sender: Any)

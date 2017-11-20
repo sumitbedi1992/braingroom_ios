@@ -378,6 +378,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                     
                     UserDefaults.standard.set("", forKey: "user_id")
                     self.appDelegate.userId = ""
+                    self.appDelegate.removeUserDefaultValues()
                     self.viewWillAppear(false)
                     
                     self.searchBtn.isHidden = false

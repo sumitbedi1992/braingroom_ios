@@ -21,7 +21,7 @@ class CVCell : UICollectionViewCell
     @IBOutlet weak var descLbl: UILabel!
 }
 
-class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,CLLocationManagerDelegate, FCAlertViewDelegate,GMSMapViewDelegate, UITextFieldDelegate
+class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,CLLocationManagerDelegate, FCAlertViewDelegate,GMSMapViewDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource
 {
     
     @IBOutlet weak var mapVW: GMSMapView!
@@ -30,6 +30,9 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     @IBOutlet weak var searchTxt: UITextField!
     @IBOutlet weak var searchView: UIView!
     
+    @IBOutlet weak var listView: UIView!
+    @IBOutlet weak var tblView: UITableView!
+    @IBOutlet weak var constrintHeightTblView: NSLayoutConstraint!
     
     var locationManager = CLLocationManager()
     
@@ -40,7 +43,8 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     var dataArray = NSArray()
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var selectedCategory : String = ""
-    var mapDistance : Float = 5.0
+    var mapDistance : Float = 10.0
+    var selectedClassData = NSMutableArray()
     
     override func viewDidLoad()
     {
@@ -48,6 +52,10 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         
         CV.delegate = self
         CV.dataSource = self
+        
+        tblView.delegate = self
+        tblView.dataSource = self
+        tblView.register(UINib.init(nibName: "CustomMapClassTVC", bundle: nil), forCellReuseIdentifier: "CustomMapClassTVC")
         
         categoryDataFromServer()
         CV.isHidden = false
@@ -77,13 +85,49 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         searchView.isHidden = true
     }
     
+    @IBAction func clickToCloseListView(_ sender: Any)
+    {
+        listView.removeFromSuperview()
+    }
+    
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView?  //first tap on Map Pin
+    {
+        let dict : NSDictionary = (marker.userData as? NSDictionary)!
+        print(dict)
+        getMarkerClassFromServer(dict: dict)
+        
+//        let selectedLat : String = dict["latitude"] as? String ?? ""
+//        let selectedLong : String = dict["longitude"] as? String ?? ""
+//
+//        selectedClassData = NSMutableArray()
+//        for i in 0..<self.dataArray.count
+//        {
+//            let newDict : NSDictionary = self.dataArray.object(at: i) as! NSDictionary
+//            let newLat : String = newDict["latitude"] as? String ?? ""
+//            let newLong : String = newDict["longitude"] as? String ?? ""
+//
+//            if (selectedLat == newLat) && (selectedLong == newLong)
+//            {
+//                selectedClassData.add(self.dataArray.object(at: i) as! NSDictionary)
+//            }
+//        }
+//
+//        AFWrapperClass.displaySubViewtoParentView(self.view, subview: listView)
+//        tblView.reloadData()
+//        constrintHeightTblView.constant = tblView.contentSize.height
+//        if constrintHeightTblView.constant > UIScreen.main.bounds.size.height-100 {
+//            constrintHeightTblView.constant = UIScreen.main.bounds.size.height-100
+//        }
+//        print(selectedClassData)
+//        print(constrintHeightTblView.constant)
+        return UIView()
+    }
+
     func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker)
     {
         let dic = marker.userData as? NSDictionary
-        print("Marker Info--->\(dic)")
-        let dvc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
-        dvc.catID = (dic?.object(forKey: "class_id") as? String)!
-        self.navigationController?.pushViewController(dvc, animated: true)
+        print("Marker Info--->\(String(describing: dic))")
+        getMarkerClassFromServer(dict: dic!)
     }
     
     //MARK: ------------------------ Location Delegate ----------------------------
@@ -92,6 +136,9 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         latitude = locValue.latitude
         longitude = locValue.longitude
+        
+//        latitude = 13.082680
+//        longitude = 80.270718
         
         let camera = GMSCameraPosition.camera(withLatitude: latitude, longitude:longitude, zoom: 12);
         self.mapVW.camera = camera
@@ -274,6 +321,52 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
+    func getMarkerClassFromServer(dict : NSDictionary)
+    {
+        let baseURL: String  = String(format:"%@exploreMarkerData",Constants.mainURL)
+        let innerParams : [String: String] = [
+            "lat": dict["latitude"] as? String ?? "",
+            "lng" : dict["longitude"] as? String ?? ""
+        ]
+        let params : [String: AnyObject] = [
+            "braingroom": innerParams as AnyObject
+        ]
+        print(params)
+        
+        AFWrapperClass.requestPOSTURLVersionChange(baseURL, params: params, success: { (responseDict) in
+            
+            print("DDD: \(responseDict)")
+            let dic:NSDictionary = responseDict as NSDictionary
+            if (dic.object(forKey: "res_code")) as! String == "1"
+            {
+                let tempArr : NSArray = dic["braingroom"] as! NSArray
+                if (tempArr.count > 0)
+                {
+                    self.selectedClassData = NSMutableArray(array: tempArr)
+                    
+                }
+                else
+                {
+                    self.selectedClassData = NSMutableArray()
+                    self.selectedClassData.add(dict)
+                }
+                AFWrapperClass.displaySubViewtoParentView(self.view, subview: self.listView)
+                self.tblView.reloadData()
+                self.constrintHeightTblView.constant = self.tblView.contentSize.height
+                if self.constrintHeightTblView.constant > UIScreen.main.bounds.size.height-100 {
+                    self.constrintHeightTblView.constant = UIScreen.main.bounds.size.height-100
+                }
+            }
+            else
+            {
+                self.displayAlert(resString: "")
+            }
+        }) { (error) in
+            AFWrapperClass.svprogressHudDismiss(view: self)
+            self.displayAlert(resString: error.localizedDescription)
+        }
+    }
+    
     //MARK: ----------------------- CV Delegates & DataSource -----------------------
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
@@ -311,6 +404,36 @@ class MapVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSou
     {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return selectedClassData.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 44
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell : CustomMapClassTVC = tblView.dequeueReusableCell(withIdentifier: "CustomMapClassTVC") as! CustomMapClassTVC
+        let dict : NSDictionary = selectedClassData[indexPath.row] as! NSDictionary
+        cell.titleLbl?.text = (dict.value(forKey: "class_topic") as? String)!
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        clickToCloseListView(self)
+        let dict : NSDictionary = selectedClassData[indexPath.row] as! NSDictionary
+        let dvc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
+        dvc.catID = (dict.object(forKey: "class_id") as? String)!
+        self.navigationController?.pushViewController(dvc, animated: true)
+    }
+    
     
     func displayAlert(resString : String)
     {

@@ -449,6 +449,7 @@ class ArticlesVC: UIViewController,UITableViewDelegate,UITableViewDataSource,FCA
                         
                         UserDefaults.standard.set("", forKey: "user_id")
                         self.appDelegate.userId = ""
+                        self.appDelegate.removeUserDefaultValues()
                         self.viewWillAppear(false)
                         
                         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController

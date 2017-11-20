@@ -62,6 +62,13 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     @IBOutlet weak var bookingSuccessClassNameLbl: UILabel!
     @IBOutlet weak var bookingSuccessAmountLbl: UILabel!
     
+    @IBOutlet var giftClassContainerView: UIView!
+    @IBOutlet weak var receiptMobileTxt: ACFloatingTextfield!
+    @IBOutlet weak var receiptEmailTxt: ACFloatingTextfield!
+    
+    
+    
+    var isGiftClass : Bool = false
     var price = String()
     var isPopUpOpen = Bool()
     var isOnline = Bool()
@@ -83,6 +90,10 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     var promoAmount : Int = 0
     var couponAmount : Int = 0
     
+    var user_email = String()
+    var user_mobile = String()
+    var user_id = String()
+    
     @IBOutlet weak var couponTFWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var promoTFWidthConstraint: NSLayoutConstraint!
     
@@ -100,7 +111,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         print(self.dataDict)
         
         if price == "" || price.characters.count == 0 {
-            self.payBtn .setTitle("Book For Free", for: .normal)
+            self.payBtn.setTitle("Book For Free", for: .normal)
         }
         self.loginView.isHidden = true
         
@@ -114,12 +125,14 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         }
         levelArray = dataDict["vendorClasseLevelDetail"] as! NSArray
         
-        
         self.topImage.sd_setImage(with: URL(string: (self.dataDict.value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
         self.descLbl.text = self.dataDict.value(forKey: "class_topic") as? String
         self.TVHeightConstraint.constant = CGFloat(levelArray.count) * 60.0
         self.locationTVHeightConstraint.constant = CGFloat(locationArray.count) * 150
         
+        user_email = appDelegate.userData.value(forKey: "email") as? String ?? ""
+        user_mobile = appDelegate.userData.value(forKey: "contact_no") as? String ?? ""
+        user_id = userId()
         
         razorpay = Razorpay.initWithKey("rzp_test_RzeA80NW4jeMpe", andDelegate: self)
 //        razorpay = Razorpay.initWithKey("rzp_live_SN4tYAqDnzHHem", andDelegate: self)
@@ -223,7 +236,12 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             if c > 0
             {
                 isTicketSelect = true
-                payBtn.setTitle(String(format:"Book For Free"), for: .normal)
+                if price == "" || price == "0" {
+                    self.payBtn.setTitle("Book For Free", for: .normal)
+                }else{
+                    payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                }
+                
             }
             else
             {
@@ -260,6 +278,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                 isTicketSelect = false
             }
         }
+        resetPromoCode()
     }
     func minusBtnAction(_ sender:UIButton)
     {
@@ -276,7 +295,12 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             if c > 0
             {
                 isTicketSelect = true
-                payBtn.setTitle(String(format:"Book For Free"), for: .normal)
+                if price == "" || price == "0" {
+                    self.payBtn.setTitle("Book For Free", for: .normal)
+                }else{
+                    payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                }
+//                payBtn.setTitle(String(format:"Book For Free"), for: .normal)
             }
             else
             {
@@ -317,6 +341,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                 }
         }
         }
+        resetPromoCode()
     }
     
     func totalPrice()
@@ -353,12 +378,20 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }
         
-        
-        payBtn.setTitle(String(format:"Rs.%lu",total), for: .normal)
-        if total == 0
+        if isTicketSelect == false
         {
             payBtn.setTitle(String(format:"Select Item To Proceed"), for: .normal)
         }
+        else if price == "" || price == "0" {
+            self.payBtn.setTitle("Book For Free", for: .normal)
+        }else{
+            payBtn.setTitle(String(format:"Total amount: Rs.%lu",total), for: .normal)
+        }
+//        payBtn.setTitle(String(format:"Rs.%lu",total), for: .normal)
+//        if total == 0
+//        {
+//            payBtn.setTitle(String(format:"Select Item To Proceed"), for: .normal)
+//        }
     }
     
 //MARK: ------------------------- Buttons Action -------------------------
@@ -448,6 +481,57 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         totalPrice()
     }
     
+    func resetPromoCode()
+    {
+        if couponAmount > 0
+        {
+            couponAmount = 0
+            AFWrapperClass.showToast(title: "Please apply coupon code again", view: self.view)
+        }
+        else if promoAmount > 0
+        {
+            promoAmount = 0
+            AFWrapperClass.showToast(title: "Please apply promo code again", view: self.view)
+        }
+        AFWrapperClass.autoLayoutUpdate(constrain: promoTFWidthConstraint, constrainValue: 0, view: self.view)
+        promoCodeBtn.setTitle("Apply a promo code", for: .normal)
+        AFWrapperClass.autoLayoutUpdate(constrain: couponTFWidthConstraint, constrainValue: 0, view: self.view)
+        couponCodeBtn.setTitle("Apply a coupon code", for: .normal)
+        self.isCoupon = false
+        self.isPromo = false
+        promoAmount = 0
+        self.couponAmount = 0
+    
+        totalPrice()
+    }
+    
+    func openGiftClassView()
+    {
+        receiptMobileTxt.text = ""
+        receiptEmailTxt.text = ""
+        AFWrapperClass.displaySubViewtoParentView(self.view, subview: giftClassContainerView)
+    }
+    
+    @IBAction func clickToSubmitGiftClass(_ sender: Any)
+    {
+        self.view.endEditing(true)
+        user_email = receiptEmailTxt.text!
+        user_mobile = receiptMobileTxt.text!
+        user_id = ""
+        
+        giftClassContainerView.removeFromSuperview()
+        if (receiptEmailTxt.text != "" && receiptMobileTxt.text != "")
+        {
+            paymentApiHitting(guest:0)
+        }
+    }
+    
+    @IBAction func clickToCloseGiftView(_ sender: Any)
+    {
+        self.view.endEditing(true)
+        giftClassContainerView.removeFromSuperview()
+    }
+    
     @IBAction func popViewCloseBtn(_ sender: Any)
     {
         closePopUp()
@@ -479,6 +563,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             AFWrapperClass.showToast(title: "Please, select number of tickets.", view: self.view)
             return
         }
+        totalPrice()
         if total != 0
         {
             if userId() == ""
@@ -490,11 +575,15 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
             else
             {
-                if isPromo == false && isCoupon == false
-                {
-                    self.grandTotal = total
-                }
-                paymentApiHitting(guest:0)
+                self.grandTotal = total
+//                if isGiftClass == true
+//                {
+//                    openGiftClassView()
+//                }
+//                else
+//                {
+                    paymentApiHitting(guest:0)
+//                }
             }
         }
         else if (self.price == "" || self.price == "0")
@@ -509,11 +598,15 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
             else
             {
-                if isPromo == false && isCoupon == false
-                {
-                    self.grandTotal = total
-                }
-                paymentApiHitting(guest:0)
+                self.grandTotal = total
+//                if isGiftClass == true
+//                {
+//                    openGiftClassView()
+//                }
+//                else
+//                {
+                    paymentApiHitting(guest:0)
+//                }
             }
         }
         else
@@ -725,7 +818,11 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                     {
                         self.promoCodeBtn.setTitle(String(format: "Promo Code Discount Rs. : %@", (dict.value(forKey: "promo_amount") as? String)!), for: .normal)
                     }
-                    self.payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                    if self.price == "" || self.price == "0" {
+                        self.payBtn.setTitle("Book For Free", for: .normal)
+                    }else{
+                        self.payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                    }
                     
                     self.alertSuccessView(text: "Code applied successfully.")
                     
@@ -926,7 +1023,6 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             self.appDelegate.displayServerError()
         }
     }
-
     
 //MARK: ------------------------ Razor pay delegates --------------------------
     func onPaymentSuccess(_ payment_id: String)

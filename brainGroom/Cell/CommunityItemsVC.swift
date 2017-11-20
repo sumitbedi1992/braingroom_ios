@@ -52,6 +52,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     var startDate = String()
     var endDate = String()
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var sortStatus = String()
     
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var sortFilterView: UIViewX!
@@ -60,7 +61,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
     {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(filterClass), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: nil)
-        
+        sortStatus = ""
         isTable = false
         
         self.dataFromServer()
@@ -116,7 +117,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
                 "location_id": localityId as String,
                 "logged_in_userid":"",
                 "search_seg_id": segmentId as String,
-                "price_sort_status":"",
+                "price_sort_status":self.sortStatus,
                 "price_symbol": appDelegate.PRICE_SYMBOLE,
                 "price_code": appDelegate.PRICE_CODE,
                 "sort_by_latest":"",
@@ -141,7 +142,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
                     "location_id": localityId as String,
                     "logged_in_userid":"",
                     "search_seg_id": segmentId as String,
-                    "price_sort_status":"",
+                    "price_sort_status":self.sortStatus,
                     "price_symbol": appDelegate.PRICE_SYMBOLE,
                     "price_code": appDelegate.PRICE_CODE,
                     "sort_by_latest":"",
@@ -162,7 +163,7 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             "location_id": localityId as String,
             "logged_in_userid":"",
             "search_seg_id": segmentId as String,
-            "price_sort_status":"",
+            "price_sort_status":self.sortStatus,
             "price_symbol": appDelegate.PRICE_SYMBOLE,
             "price_code": appDelegate.PRICE_CODE,
             "sort_by_latest":"",
@@ -424,13 +425,19 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
         actionSheetController.addAction(cancelActionButton)
         
         let actionButton = UIAlertAction(title: "Price Low-High", style: .default) { action -> Void in
-            self.sortActionToServer(str: "2")
+            self.pageNumber = 1
+            self.isNextPage = true
+            self.sortStatus = "2"
+            self.dataFromServer()
             
         }
         actionSheetController.addAction(actionButton)
         
         let saveActionButton = UIAlertAction(title: "Price High-Low", style: .default) { action -> Void in
-            self.sortActionToServer(str: "1")
+            self.pageNumber = 1
+            self.isNextPage = true
+            self.sortStatus = "1"
+            self.dataFromServer()
         }
         actionSheetController.addAction(saveActionButton)
         
@@ -440,84 +447,6 @@ class CommunityItemsVC: UIViewController,UICollectionViewDelegate, UICollectionV
             popoverPresentationController.sourceRect = tempRect
         }
         self.present(actionSheetController, animated: true, completion: nil)
-    }
-    
-    func sortActionToServer(str: String)
-    {
-        let baseURL  = String(format:"%@generalFilter/%d",Constants.mainURL, pageNumber)
-        let innerParams  = [
-            "catlog":"",
-            "search_cat_id": catID as String,
-            "class_provider":"",
-            "class_schedule":"",
-            "class_type":"",
-            "community_id":"",
-            "end_date":"",
-            "gift_id":"",
-            "search_key": "",
-            "location_id":"",
-            "logged_in_userid":"",
-            "search_seg_id":"",
-            "price_sort_status": str,
-            "price_symbol": appDelegate.PRICE_SYMBOLE,
-            "price_code": appDelegate.PRICE_CODE,
-            "sort_by_latest":"",
-            "start_date":""
-        ]
-        let params : [String: AnyObject] = [
-            "braingroom": innerParams as AnyObject
-        ]
-        print(params)
-        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
-        AFWrapperClass.requestPOSTURL(baseURL, params: params, success: { (responseDict) in
-            print("Sort Responce:---> \(responseDict)")
-            AFWrapperClass.svprogressHudDismiss(view: self)
-            let dic:NSDictionary = responseDict as NSDictionary
-            if (dic.object(forKey: "res_code")) as! String == "1"
-            {
-                self.itemsArray.removeAllObjects()
-                let tempArray = ((dic.object(forKey: "braingroom")) as! NSArray).mutableCopy() as! NSMutableArray
-                if self.pageNumber == 1
-                {
-                    self.itemsArray = tempArray
-                }
-                else
-                {
-                    self.itemsArray.addObjects(from: tempArray as! [Any])
-                }
-                
-                if(self.itemsArray.count > 0)
-                {
-                    self.itemCollectionView.delegate = self
-                    self.itemCollectionView.dataSource = self
-                    self.itemCollectionView.reloadData()
-                }
-                if let page = dic.object(forKey: "next_page")
-                {
-                    if (page is String) && (page as! String) == "-1"
-                    {
-                        self.isNextPage = false
-                    }
-                    else if self.pageNumber == page as! Int
-                    {
-                        self.isNextPage = false
-                    }
-                    else
-                    {
-                        self.pageNumber = page as! Int
-                        self.isNextPage = true
-                    }
-                }
-            }
-            else
-            {
-                self.alertView(text: dic.object(forKey: "res_msg") as! String)
-            }
-        }) { (error) in
-            AFWrapperClass.svprogressHudDismiss(view: self)
-//            self.alertView(text: error.localizedDescription)
-            self.appDelegate.displayServerError()
-        }
     }
     
 //MARK: ----------------------- Alert ----------------------

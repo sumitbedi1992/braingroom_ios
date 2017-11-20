@@ -214,7 +214,8 @@ class EditProfileVC: UIViewController, FCAlertViewDelegate, UITableViewDelegate,
     
     @IBAction func clickToBack(_ sender: Any)
     {
-        self.navigationController?.popToRootViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popToRootViewController(animated: true)
     }
     @IBAction func selectTypesBTNTap(_ sender: UIButton)
     {

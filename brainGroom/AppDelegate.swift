@@ -291,6 +291,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate,UNUserNo
         UserDefaults.standard.synchronize()
     }
     
+    func removeUserDefaultValues()
+    {
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        UserDefaults.standard.synchronize()
+    }
+    
     func getUserProfile()
     {
         if UserDefaults.standard.value(forKey: "user_id") == nil || UserDefaults.standard.value(forKey: "user_id") as! String == ""

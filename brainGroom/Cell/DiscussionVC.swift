@@ -452,6 +452,7 @@ class DiscussionVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                         
                         UserDefaults.standard.set("", forKey: "user_id")
                         self.appDelegate.userId = ""
+                        self.appDelegate.removeUserDefaultValues()
                         self.viewWillAppear(false)
                         
                         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController

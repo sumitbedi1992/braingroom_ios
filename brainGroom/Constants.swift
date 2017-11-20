@@ -160,7 +160,7 @@ struct API {
     static var GET_COMMENT =  mainURL + "getComments"
     static var COMMENT_REPLY =  mainURL + "commentReply"
     
-    
+    static var GIFT_CLASS =  mainURL + "savegiftclass"
     
 }
 

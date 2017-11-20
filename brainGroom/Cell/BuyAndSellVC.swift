@@ -446,6 +446,7 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                     alert.addButton("Yes", withActionBlock: {
                         
                         UserDefaults.standard.set("", forKey: "user_id")
+                        self.appDelegate.removeUserDefaultValues()
                         self.appDelegate.userId = ""
                         self.viewWillAppear(false)
                         

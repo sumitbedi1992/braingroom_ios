@@ -78,12 +78,13 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     var pageNumber : Int = 1
     var isNextPage : Bool = false    
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var sortStatus = String()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(filterClass), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: nil)
-        
+        sortStatus = ""
         isTable = false
         self.subCollectionView.delegate = self
         self.subCollectionView.dataSource = self
@@ -219,7 +220,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             "location_id": localityId as String,
             "logged_in_userid":"",
             "search_seg_id": segmentId as String,
-            "price_sort_status":"",
+            "price_sort_status":self.sortStatus,
             "price_symbol": appDelegate.PRICE_SYMBOLE,
             "price_code": appDelegate.PRICE_CODE,
             "sort_by_latest":"",
@@ -544,13 +545,20 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         actionSheetController.addAction(cancelActionButton)
         
         let actionButton = UIAlertAction(title: "Price Low-High", style: .default) { action -> Void in
-            self.sortActionToServer(str: "2")
-            
+            //self.sortActionToServer(str: "2")
+            self.pageNumber = 1
+            self.isNextPage = true
+            self.sortStatus = "2"
+            self.getSegmentOfCategory()
         }
         actionSheetController.addAction(actionButton)
         
         let saveActionButton = UIAlertAction(title: "Price High-Low", style: .default) { action -> Void in
-            self.sortActionToServer(str: "1")
+            self.pageNumber = 1
+            self.isNextPage = true
+            self.sortStatus = "1"
+            self.getSegmentOfCategory()
+            //self.sortActionToServer(str: "1")
         }
         actionSheetController.addAction(saveActionButton)
         
@@ -570,68 +578,6 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         fvc.segmentIdStr = segmentId
         self.navigationController?.pushViewController(fvc, animated: true)
     }
-    
-    func sortActionToServer(str: String)
-    {
-        let baseURL  = String(format:"%@generalFilter",Constants.mainURL)
-        let innerParams  = [
-            "catlog":"",
-            "search_cat_id": catID as String,
-            "class_provider":"",
-            "class_schedule":"",
-            "class_type":"",
-            "community_id":"",
-            "end_date":"",
-            "gift_id":"",
-            "search_key": "",
-            "location_id":"",
-            "logged_in_userid":"",
-            "search_seg_id":"",
-            "price_sort_status": str,
-            "price_symbol": appDelegate.PRICE_SYMBOLE,
-            "price_code": appDelegate.PRICE_CODE,
-            "sort_by_latest":"",
-            "start_date":""
-        ]
-        let params : [String: AnyObject] = [
-            "braingroom": innerParams as AnyObject
-        ]
-        print(params)
-        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
-        AFWrapperClass.requestPOSTURL(baseURL, params: params, success: { (responseDict) in
-            print("Sort Responce:---> \(responseDict)")
-            AFWrapperClass.svprogressHudDismiss(view: self)
-            let dic:NSDictionary = responseDict as NSDictionary
-            if (dic.object(forKey: "res_code")) as! String == "1"
-            {
-                self.itemsArray.removeAllObjects()
-                let array = dic.object(forKey: "braingroom") as! NSArray
-                self.itemsArray =  NSMutableArray(array: array)
-                if(self.itemsArray.count > 0)
-                {
-                    self.itemCollectionView.delegate = self
-                    self.itemCollectionView.dataSource = self
-                    self.itemCollectionView.reloadData()
-                    if self.isTable {
-                        self.isTable = true
-                    } else{
-                        self.isTable = false
-                    }
-                    
-                    
-                }
-            }
-            else
-            {
-                self.alertView(text: dic.object(forKey: "res_msg") as! String)
-            }
-        }) { (error) in
-            AFWrapperClass.svprogressHudDismiss(view: self)
-//            self.alertView(text: error.localizedDescription)
-            self.appDelegate.displayServerError()
-        }
-    }
-    
     //MARK: ----------------------- Alert ----------------------
     func alertView(text: String)
     {
