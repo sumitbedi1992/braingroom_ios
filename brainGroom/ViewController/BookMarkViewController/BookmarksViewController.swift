@@ -52,7 +52,7 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
 
     func dataFromServer()
     {
-        let baseURL: String  = String(format:"%@bookingHistory",Constants.mainURL)
+        let baseURL: String  = String(format:"%@bookingHistory/%d",Constants.mainURL,pageNumber)
         
         let innerParams : [String: String] = [
             "id" : userId() as String
@@ -95,7 +95,7 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
                         self.isNextPage = false
                     }
                 }
-                else
+                else if self.itemsArray.count == 0
                 {
                     let alert = FCAlertView()
                     alert.blurBackground = false
@@ -127,17 +127,18 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
-            })
+            self.appDelegate.displayServerError()
+//            let alert = FCAlertView()
+//            alert.blurBackground = false
+//            alert.cornerRadius = 15
+//            alert.bounceAnimations = true
+//            alert.dismissOnOutsideTouch = false
+//            alert.delegate = self
+//            alert.makeAlertTypeWarning()
+//            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//            alert.hideDoneButton = true;
+//            alert.addButton("OK", withActionBlock: {
+//            })
         }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -151,13 +152,13 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
         
         let dict : NSDictionary = (itemsArray[indexPath.row] as! NSDictionary).object(forKey: "class_detail") as! NSDictionary
         
-        if let picture = dict.object(forKey: "pic_name")
+        cell.imgView.image = UIImage.init(named: "chocolate1Dca410A2")
+        if dict.object(forKey: "pic_name") is String
         {
-            cell.imgView.sd_setImage(with: URL(string: picture as! String), placeholderImage: UIImage.init(named: "imm"))
-        }
-        else
-        {
-            cell.imgView.image = UIImage.init(named: "chocolate1Dca410A2")
+            if let picture : String = dict.object(forKey: "pic_name") as? String
+            {
+                cell.imgView.sd_setImage(with: URL(string: picture), placeholderImage: UIImage.init(named: "imm"))
+            }
         }
         
         cell.descripitionLbl.text = String.init(format: "%@", dict.object(forKey: "class_summary") as! String)
@@ -181,13 +182,21 @@ class BookmarksViewController: UIViewController, UICollectionViewDelegate, UICol
             {
                 if let amountDict : NSDictionary = amountArr.object(at: 0) as? NSDictionary
                 {
-                    if let price : String = amountDict.value(forKey: "price") as? String
+                    var strPrice : String = ""
+                    if (amountDict.value(forKey: "price") is Int)
                     {
-                        if price != "" && price != "0"
-                        {
-                            cell.amountLbl.text = String.init(format: "Rs.%@",price)
-                        }
-                        
+                        strPrice = String(format: "%d", amountDict.value(forKey: "price") as! Int)
+                    }
+                    else
+                    {
+                        strPrice = (amountDict.value(forKey: "price") as? String)!
+                    }
+                    
+                    if strPrice != "" && strPrice != "0"
+                    {
+                        cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
+                    }else{
+                        cell.amountLbl.text = "Free"
                     }
                 }
             }

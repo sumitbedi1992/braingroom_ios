@@ -371,13 +371,18 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                     
                 case 3:
                     
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+//                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+//                    self.navigationController?.pushViewController(vc, animated: true)
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+                    vc.fromSocial = true
+                    vc.isFaq = true
                     self.navigationController?.pushViewController(vc, animated: true)
                     
                 case 4:
                     
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
                     vc.fromSocial = true
+                    vc.isFaq = false
                     self.navigationController?.pushViewController(vc, animated: true)
                 case 5:
                     
@@ -441,6 +446,7 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
                     alert.addButton("Yes", withActionBlock: {
                         
                         UserDefaults.standard.set("", forKey: "user_id")
+                        self.appDelegate.removeUserDefaultValues()
                         self.appDelegate.userId = ""
                         self.viewWillAppear(false)
                         
@@ -560,6 +566,11 @@ class BuyAndSellVC: UIViewController,UITableViewDelegate,UITableViewDataSource,F
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         activityViewController.excludedActivityTypes = [ UIActivityType.airDrop]
+        if let popoverPresentationController = activityViewController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: sender.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+            popoverPresentationController.sourceRect = tempRect
+        }
         self.present(activityViewController, animated: true, completion: nil)
     }
     

@@ -14,7 +14,7 @@ class itemCellTable123 : UICollectionViewCell
 {
     
     @IBOutlet weak var imgView: UIImageView!
-    
+    @IBOutlet weak var imgBtn: UIButton!
     @IBOutlet weak var descripitionLbl: UILabel!
     @IBOutlet weak var onlineLbl: UILabel!
     
@@ -214,20 +214,52 @@ class MyProfileViewController: UIViewController,FCAlertViewDelegate, UICollectio
             if (isTable == false)
             {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell123", for: indexPath as IndexPath) as! itemCellTable123
-//                cell.amountLbl.text = String.init(format: "Rs.%@", (classesArray[indexPath.row] as! NSDictionary).value(forKey: "price") as! String)
-                cell.imgView.sd_setImage(with: URL(string: (classesArray[indexPath.row] as! NSDictionary).value(forKey: "photo") as! String), placeholderImage: UIImage.init(named: "imm"))
-                cell.descripitionLbl.text = String.init(format: "%@", (classesArray[indexPath.row] as! NSDictionary).value(forKey: "class_topic") as! String)
-                if (classesArray[indexPath.row] as! NSDictionary)["location"] != nil
+                let dict : NSDictionary = classesArray[indexPath.row] as! NSDictionary
+                print(dict)
+                
+                cell.imgView.image = UIImage.init(named: "imm")
+                if let photo : String = dict["photo"] as? String
                 {
-                    cell.onlineLbl.text = String.init(format: "%@", (classesArray[indexPath.row] as! NSDictionary).value(forKey: "location") as! String)
+                    AFWrapperClass.setButtonBackgroundImageFromUrl(cell.imgBtn, strUrl: photo)
+                    //cell.imgView.sd_setImage(with: URL(string: photo), placeholderImage: UIImage.init(named: "imm"))
+                }
+                
+                
+                var strPrice : String = ""
+                if (dict.value(forKey: "price") is Int)
+                {
+                    strPrice = String(format: "%d", (dict.value(forKey: "price") as? Int)!)
                 }
                 else
                 {
-                    cell.onlineLbl.text = "Online"
+                    strPrice = (dict.value(forKey: "price") as? String)!
                 }
                 
-                cell.sessionsLbl.text = String.init(format: "%@", (classesArray[indexPath.row] as! NSDictionary).value(forKey: "class_topic") as! String)
-//                cell.flexBtn.setTitle(String.init(format: "%@", (classesArray[indexPath.row] as! NSDictionary).object(forKey: "class_type_data") as! String), for: .normal)
+                if strPrice != "" && strPrice != "0"
+                {
+                    cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
+                }else{
+                    cell.amountLbl.text = "Free"
+                }
+                
+                cell.descripitionLbl.text = ""
+                if let title : String = dict["class_topic"] as? String
+                {
+                    cell.descripitionLbl.text = String.init(format: "%@", title)
+                }
+                
+                cell.onlineLbl.text = "Online"
+                if let location : String = dict["location"] as? String
+                {
+                    cell.onlineLbl.text = String.init(format: "%@", location)
+                }
+
+                cell.sessionsLbl.text = "0 Session"
+                if let sessions : String = dict["no_of_session"] as? String
+                {
+                    cell.sessionsLbl.text = String.init(format: "%@ Session", sessions)
+                }
+                
                 cell.layer.masksToBounds = false;
                 cell.layer.shadowOpacity = 0.75;
                 cell.layer.shadowRadius = 5.0;
@@ -270,7 +302,7 @@ class MyProfileViewController: UIViewController,FCAlertViewDelegate, UICollectio
     {
             if (isTable == false)
             {
-                return CGSize(width: itemCollectionView.bounds.size.width-10, height: itemCollectionView.bounds.size.height/4);
+                return CGSize(width: itemCollectionView.bounds.size.width-10, height: 120);
             }
             else
             {

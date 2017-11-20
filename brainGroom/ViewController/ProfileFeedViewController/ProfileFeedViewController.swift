@@ -12,6 +12,7 @@ import AlamofireImage
 class ProfileFeedViewController: UIViewController {
 
     @IBOutlet weak var profileTable: UITableView!
+    @IBOutlet weak var constraintHeightProfileTbl: NSLayoutConstraint!
     var dataArray = NSArray()
     var fromSocial = false
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -19,7 +20,11 @@ class ProfileFeedViewController: UIViewController {
     @IBOutlet weak var userImage: UIButton!
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var collegeLbl: UILabel!
+    @IBOutlet weak var constraintHeightCollageLbl: NSLayoutConstraint!
     @IBOutlet weak var categoryLbl: UILabel!
+    @IBOutlet weak var constraintHeightCategoryLbl: NSLayoutConstraint!
+    
+    @IBOutlet weak var constraintHeightUserView: NSLayoutConstraint!
     //@IBOutlet weak var localityLbl: UILabel!
     
     @IBOutlet weak var followingCountLbl: UILabel!
@@ -58,6 +63,18 @@ class ProfileFeedViewController: UIViewController {
         categoryLbl.text = appDelegate.getLoginUserCategory()
         //localityLbl.text = (appDelegate.userData.value(forKey:"locality") as? String)
         
+        constraintHeightCollageLbl.constant = AFWrapperClass.getLableHeight(collegeLbl)
+        if constraintHeightCollageLbl.constant == 0
+        {
+            constraintHeightCollageLbl.constant = 18
+        }
+        constraintHeightCategoryLbl.constant = AFWrapperClass.getLableHeight(categoryLbl)
+        if constraintHeightCategoryLbl.constant == 0
+        {
+            constraintHeightCategoryLbl.constant = 18
+        }
+        
+        constraintHeightUserView.constant = 142 - 36 + constraintHeightCollageLbl.constant + constraintHeightCategoryLbl.constant
     }
     
     @IBAction func clickToEditProfile(_ sender: Any)
@@ -107,6 +124,28 @@ extension ProfileFeedViewController {
             {
                 self.dataArray = dic["braingroom"] as! NSArray
                 self.profileTable.reloadData()
+                
+                var height : Float = 0
+                for i in 0..<self.dataArray.count
+                {
+                    let dict : NSDictionary = self.dataArray[i] as! NSDictionary
+                    if let post_image : String = dict.object(forKey: "post_image") as? String
+                    {
+                        if post_image != ""
+                        {
+                            height = height + 324
+                        }
+                        else
+                        {
+                            height = height + (324-152)
+                        }
+                    }
+                    else
+                    {
+                        height = height + (324-152)
+                    }
+                }
+                self.constraintHeightProfileTbl.constant = CGFloat(height)
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)

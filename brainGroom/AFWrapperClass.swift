@@ -423,6 +423,16 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         
     }
     
+    class func setButtonBackgroundImageFromUrl(_ button : UIButton, strUrl : String)
+    {
+        button.sd_setBackgroundImage(with: URL(string: strUrl), for: .normal, completed: { (image, error, SDImageCacheType, url) in
+            if error == nil
+            {
+                button.setBackgroundImage(image, for: .normal)
+            }
+        })
+    }
+    
     class func viewSlideInFromRightToLeft(view:UIView) -> Void
     {
         let transition:CATransition = CATransition()
@@ -460,6 +470,15 @@ class AFWrapperClass: NSObject,UIViewControllerAnimatedTransitioning,CAAnimation
         view.layer.add(transition, forKey: kCATransition)
     }
     
-    
+    class func getLableHeight(_ lbl : UILabel) -> CGFloat{
+        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: lbl.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.font = lbl.font
+        label.text = lbl.text
+        label.sizeToFit()
+        
+        return label.frame.height
+    }
     
 }

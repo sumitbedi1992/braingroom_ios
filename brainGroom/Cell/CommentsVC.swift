@@ -47,7 +47,7 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     func commentsApiHitting()
     {
-        let baseURL: String  = String(format:"%@getComments",Constants.mainURL)
+        let baseURL: String  = API.GET_COMMENT
         let innerParams : [String: Any] = [
             "user_id": userId(),
             "post_id": postId
@@ -81,7 +81,7 @@ class CommentsVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     func newCommentApiHitting()
     {
-        let baseURL: String  = String(format:"%@commentReply",Constants.mainURL)
+        let baseURL: String  = API.COMMENT_REPLY
         let innerParams : [String: Any] = [
             "user_id": userId(),
             "post_id": postId,

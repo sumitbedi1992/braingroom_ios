@@ -367,13 +367,18 @@ class ActivityVC: UIViewController,UITableViewDelegate,UITableViewDataSource,FCA
                     
                 case 3:
                     
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+//                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+//                    self.navigationController?.pushViewController(vc, animated: true)
+
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+                    vc.fromSocial = true
+                    vc.isFaq = true
                     self.navigationController?.pushViewController(vc, animated: true)
-                    
                 case 4:
                     
                     let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
                     vc.fromSocial = true
+                    vc.isFaq = false
                     self.navigationController?.pushViewController(vc, animated: true)
                 case 5:
                     
@@ -439,6 +444,7 @@ class ActivityVC: UIViewController,UITableViewDelegate,UITableViewDataSource,FCA
                         
                         UserDefaults.standard.set("", forKey: "user_id")
                         self.appDelegate.userId = ""
+                        self.appDelegate.removeUserDefaultValues()
                         self.viewWillAppear(false)
                         
                         let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomePageViewController") as! HomePageViewController

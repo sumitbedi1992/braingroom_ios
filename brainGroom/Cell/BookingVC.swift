@@ -56,7 +56,19 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     @IBOutlet weak var promoCodeTF: UITextField!
     @IBOutlet weak var couponCodeTF: UITextField!
     
+    @IBOutlet var bookingSuccessContainerView: UIView!
+    @IBOutlet weak var bookingSuccessNameLbl: UILabel!
+    @IBOutlet weak var bookingSuccessTransIDLbl: UILabel!
+    @IBOutlet weak var bookingSuccessClassNameLbl: UILabel!
+    @IBOutlet weak var bookingSuccessAmountLbl: UILabel!
     
+    @IBOutlet var giftClassContainerView: UIView!
+    @IBOutlet weak var receiptMobileTxt: ACFloatingTextfield!
+    @IBOutlet weak var receiptEmailTxt: ACFloatingTextfield!
+    
+    
+    
+    var isGiftClass : Bool = false
     var price = String()
     var isPopUpOpen = Bool()
     var isOnline = Bool()
@@ -74,6 +86,14 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     var grandTotal = Int()
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var ticket = String()
+    var isTicketSelect : Bool = false
+    var promoAmount : Int = 0
+    var couponAmount : Int = 0
+    
+    var user_email = String()
+    var user_mobile = String()
+    var user_id = String()
+    
     @IBOutlet weak var couponTFWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var promoTFWidthConstraint: NSLayoutConstraint!
     
@@ -91,7 +111,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         print(self.dataDict)
         
         if price == "" || price.characters.count == 0 {
-            self.payBtn .setTitle("Book For Free", for: .normal)
+            self.payBtn.setTitle("Book For Free", for: .normal)
         }
         self.loginView.isHidden = true
         
@@ -105,28 +125,30 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         }
         levelArray = dataDict["vendorClasseLevelDetail"] as! NSArray
         
-        print(getTicketValue())
         self.topImage.sd_setImage(with: URL(string: (self.dataDict.value(forKey: "photo") as! String)), placeholderImage: UIImage.init(named: "chocolate1Dca410A2"))
         self.descLbl.text = self.dataDict.value(forKey: "class_topic") as? String
         self.TVHeightConstraint.constant = CGFloat(levelArray.count) * 60.0
         self.locationTVHeightConstraint.constant = CGFloat(locationArray.count) * 150
         
+        user_email = appDelegate.userData.value(forKey: "email") as? String ?? ""
+        user_mobile = appDelegate.userData.value(forKey: "contact_no") as? String ?? ""
+        user_id = userId()
         
         razorpay = Razorpay.initWithKey("rzp_test_RzeA80NW4jeMpe", andDelegate: self)
 //        razorpay = Razorpay.initWithKey("rzp_live_SN4tYAqDnzHHem", andDelegate: self)
-        if price != nil && price != ""
-        {
-            total = Int(price)!
-        }
-        else{
+//        if price != nil && price != ""
+//        {
+//            total = Int(price)!
+//        }
+//        else{
             total = 0
-        }
+//        }
     }
     
     override func viewDidDisappear(_ animated: Bool)
     {
         super.viewDidDisappear(true)
-        UserDefaults.standard.set(false, forKey: "fromBooking")
+        //setFromBooking(false)
     }
 //MARK: ------------------------- TV Delegate & DataSource -------------------------
     
@@ -203,14 +225,29 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     }
     func plusBtnAction(_ sender:UIButton)
     {
-        if price == "" || price.characters.count == 0 {
+        if price == "" || price == "0" || price.characters.count == 0 {
             let index : IndexPath = IndexPath(row: sender.tag, section: 0)
             let cell : LevelTVCell = self.TV.cellForRow(at: index) as! LevelTVCell
             var c:NSInteger = NSInteger(cell.quantityLbl.text!)!
             c += 1
             quantityTotal = c
             cell.quantityLbl.text = String(format:"%lu",c)
-            payBtn.setTitle(String(format:"Book For Free"), for: .normal)
+            
+            if c > 0
+            {
+                isTicketSelect = true
+                if price == "" || price == "0" {
+                    self.payBtn.setTitle("Book For Free", for: .normal)
+                }else{
+                    payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                }
+                
+            }
+            else
+            {
+                isTicketSelect = false
+                payBtn.setTitle(String(format:"Select Item To Proceed"), for: .normal)
+            }
         }
         else {
             let index : IndexPath = IndexPath(row: sender.tag, section: 0)
@@ -219,21 +256,33 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             c += 1
             quantityTotal = c
             cell.quantityLbl.text = String(format:"%lu",c)
-            totalPrice(quantity: c, price: NSInteger(((levelArray.object(at: sender.tag) as! NSDictionary).object(forKey:"price") as? String)!)!)
-            cell.priceLbl.text = String(format:"Rs.%lu",total)
-            payBtn.setTitle(String(format:"Pay %@",cell.priceLbl.text!), for: .normal)
-            if c == 0
+            
+            var intPrice = 0
+            if ((levelArray.object(at: sender.tag) as! NSDictionary).object(forKey:"price") is String)
             {
-                cell.priceLbl.text = ""
-                payBtn.setTitle(String(format:"Select Item To Proceed"), for: .normal)
+                intPrice = Int(((levelArray.object(at: sender.tag) as! NSDictionary).object(forKey:"price") as? String)!)!
+            }
+            else
+            {
+                intPrice = ((levelArray.object(at: sender.tag) as! NSDictionary).object(forKey:"price") as? Int)!
+            }
+            let priceValue = c * NSInteger(intPrice)
+            totalPrice()
+            cell.priceLbl.text = String(format:"Rs.%lu",priceValue)
+            if c > 0
+            {
+                isTicketSelect = true
+            }
+            else
+            {
+                isTicketSelect = false
             }
         }
-        
+        resetPromoCode()
     }
     func minusBtnAction(_ sender:UIButton)
     {
-        
-        if price == "" || price.characters.count == 0 {
+        if price == "" || price == "0" || price.characters.count == 0 {
             let index : IndexPath = IndexPath(row: sender.tag, section: 0)
             let cell : LevelTVCell = self.TV.cellForRow(at: index) as! LevelTVCell
             var c:NSInteger = NSInteger(cell.quantityLbl.text!)!
@@ -243,7 +292,23 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                 cell.quantityLbl.text = String(format:"%lu",c)
                 quantityTotal = c
             }
-            payBtn.setTitle(String(format:"Book For Free"), for: .normal)
+            if c > 0
+            {
+                isTicketSelect = true
+                if price == "" || price == "0" {
+                    self.payBtn.setTitle("Book For Free", for: .normal)
+                }else{
+                    payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                }
+//                payBtn.setTitle(String(format:"Book For Free"), for: .normal)
+            }
+            else
+            {
+                isTicketSelect = false
+                payBtn.setTitle(String(format:"Select Item To Proceed"), for: .normal)
+            }
+            
+            
         } else {
             let index : IndexPath = IndexPath(row: sender.tag, section: 0)
             let cell : LevelTVCell = self.TV.cellForRow(at: index) as! LevelTVCell
@@ -253,24 +318,80 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                 c -= 1
                 cell.quantityLbl.text = String(format:"%lu",c)
                 quantityTotal = c
-                totalPrice(quantity: c, price: NSInteger(((levelArray.object(at: sender.tag) as! NSDictionary).object(forKey:"price") as? String)!)!)
-                cell.priceLbl.text = String(format:"Rs.%lu",total)
-                payBtn.setTitle(String(format:"Pay %@",cell.priceLbl.text!), for: .normal)
-                
-                if c==0
+                var intPrice = 0
+                if ((levelArray.object(at: sender.tag) as! NSDictionary).object(forKey:"price") is String)
                 {
-                    cell.priceLbl.text = ""
-                    payBtn.setTitle(String(format:"Select Item To Proceed"), for: .normal)
+                    intPrice = Int(((levelArray.object(at: sender.tag) as! NSDictionary).object(forKey:"price") as? String)!)!
                 }
+                else
+                {
+                    intPrice = ((levelArray.object(at: sender.tag) as! NSDictionary).object(forKey:"price") as? Int)!
+                }
+                let priceValue = c * NSInteger(intPrice)
+                totalPrice()
+                cell.priceLbl.text = String(format:"Rs.%lu",priceValue)
+                
+                if c > 0
+                {
+                    isTicketSelect = true
+                }
+                else
+                {
+                    isTicketSelect = false
+                }
+        }
+        }
+        resetPromoCode()
+    }
+    
+    func totalPrice()
+    {
+        total = 0
+        for i in 0..<levelArray.count
+        {
+            let index : IndexPath = IndexPath(row: i, section: 0)
+            let cell : LevelTVCell = self.TV.cellForRow(at: index) as! LevelTVCell
+            var intPrice = 0
+            if ((levelArray.object(at: i) as! NSDictionary).object(forKey:"price") is String)
+            {
+                intPrice = Int(((levelArray.object(at: i) as! NSDictionary).object(forKey:"price") as? String)!)!
+            }
+            else
+            {
+                intPrice = ((levelArray.object(at: i) as! NSDictionary).object(forKey:"price") as? Int)!
+            }
+            total = total + NSInteger(cell.quantityLbl.text!)! * NSInteger(intPrice)
+        }
+        
+        totalAmountLbl.text = String(format:"Total amount: Rs.%lu",total)
+        
+        if total > 0
+        {
+            if couponAmount > 0
+            {
+                total = total - couponAmount
+            }
+            
+            if promoAmount > 0
+            {
+                total = total - promoAmount
             }
         }
         
-    }
-    
-    func totalPrice(quantity: NSInteger, price: NSInteger)
-    {
-        total = price * quantity
-        totalAmountLbl.text = String(format:"Total amount: Rs.%lu",total)
+        if isTicketSelect == false
+        {
+            payBtn.setTitle(String(format:"Select Item To Proceed"), for: .normal)
+        }
+        else if price == "" || price == "0" {
+            self.payBtn.setTitle("Book For Free", for: .normal)
+        }else{
+            payBtn.setTitle(String(format:"Total amount: Rs.%lu",total), for: .normal)
+        }
+//        payBtn.setTitle(String(format:"Rs.%lu",total), for: .normal)
+//        if total == 0
+//        {
+//            payBtn.setTitle(String(format:"Select Item To Proceed"), for: .normal)
+//        }
     }
     
 //MARK: ------------------------- Buttons Action -------------------------
@@ -290,6 +411,11 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     }
     @IBAction func couponCodeBtnAction(_ sender: Any)
     {
+        if isTicketSelect == false
+        {
+            AFWrapperClass.showToast(title: "Please, select number of tickets.", view: self.view)
+            return
+        }
         if couponTFWidthConstraint.constant == 0
         {
             AFWrapperClass.autoLayoutUpdate(constrain: couponTFWidthConstraint, constrainValue: self.view.frame.size.width * 0.7, view: self.view)
@@ -298,6 +424,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             promoCodeBtn.setTitle("Apply a promo code", for: .normal)
             self.isCoupon = true
             self.isPromo = false
+            promoAmount = 0
         }
         else{}
         
@@ -307,6 +434,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             {
                 displayLoginView()
                 self.isPromo = false
+                promoAmount = 0
             }
             else
             {
@@ -314,18 +442,25 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }
         else{}
+        totalPrice()
     }
     
     @IBAction func promoCodeBtnAction(_ sender: Any)
     {
+        if isTicketSelect == false
+        {
+            AFWrapperClass.showToast(title: "Please, select number of tickets.", view: self.view)
+            return
+        }
         if promoTFWidthConstraint.constant == 0
         {
             AFWrapperClass.autoLayoutUpdate(constrain: promoTFWidthConstraint, constrainValue: self.view.frame.size.width * 0.7, view: self.view)
             AFWrapperClass.autoLayoutUpdate(constrain: couponTFWidthConstraint, constrainValue: 0, view: self.view)
             promoCodeBtn.setTitle("Apply", for: .normal)
-            couponCodeBtn.setTitle("Apply a coupan code", for: .normal)
+            couponCodeBtn.setTitle("Apply a coupon code", for: .normal)
             self.isPromo = true
             self.isCoupon = false
+            self.couponAmount = 0
         }
         else{}
         
@@ -335,6 +470,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             {
                 displayLoginView()
                 self.isCoupon = false
+                self.couponAmount = 0
             }
             else
             {
@@ -342,6 +478,58 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }
         else{}
+        totalPrice()
+    }
+    
+    func resetPromoCode()
+    {
+        if couponAmount > 0
+        {
+            couponAmount = 0
+            AFWrapperClass.showToast(title: "Please apply coupon code again", view: self.view)
+        }
+        else if promoAmount > 0
+        {
+            promoAmount = 0
+            AFWrapperClass.showToast(title: "Please apply promo code again", view: self.view)
+        }
+        AFWrapperClass.autoLayoutUpdate(constrain: promoTFWidthConstraint, constrainValue: 0, view: self.view)
+        promoCodeBtn.setTitle("Apply a promo code", for: .normal)
+        AFWrapperClass.autoLayoutUpdate(constrain: couponTFWidthConstraint, constrainValue: 0, view: self.view)
+        couponCodeBtn.setTitle("Apply a coupon code", for: .normal)
+        self.isCoupon = false
+        self.isPromo = false
+        promoAmount = 0
+        self.couponAmount = 0
+    
+        totalPrice()
+    }
+    
+    func openGiftClassView()
+    {
+        receiptMobileTxt.text = ""
+        receiptEmailTxt.text = ""
+        AFWrapperClass.displaySubViewtoParentView(self.view, subview: giftClassContainerView)
+    }
+    
+    @IBAction func clickToSubmitGiftClass(_ sender: Any)
+    {
+        self.view.endEditing(true)
+        user_email = receiptEmailTxt.text!
+        user_mobile = receiptMobileTxt.text!
+        user_id = ""
+        
+        giftClassContainerView.removeFromSuperview()
+        if (receiptEmailTxt.text != "" && receiptMobileTxt.text != "")
+        {
+            paymentApiHitting(guest:0)
+        }
+    }
+    
+    @IBAction func clickToCloseGiftView(_ sender: Any)
+    {
+        self.view.endEditing(true)
+        giftClassContainerView.removeFromSuperview()
     }
     
     @IBAction func popViewCloseBtn(_ sender: Any)
@@ -370,6 +558,12 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func totalCheck()
     {
+        if isTicketSelect == false
+        {
+            AFWrapperClass.showToast(title: "Please, select number of tickets.", view: self.view)
+            return
+        }
+        totalPrice()
         if total != 0
         {
             if userId() == ""
@@ -381,14 +575,18 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
             else
             {
-                if isPromo == false && isCoupon == false
-                {
-                    self.grandTotal = total
-                }
-                paymentApiHitting(guest:0)
+                self.grandTotal = total
+//                if isGiftClass == true
+//                {
+//                    openGiftClassView()
+//                }
+//                else
+//                {
+                    paymentApiHitting(guest:0)
+//                }
             }
         }
-        else
+        else if (self.price == "" || self.price == "0")
         {
 //            alertView(text: "Please, select number of seats.")
             if userId() == ""
@@ -400,12 +598,21 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
             else
             {
-                if isPromo == false && isCoupon == false
-                {
-                    self.grandTotal = total
-                }
-                paymentApiHitting(guest:0)
+                self.grandTotal = total
+//                if isGiftClass == true
+//                {
+//                    openGiftClassView()
+//                }
+//                else
+//                {
+                    paymentApiHitting(guest:0)
+//                }
             }
+        }
+        else
+        {
+            AFWrapperClass.showToast(title: "Please, select number of tickets.", view: self.view)
+            //alertView(text: "Please, select number of tickets.")
         }
     }
     
@@ -440,9 +647,10 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func goToLogin()
     {
+        popUpView.isHidden = true
+        isPopUpOpen = false
         let vc = self.storyboard?.instantiateViewController(withIdentifier:"LoginVC") as! LoginVC
-        UserDefaults.standard.set(true, forKey: "fromBooking")
-        UserDefaults.standard.synchronize()
+        setFromBooking(true)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -472,9 +680,35 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     
     func showPaymentForm(total:String, email: String, phone: String)
     {
+//        NSDictionary *options = @{
+//            @"amount": @"1000", // mandatory, in paise
+//            // all optional other than amount.
+//            @"image": @"https://url-to-image.png",
+//            @"name": @"business or product name",
+//            @"description": @"purchase description",
+//            @"prefill" : @{
+//                @"email": @"pranav@razorpay.com",
+//                @"contact": @"8879524924"
+//            },
+//            @"theme": @{
+//                @"color": @"#F37254"
+//            }
+//        };
+//        [razorpay open:options];
+        
+        var class_provided_by : String = ""
+        if let name : String = self.dataDict.value(forKey: "class_provided_by") as? String
+        {
+            class_provided_by = "By : " + name
+        }
+        
         let amount = Int(total)
         let options = [
-            "amount" : String(format:"%f",CGFloat(amount!*100)),
+            "amount" : String(format:"%f",CGFloat(amount!*100)), // mandatory, in paise
+            //            // all optional other than amount.
+            "image" : "https://www.braingroom.com/homepage/img/logo.jpg",
+            "name" : self.dataDict.value(forKey: "class_topic") as? String ?? "",
+            "description" : class_provided_by,
             "prefill" : ["email" : email,"contact" : phone]
         ] as [String : Any]
         razorpay.open(options)
@@ -489,6 +723,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         }
         else
         {
+            setFromBooking(false)
             _ = self.navigationController!.popViewController(animated:true)
         }
     }
@@ -498,11 +733,16 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         var tempArr : [AnyObject] = [AnyObject] ()
         for i in 0..<levelArray.count
         {
-            let dict : [String : AnyObject] = levelArray[i] as! [String : AnyObject]
-            var tempDict : [String : AnyObject] = [String : AnyObject] ()
-            tempDict["level_id"] = dict["level_id"]
-            tempDict["tickets"] = quantityTotal as AnyObject
-            tempArr.append(tempDict as AnyObject)
+            let index : IndexPath = IndexPath(row: i, section: 0)
+            let cell : LevelTVCell = self.TV.cellForRow(at: index) as! LevelTVCell
+            if cell.quantityLbl.text != "" && NSInteger(cell.quantityLbl.text!)! > 0
+            {
+                let dict : [String : AnyObject] = levelArray[i] as! [String : AnyObject]
+                var tempDict : [String : AnyObject] = [String : AnyObject] ()
+                tempDict["level_id"] = dict["level_id"]
+                tempDict["tickets"] = quantityTotal as AnyObject
+                tempArr.append(tempDict as AnyObject)
+            }
         }
         var ticketDict : [String : AnyObject] = [String : AnyObject]()
         ticketDict["tickets"] = tempArr as AnyObject
@@ -529,7 +769,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     func promoCodeApiHitting(guest: Int, codeText: String)
     {
         ticket = getTicketValue()
-        let baseURL  = String(format:"%@verifyPromoCode",Constants.mainURL)
+        let baseURL  = API.VERIFY_PROMOCODE
         let innerParams  = [
             "class_id":dataDict.object(forKey: "id") as! String,
             "promo_code": codeText,
@@ -556,7 +796,15 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                     if let discount : String = dict.value(forKey: "promo_amount") as? String
                     {
                         let newDiscount : Float = Float(discount)!
-                        self.grandTotal = self.grandTotal - Int(newDiscount) 
+                        self.grandTotal = self.grandTotal - Int(newDiscount)
+                        if self.isCoupon == true
+                        {
+                            self.couponAmount = Int(newDiscount)
+                        }
+                        else if self.isPromo == true
+                        {
+                            self.promoAmount = Int(newDiscount)
+                        }
                     }
                     
                     print("Grand total --> \(self.grandTotal)")
@@ -564,13 +812,17 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                     AFWrapperClass.autoLayoutUpdate(constrain: self.couponTFWidthConstraint, constrainValue: 0, view: self.view)
                     if self.isCoupon == true
                     {
-                        self.couponCodeBtn.setTitle(String(format: "Coupon Code Discount Rs. : %d", self.grandTotal), for: .normal)
+                        self.couponCodeBtn.setTitle(String(format: "Coupon Code Discount Rs. : %@", (dict.value(forKey: "promo_amount") as? String)!), for: .normal)
                     }
                     else if self.isPromo == true
                     {
-                        self.promoCodeBtn.setTitle(String(format: "Promo Code Discount Rs. : %d", self.grandTotal), for: .normal)
+                        self.promoCodeBtn.setTitle(String(format: "Promo Code Discount Rs. : %@", (dict.value(forKey: "promo_amount") as? String)!), for: .normal)
                     }
-                    self.payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                    if self.price == "" || self.price == "0" {
+                        self.payBtn.setTitle("Book For Free", for: .normal)
+                    }else{
+                        self.payBtn.setTitle(String(format:"Total amount: Rs.%lu",self.grandTotal), for: .normal)
+                    }
                     
                     self.alertSuccessView(text: "Code applied successfully.")
                     
@@ -593,14 +845,15 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+            //self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
 
     func paymentApiHitting(guest: Int)
     {
         
-        let baseURL  = String(format:"%@getBookNowPageDetails",Constants.mainURL)
+        let baseURL  = API.GET_BOOKNOW_PAGE_DETAIL
         let innerParams  = [
             "amount":self.grandTotal,
             "class_id": dataDict.object(forKey: "id") as! String,
@@ -625,12 +878,12 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                     print("Payment Success")
                     if self.isGuest == true
                     {
-                        self.showPaymentForm(total: String(format:"%lu",self.grandTotal), email: self.emailTF.text!, phone: self.mobileTF.text!)
+                        self.showPaymentForm(total: String(format:"%lu",self.total), email: self.emailTF.text!, phone: self.mobileTF.text!)
                     }
                     else
                     {
                         self.transactionId = (((dic.object(forKey: "braingroom") as! NSArray).object(at:0) as! NSDictionary).object(forKey:"txnid") as? String)!
-                        self.showPaymentForm(total: String(format:"%lu",self.grandTotal), email: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "email") as? String)!, phone: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "phone") as? String)!)
+                        self.showPaymentForm(total: String(format:"%lu",self.total), email: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "email") as? String)!, phone: (((dic.object(forKey: "braingroom") as! NSArray).object(at: 0) as! NSDictionary).object(forKey: "phone") as? String)!)
                     }
                 }else
                 {
@@ -646,14 +899,15 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     
     func paymentSuccessApiHitting(paymentTxtId: String, transactionId: String, guest: Int)
     {
         ticket = getTicketValue()
-        let baseURL  = String(format:"%@getBookNowPageDetails",Constants.mainURL)
+        let baseURL  = API.GET_BOOKNOW_PAGE_DETAIL
         let innerParams  = [
             "amount":self.grandTotal,
             "bg_txnid":transactionId,
@@ -687,7 +941,10 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                 
                 self.isCoupon = false
                 self.isPromo = false
-                self.backBtnAction(self)
+                self.promoAmount = 0
+                self.couponAmount = 0
+                //self.backBtnAction(self)
+                self.displaySuccessView()
             }
             else
             {
@@ -695,7 +952,8 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     
@@ -703,7 +961,7 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
     {
         ticket = getTicketValue()
         
-        let baseURL  = String(format:"%@razorPaySuccess",Constants.mainURL)
+        let baseURL  = API.RAZOR_PAY_SUCCESS
         let innerParams  = [
             "amount":self.grandTotal,  // Total paid amount
             "bg_txnid":transactionId, // Braingroom  transactionId
@@ -737,19 +995,23 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
                 
                 self.isCoupon = false
                 self.isPromo = false
+                self.promoAmount = 0
+                self.couponAmount = 0
                 
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeSuccess()
-                alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Successfully booked" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
-                    self.backBtnAction(self)
-                })
+                self.displaySuccessView()
+
+//                let alert = FCAlertView()
+//                alert.blurBackground = false
+//                alert.cornerRadius = 15
+//                alert.bounceAnimations = true
+//                alert.dismissOnOutsideTouch = false
+//                alert.delegate = self
+//                alert.makeAlertTypeSuccess()
+//                alert.showAlert(in: self.appDelegate.window, withTitle: "Braingroom", withSubtitle: "Successfully booked" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//                alert.hideDoneButton = true;
+//                alert.addButton("OK", withActionBlock: {
+//                    self.backBtnAction(self)
+//                })
             }
             else
             {
@@ -757,10 +1019,10 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
-
     
 //MARK: ------------------------ Razor pay delegates --------------------------
     func onPaymentSuccess(_ payment_id: String)
@@ -780,6 +1042,22 @@ class BookingVC: UIViewController, UITableViewDelegate, UITableViewDataSource,Ra
         alertView(text: str)
     }
 //MARK: --------------------- Alert ----------------------------
+    
+    
+    func displaySuccessView()
+    {
+        bookingSuccessNameLbl.text = appDelegate.userData.value(forKey:"name") as? String
+        bookingSuccessTransIDLbl.text = transactionId
+        bookingSuccessClassNameLbl.text = self.dataDict.value(forKey: "class_topic") as? String
+        bookingSuccessAmountLbl.text = "₹ " + String(self.grandTotal)
+        AFWrapperClass.displaySubViewtoParentView(self.view, subview: bookingSuccessContainerView)
+    }
+    
+    @IBAction func clickToDoneBookingSuccess(_ sender: Any)
+    {
+        bookingSuccessContainerView.removeFromSuperview()
+        backBtnAction(self)
+    }
     
     func alertView(text: String)
     {

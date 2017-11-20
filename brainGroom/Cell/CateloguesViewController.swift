@@ -91,17 +91,18 @@ class CateloguesViewController: UIViewController,UICollectionViewDelegate, UICol
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
-            })
+            self.appDelegate.displayServerError()
+//            let alert = FCAlertView()
+//            alert.blurBackground = false
+//            alert.cornerRadius = 15
+//            alert.bounceAnimations = true
+//            alert.dismissOnOutsideTouch = false
+//            alert.delegate = self
+//            alert.makeAlertTypeWarning()
+//            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//            alert.hideDoneButton = true;
+//            alert.addButton("OK", withActionBlock: {
+//            })
         }
     }
     @IBAction func backBtnAction(_ sender: Any)

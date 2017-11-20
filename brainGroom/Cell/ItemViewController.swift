@@ -46,6 +46,7 @@ class subCell : UICollectionViewCell
 
 class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FCAlertViewDelegate
 {
+    @IBOutlet weak var sortFilterView: UIViewX!
     @IBOutlet weak var btnList: UIButton!
     @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var subCollectionView: UICollectionView!
@@ -76,12 +77,14 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
     var isFilterData : Bool = false
     var pageNumber : Int = 1
     var isNextPage : Bool = false    
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var sortStatus = String()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(filterClass), name: NSNotification.Name(rawValue: NOTIFICATION.UPDATE_FILTER_CLASS), object: nil)
-        
+        sortStatus = ""
         isTable = false
         self.subCollectionView.delegate = self
         self.subCollectionView.dataSource = self
@@ -196,7 +199,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     
@@ -216,7 +220,9 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             "location_id": localityId as String,
             "logged_in_userid":"",
             "search_seg_id": segmentId as String,
-            "price_sort_status":"",
+            "price_sort_status":self.sortStatus,
+            "price_symbol": appDelegate.PRICE_SYMBOLE,
+            "price_code": appDelegate.PRICE_CODE,
             "sort_by_latest":"",
             "start_date": startDate as String]
 
@@ -280,7 +286,8 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
+//            self.alertView(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
         }
     }
     
@@ -310,9 +317,21 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath as IndexPath) as! itemCell
                 let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
-                if (dict.object(forKey: "price") as! String) != ""
+                cell.amountLbl.text = "Free"
+                
+                var strPrice : String = ""
+                if (dict["price"] is Int)
                 {
-                    cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
+                    strPrice = String(format: "%d", (dict.value(forKey: "price") as? Int)!)
+                }
+                else
+                {
+                    strPrice = (dict.value(forKey: "price") as? String)!
+                }
+                
+                if strPrice != "" && strPrice != "0"
+                {
+                    cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
                 }else{
                     cell.amountLbl.text = "Free"
                 }
@@ -349,7 +368,23 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell1", for: indexPath as IndexPath) as! itemCellTable
                 let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
                 
-                cell.amountLbl.text = String.init(format: "Rs.%@", dict.object(forKey: "price") as! String)
+                var strPrice : String = ""
+                if (dict["price"] is Int)
+                {
+                    strPrice = String(format: "%d", (dict.value(forKey: "price") as? Int)!)
+                }
+                else
+                {
+                    strPrice = (dict.value(forKey: "price") as? String)!
+                }
+                
+                if strPrice != "" && strPrice != "0" {
+                    cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
+                }else{
+                    cell.amountLbl.text = "Free"
+                }
+                
+                
                 
                 if let image = dict["pic_name"] as? String  {
                     cell.imgView.sd_setImage(with: URL(string: image), placeholderImage: nil)
@@ -406,7 +441,15 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
             let dict : NSDictionary = itemsArray[indexPath.row] as! NSDictionary
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "DetailItemViewController2") as! DetailItemViewController2
             vc.catID = (dict.object(forKey: "id") as? String)!
-            vc.price = (dict.object(forKey: "price") as? String)!
+            
+            if (dict.object(forKey: "price") is Int)
+            {
+                vc.price = String(format: "%d", (dict.value(forKey: "price") as? Int)!)
+            }
+            else
+            {
+                vc.price = (dict.value(forKey: "price") as? String)!
+            }
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else
@@ -493,7 +536,7 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         }
         itemCollectionView.reloadData()
     }
-    @IBAction func sortBtnAction(_ sender: Any)
+    @IBAction func sortBtnAction(_ sender: UIButton)
     {
         let actionSheetController = UIAlertController(title: nil, message: "Option to select", preferredStyle: .actionSheet)
         
@@ -502,15 +545,29 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         actionSheetController.addAction(cancelActionButton)
         
         let actionButton = UIAlertAction(title: "Price Low-High", style: .default) { action -> Void in
-            self.sortActionToServer(str: "2")
-            
+            //self.sortActionToServer(str: "2")
+            self.pageNumber = 1
+            self.isNextPage = true
+            self.sortStatus = "2"
+            self.getSegmentOfCategory()
         }
         actionSheetController.addAction(actionButton)
         
         let saveActionButton = UIAlertAction(title: "Price High-Low", style: .default) { action -> Void in
-            self.sortActionToServer(str: "1")
+            self.pageNumber = 1
+            self.isNextPage = true
+            self.sortStatus = "1"
+            self.getSegmentOfCategory()
+            //self.sortActionToServer(str: "1")
         }
         actionSheetController.addAction(saveActionButton)
+        
+        
+        if let popoverPresentationController = actionSheetController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: sortFilterView.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+            popoverPresentationController.sourceRect = tempRect
+        }
         self.present(actionSheetController, animated: true, completion: nil)
     }
     
@@ -521,65 +578,6 @@ class ItemViewController: UIViewController,UICollectionViewDelegate, UICollectio
         fvc.segmentIdStr = segmentId
         self.navigationController?.pushViewController(fvc, animated: true)
     }
-    
-    func sortActionToServer(str: String)
-    {
-        let baseURL  = String(format:"%@generalFilter",Constants.mainURL)
-        let innerParams  = [
-            "catlog":"",
-            "search_cat_id": catID as String,
-            "class_provider":"",
-            "class_schedule":"",
-            "class_type":"",
-            "community_id":"",
-            "end_date":"",
-            "gift_id":"",
-            "search_key": "",
-            "location_id":"",
-            "logged_in_userid":"",
-            "search_seg_id":"",
-            "price_sort_status": str,
-            "sort_by_latest":"",
-            "start_date":""
-        ]
-        let params : [String: AnyObject] = [
-            "braingroom": innerParams as AnyObject
-        ]
-        print(params)
-        AFWrapperClass.svprogressHudShow(title: "Loading...", view: self)
-        AFWrapperClass.requestPOSTURL(baseURL, params: params, success: { (responseDict) in
-            print("Sort Responce:---> \(responseDict)")
-            AFWrapperClass.svprogressHudDismiss(view: self)
-            let dic:NSDictionary = responseDict as NSDictionary
-            if (dic.object(forKey: "res_code")) as! String == "1"
-            {
-                self.itemsArray.removeAllObjects()
-                let array = dic.object(forKey: "braingroom") as! NSArray
-                self.itemsArray =  NSMutableArray(array: array)
-                if(self.itemsArray.count > 0)
-                {
-                    self.itemCollectionView.delegate = self
-                    self.itemCollectionView.dataSource = self
-                    self.itemCollectionView.reloadData()
-                    if self.isTable {
-                        self.isTable = true
-                    } else{
-                        self.isTable = false
-                    }
-                    
-                    
-                }
-            }
-            else
-            {
-                self.alertView(text: dic.object(forKey: "res_msg") as! String)
-            }
-        }) { (error) in
-            AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alertView(text: error.localizedDescription)
-        }
-    }
-    
     //MARK: ----------------------- Alert ----------------------
     func alertView(text: String)
     {
