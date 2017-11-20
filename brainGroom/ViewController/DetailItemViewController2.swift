@@ -57,6 +57,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     @IBOutlet weak var requestDetailsTextView: UITextView!
     
     @IBOutlet weak var constraintHeightViewX: NSLayoutConstraint!
+    @IBOutlet weak var contactUsView: UIViewX!
     
     override func viewDidLoad()
     {
@@ -176,25 +177,32 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 
                 
                     self.bookBtn.setTitle("BOOK FOR FREE", for: .normal)
-                    if let strPrice : String = ((self.dataDic.value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "price") as? String
-                    {
-                        if strPrice != "" && strPrice != "0"
-                        {
-                            self.priceLbl.text = "Rs. " + strPrice
-                            self.price = strPrice
-                            self.bookBtn.setTitle("BOOK NOW", for: .normal)
-                        }
-                        else
-                        {
-                            self.priceLbl.text = "Free"
-                            self.price = "0"
-                            
-                        }
-                    }else{
-                        self.priceLbl.text = "Free"
-                        self.price = "0"
-                    }
                 
+                let vendorDict : NSDictionary = (self.dataDic.value(forKey: "vendorClasseLevelDetail") as! NSArray).object(at: 0) as! NSDictionary
+                
+                var strPrice : String = ""
+                if (vendorDict["price"] is Int)
+                {
+                    strPrice = String(format: "%d", (vendorDict.value(forKey: "price") as? Int)!)
+                }
+                else
+                {
+                    strPrice = (vendorDict.value(forKey: "price") as? String)!
+                }
+                
+                if strPrice != "0" && strPrice != ""
+                {
+                    self.priceLbl.text = "Rs. " + strPrice
+                    self.price = strPrice
+                    self.bookBtn.setTitle("BOOK NOW", for: .normal)
+                }
+                else
+                {
+                    self.priceLbl.text = "Free"
+                    self.price = "0"
+                    
+                }
+            
                     self.sessionLbl.text = String.init(format: "%@ Sessions, %@", (self.dataDic.value(forKey: "no_of_session") as! String), (self.dataDic.value(forKey: "class_duration") as! String))
                 
                 
@@ -271,7 +279,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     }
 
     //MARK: - Button click event
-    @IBAction func shareBtnAction(_ sender: Any)
+    @IBAction func shareBtnAction(_ sender: UIButton)
     {
         if let shareUrl = dataDic.value(forKey: "detail_class_link")
         {
@@ -282,6 +290,12 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
             
             let activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.view
+            
+            if let popoverPresentationController = activityViewController.popoverPresentationController {
+                popoverPresentationController.sourceView = self.view
+                let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: sender.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+                popoverPresentationController.sourceRect = tempRect
+            }
             
             present(activityViewController, animated: true, completion: nil)
         }
@@ -333,7 +347,8 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            self.alert(text: error.localizedDescription)
+            self.appDelegate.displayServerError()
+            //self.alert(text: error.localizedDescription)
         }
         }
         else
@@ -358,6 +373,7 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
         let bvc = self.storyboard?.instantiateViewController(withIdentifier:"BookingVC") as! BookingVC
         bvc.dataDict = self.dataDic
         bvc.price = price
+        bvc.isGiftClass = false
         if isOnline == true
         {
             bvc.isOnline = true
@@ -368,24 +384,35 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
     {
         let bvc = self.storyboard?.instantiateViewController(withIdentifier:"BookingVC") as! BookingVC
         bvc.dataDict = self.dataDic
+        bvc.isGiftClass = true
         self.navigationController!.pushViewController(bvc, animated:true)
     }
     @IBAction func locationBtnAct(_ sender: Any)
     {
-        if let address = ((self.dataDic.value(forKey: "location") as! NSArray).object(at: 0) as! NSDictionary).value(forKey: "location_area") as? String
+        if let location : NSArray = (self.dataDic.value(forKey: "location") as? NSArray)
         {
-            let alertConfirmation = UIAlertController(title: "", message: (address ), preferredStyle: UIAlertControllerStyle.alert)
-            let dismissAction = UIAlertAction (title: "DISMISS", style: UIAlertActionStyle.cancel, handler: nil)
-            alertConfirmation.addAction(dismissAction)
-            
-            self.present(alertConfirmation, animated: true, completion: nil)
+            if location.count > 0
+            {
+                if let address : NSDictionary = (location.object(at: 0) as? NSDictionary)
+                {
+                    if let location_area : String = address.value(forKey: "location_area") as? String
+                    {
+                        let alertConfirmation = UIAlertController(title: "", message: location_area , preferredStyle: UIAlertControllerStyle.alert)
+                        let dismissAction = UIAlertAction (title: "DISMISS", style: UIAlertActionStyle.cancel, handler: nil)
+                        alertConfirmation.addAction(dismissAction)
+                        
+                        self.present(alertConfirmation, animated: true, completion: nil)
+                    }
+                }
+            }
         }
+        
     }
     @IBAction func privateTutorBtnAct(_ sender: Any)
     {
         privateTutorView.isHidden = false
     }
-    @IBAction func contactUsBtn(_ sender: Any)
+    @IBAction func contactUsBtn(_ sender: UIButton)
     {
         let actionSheetController = UIAlertController(title: nil, message: "Option to select", preferredStyle: .actionSheet)
         
@@ -424,6 +451,12 @@ class DetailItemViewController2: UIViewController, FCAlertViewDelegate, CLLocati
                 }
             }        }
         actionSheetController.addAction(deleteActionButton)
+        
+        if let popoverPresentationController = actionSheetController.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            let tempRect : CGRect = CGRect(x: sender.frame.origin.x, y: contactUsView.frame.origin.y, width: sender.bounds.size.width, height: sender.bounds.size.height)
+            popoverPresentationController.sourceRect = tempRect
+        }
         self.present(actionSheetController, animated: true, completion: nil)
     }
     @IBAction func postQuery(_ sender: Any)

@@ -147,14 +147,15 @@ class RegisterViewController: UIViewController,FCAlertViewDelegate {
                                 }
                             }) { (error) in
                                 AFWrapperClass.svprogressHudDismiss(view: self)
-                                let alert = FCAlertView()
-                                alert.blurBackground = false
-                                alert.cornerRadius = 15
-                                alert.bounceAnimations = true
-                                alert.dismissOnOutsideTouch = false
-                                alert.delegate = self
-                                alert.makeAlertTypeWarning()
-                                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
+                                self.appDelegate.displayServerError()
+//                                let alert = FCAlertView()
+//                                alert.blurBackground = false
+//                                alert.cornerRadius = 15
+//                                alert.bounceAnimations = true
+//                                alert.dismissOnOutsideTouch = false
+//                                alert.delegate = self
+//                                alert.makeAlertTypeWarning()
+//                                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: "OK", andButtons: nil)
                             }
                         }
                         else

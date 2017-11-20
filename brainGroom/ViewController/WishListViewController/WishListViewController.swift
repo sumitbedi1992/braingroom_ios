@@ -135,19 +135,22 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                     }
 
                 }else {
-                    let alert = FCAlertView()
-                    alert.blurBackground = false
-                    alert.cornerRadius = 15
-                    alert.bounceAnimations = true
-                    alert.dismissOnOutsideTouch = false
-                    alert.delegate = self
-                    alert.makeAlertTypeWarning()
-                    alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                    alert.hideDoneButton = true;
-                    alert.addButton("OK", withActionBlock: {
-                        self.itemCollectionView .reloadData()
-                    })
-                    self.isNextPage = false
+                    if self.itemsArray.count == 0
+                    {
+                        let alert = FCAlertView()
+                        alert.blurBackground = false
+                        alert.cornerRadius = 15
+                        alert.bounceAnimations = true
+                        alert.dismissOnOutsideTouch = false
+                        alert.delegate = self
+                        alert.makeAlertTypeWarning()
+                        alert.showAlert(withTitle: "Braingroom", withSubtitle: "No items in Wishlist" , withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+                        alert.hideDoneButton = true;
+                        alert.addButton("OK", withActionBlock: {
+                            self.itemCollectionView .reloadData()
+                        })
+                        self.isNextPage = false
+                    }   
                 }
             }
             else
@@ -167,17 +170,18 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             }
         }) { (error) in
             AFWrapperClass.svprogressHudDismiss(view: self)
-            let alert = FCAlertView()
-            alert.blurBackground = false
-            alert.cornerRadius = 15
-            alert.bounceAnimations = true
-            alert.dismissOnOutsideTouch = false
-            alert.delegate = self
-            alert.makeAlertTypeWarning()
-            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-            alert.hideDoneButton = true;
-            alert.addButton("OK", withActionBlock: {
-            })
+            self.appDelegate.displayServerError()
+//            let alert = FCAlertView()
+//            alert.blurBackground = false
+//            alert.cornerRadius = 15
+//            alert.bounceAnimations = true
+//            alert.dismissOnOutsideTouch = false
+//            alert.delegate = self
+//            alert.makeAlertTypeWarning()
+//            alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//            alert.hideDoneButton = true;
+//            alert.addButton("OK", withActionBlock: {
+//            })
         }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -213,7 +217,22 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
             {
                 if let amountDict : NSDictionary = amountArr.object(at: 0) as? NSDictionary
                 {
-                    cell.amountLbl.text = String.init(format: "Rs.%@",amountDict.value(forKey: "price") as! String)
+                    var strPrice : String = ""
+                    if (amountDict.value(forKey: "price") is Int)
+                    {
+                        strPrice = String(format: "%d", (amountDict.value(forKey: "price") as? Int)!)
+                    }
+                    else
+                    {
+                        strPrice = (amountDict.value(forKey: "price") as? String)!
+                    }
+                    
+                    if strPrice != "" && strPrice != "0"
+                    {
+                        cell.amountLbl.text = String.init(format: "Rs.%@", strPrice)
+                    }else{
+                        cell.amountLbl.text = "Free"
+                    }
                 }
             }
         }
@@ -296,17 +315,18 @@ class WishListViewController: UIViewController, UICollectionViewDelegate, UIColl
                 }
             }) { (error) in
                 AFWrapperClass.svprogressHudDismiss(view: self)
-                let alert = FCAlertView()
-                alert.blurBackground = false
-                alert.cornerRadius = 15
-                alert.bounceAnimations = true
-                alert.dismissOnOutsideTouch = false
-                alert.delegate = self
-                alert.makeAlertTypeWarning()
-                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
-                alert.hideDoneButton = true;
-                alert.addButton("OK", withActionBlock: {
-                })
+                self.appDelegate.displayServerError()
+//                let alert = FCAlertView()
+//                alert.blurBackground = false
+//                alert.cornerRadius = 15
+//                alert.bounceAnimations = true
+//                alert.dismissOnOutsideTouch = false
+//                alert.delegate = self
+//                alert.makeAlertTypeWarning()
+//                alert.showAlert(withTitle: "Braingroom", withSubtitle: error.localizedDescription, withCustomImage: nil, withDoneButtonTitle: nil, andButtons: nil)
+//                alert.hideDoneButton = true;
+//                alert.addButton("OK", withActionBlock: {
+//                })
             }
     }
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize

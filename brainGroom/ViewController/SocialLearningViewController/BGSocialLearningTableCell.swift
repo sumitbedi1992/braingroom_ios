@@ -37,6 +37,7 @@ class BGSocialLearningTableCell: UITableViewCell {
     
     @IBOutlet weak var reportBtn: UIButton!
     
+    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var videoPlayerYoutube: YouTubePlayerView!
     override func awakeFromNib() {
         super.awakeFromNib()

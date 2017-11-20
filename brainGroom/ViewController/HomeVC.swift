@@ -177,7 +177,6 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
 //                view?.removeFromParentViewController()
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
                 self.addChildViewController(vc)
-                UserDefaults.standard.set(false, forKey: "fromBooking")
                 vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
                 self.container.addSubview((vc.view)!)
                 vc.didMove(toParentViewController: self)
@@ -213,7 +212,9 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 view1?.view.removeFromSuperview()
                 view1?.removeFromParentViewController()
                 
-                let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+                //let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+                vc.isFaq = true
                 self.addChildViewController(vc)
                 vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
                 self.container.addSubview((vc.view)!)
@@ -231,6 +232,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                 view1?.removeFromParentViewController()
                 
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+                vc.isFaq = false
                 self.addChildViewController(vc)
                 vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
                 self.container.addSubview((vc.view)!)
@@ -376,6 +378,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
                     
                     UserDefaults.standard.set("", forKey: "user_id")
                     self.appDelegate.userId = ""
+                    self.appDelegate.removeUserDefaultValues()
                     self.viewWillAppear(false)
                     
                     self.searchBtn.isHidden = false
@@ -403,7 +406,9 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             view1?.view.removeFromSuperview()
             view1?.removeFromParentViewController()
             
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+//            let vc = self.storyboard?.instantiateViewController(withIdentifier: "FAQViewController") as! FAQViewController
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+            vc.isFaq = true
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
             self.container.addSubview((vc.view)!)
@@ -420,6 +425,7 @@ class HomeVC: UIViewController, UITableViewDelegate, UITableViewDataSource, FCAl
             view1?.removeFromParentViewController()
             
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "TermsVC") as! TermsVC
+            vc.isFaq = false
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x: 0, y: 0, width: self.container.frame.size.width, height: self.container.frame.size.height)
             self.container.addSubview((vc.view)!)

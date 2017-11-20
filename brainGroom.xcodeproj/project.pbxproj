@@ -24,10 +24,11 @@
 		185A003F1FBAF1C3005329DF /* DropDown+Appearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A00371FBAF1C2005329DF /* DropDown+Appearance.swift */; };
 		185A00401FBAF1C3005329DF /* DropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A00381FBAF1C2005329DF /* DropDown.swift */; };
 		185A00411FBAF1C3005329DF /* DropDownCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A00391FBAF1C2005329DF /* DropDownCell.swift */; };
+		185F7CB31FC1B20500D44FB3 /* CustomMapClassTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185F7CB11FC1B20500D44FB3 /* CustomMapClassTVC.swift */; };
+		185F7CB41FC1B20500D44FB3 /* CustomMapClassTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 185F7CB21FC1B20500D44FB3 /* CustomMapClassTVC.xib */; };
 		18C78CF51FB458AC00CDFCA9 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C78CF41FB458AC00CDFCA9 /* EditProfileVC.swift */; };
 		2F5298DA1FB0C121003687C8 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5298D91FB0C121003687C8 /* AlertController.swift */; };
 		2FA48F731F9FC5D400096643 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F491F9FC5D400096643 /* WishListViewController.swift */; };
-		2FA48F741F9FC5D400096643 /* FAQViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */; };
 		2FA48F751F9FC5D400096643 /* TermsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F4E1F9FC5D400096643 /* TermsVC.swift */; };
 		2FA48F761F9FC5D400096643 /* ContactUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F501F9FC5D400096643 /* ContactUsVC.swift */; };
 		2FA48F781F9FC5D400096643 /* ReplyCommentsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA48F541F9FC5D400096643 /* ReplyCommentsVC.swift */; };
@@ -115,10 +116,11 @@
 		185A00371FBAF1C2005329DF /* DropDown+Appearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DropDown+Appearance.swift"; sourceTree = "<group>"; };
 		185A00381FBAF1C2005329DF /* DropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDown.swift; sourceTree = "<group>"; };
 		185A00391FBAF1C2005329DF /* DropDownCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownCell.swift; sourceTree = "<group>"; };
+		185F7CB11FC1B20500D44FB3 /* CustomMapClassTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMapClassTVC.swift; sourceTree = "<group>"; };
+		185F7CB21FC1B20500D44FB3 /* CustomMapClassTVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomMapClassTVC.xib; sourceTree = "<group>"; };
 		18C78CF41FB458AC00CDFCA9 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 		2F5298D91FB0C121003687C8 /* AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		2FA48F491F9FC5D400096643 /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
-		2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FAQViewController.swift; sourceTree = "<group>"; };
 		2FA48F4E1F9FC5D400096643 /* TermsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsVC.swift; sourceTree = "<group>"; };
 		2FA48F501F9FC5D400096643 /* ContactUsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactUsVC.swift; sourceTree = "<group>"; };
 		2FA48F541F9FC5D400096643 /* ReplyCommentsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplyCommentsVC.swift; sourceTree = "<group>"; };
@@ -317,20 +319,11 @@
 		2FA48F4A1F9FC5D400096643 /* SideMenuViewController */ = {
 			isa = PBXGroup;
 			children = (
-				2FA48F4B1F9FC5D400096643 /* FAQViewController */,
 				2FA48F4D1F9FC5D400096643 /* TermsViewController */,
 				2FA48F4F1F9FC5D400096643 /* ContactUSViewController */,
 				2FA48F511F9FC5D400096643 /* ProfileViewController */,
 			);
 			path = SideMenuViewController;
-			sourceTree = "<group>";
-		};
-		2FA48F4B1F9FC5D400096643 /* FAQViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2FA48F4C1F9FC5D400096643 /* FAQViewController.swift */,
-			);
-			path = FAQViewController;
 			sourceTree = "<group>";
 		};
 		2FA48F4D1F9FC5D400096643 /* TermsViewController */ = {
@@ -384,6 +377,8 @@
 			isa = PBXGroup;
 			children = (
 				2FA48F5B1F9FC5D400096643 /* MapVC.swift */,
+				185F7CB11FC1B20500D44FB3 /* CustomMapClassTVC.swift */,
+				185F7CB21FC1B20500D44FB3 /* CustomMapClassTVC.xib */,
 			);
 			path = MapViewController;
 			sourceTree = "<group>";
@@ -698,6 +693,7 @@
 				3DC44A3A1F91EDF4007F1656 /* plus.png in Resources */,
 				185A003D1FBAF1C3005329DF /* Info.plist in Resources */,
 				0435156A1F97EF9900B9976A /* Knowledge & nugget selected.png in Resources */,
+				185F7CB41FC1B20500D44FB3 /* CustomMapClassTVC.xib in Resources */,
 				2FC0243B1FA3B52200545BDF /* Profile.storyboard in Resources */,
 				043515681F97EF9900B9976A /* Buy & Sell selected.png in Resources */,
 				61DA80D91FAA40E90058588B /* Main2.storyboard in Resources */,
@@ -876,8 +872,8 @@
 				2FA48F871F9FC5D400096643 /* LoginVC.swift in Sources */,
 				2FA48FB01F9FC8A700096643 /* DiscussionVC.swift in Sources */,
 				2FA48F781F9FC5D400096643 /* ReplyCommentsVC.swift in Sources */,
+				185F7CB31FC1B20500D44FB3 /* CustomMapClassTVC.swift in Sources */,
 				62F3C9011FB89DC7005AF271 /* BGUIColor.swift in Sources */,
-				2FA48F741F9FC5D400096643 /* FAQViewController.swift in Sources */,
 				2FA48F821F9FC5D400096643 /* MyProfileViewController.swift in Sources */,
 				99599B621FB782C9004982EF /* BGSocialLearningVC.swift in Sources */,
 				2FA48F971F9FC7F600096643 /* NotificationsViewController.swift in Sources */,
